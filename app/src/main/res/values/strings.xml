@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Zofers</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="cost_mode_creator">Free for you</string>
+    <string name="cost_mode_both">You pay part of cost</string>
+    <string name="cost_mode_attender">You pay</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="create_offer_city">City</string>
+
+    <string name="image_permission_denied">Permission denied</string>
+    <string name="action_next">NEXT</string>
+    <string name="action_finish">FINISH</string>
+</resources>
