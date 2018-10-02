@@ -17,6 +17,7 @@ import android.widget.EditText;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zofers.zofers.R;
 import com.zofers.zofers.callback.PermissionRequestCallback;
+import com.zofers.zofers.model.Offer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,12 +60,28 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
 
     @Override
     public boolean validFilled() {
-        return true;
+        boolean validFilled = true;
+        if (nameEdittext.getText().toString().trim().length() == 0) {
+            nameEdittext.setError("PLease enter name");
+            validFilled = false;
+        }
+        if (descriptionEdittext.getText().toString().trim().length() == 0) {
+            descriptionEdittext.setError("PLease enter offer description");
+            validFilled = false;
+        }
+        return validFilled;
     }
 
     @Override
     public CreateOfferBaseFragment nextFragment() {
         return new CreateOfferThirdFragment();
+    }
+
+    @Override
+    public Offer fillOffer(Offer offer) {
+        offer.setTitle(nameEdittext.getText().toString().trim());
+        offer.setDescription(descriptionEdittext.getText().toString().trim());
+        return offer;
     }
 
     @Override

@@ -22,4 +22,12 @@
     <string name="image_permission_denied">Permission denied</string>
     <string name="action_next">NEXT</string>
     <string name="action_finish">FINISH</string>
+
+    <string-array name="gender_list">
+        <item>Not Selected</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Custom</item>
+        <item>No Matter</item>
+    </string-array>
 </resources>
