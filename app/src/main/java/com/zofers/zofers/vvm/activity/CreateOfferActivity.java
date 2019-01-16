@@ -1,27 +1,41 @@
-package com.zofers.zofers.activity;
+package com.zofers.zofers.vvm.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.zofers.zofers.App;
 import com.zofers.zofers.R;
-import com.zofers.zofers.fragment.CreateOfferBaseFragment;
-import com.zofers.zofers.fragment.CreateOfferFirstFragment;
 import com.zofers.zofers.model.Offer;
+import com.zofers.zofers.staff.FileUtils;
+import com.zofers.zofers.staff.MessageHelper;
+import com.zofers.zofers.vvm.fragment.CreateOfferBaseFragment;
+import com.zofers.zofers.vvm.fragment.CreateOfferFirstFragment;
+import com.zofers.zofers.vvm.viewmodel.ItemCreationViewModel;
 
-public class CreateOfferActivity extends AppCompatActivity implements View.OnClickListener {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class CreateOfferActivity extends BaseActivity implements View.OnClickListener {
     public static final String KEY_OFFER = "ext_k_off";
+    public static final String EXTRA_IMAGE_BYTES = "ext_im_bs";
+    public static final String EXTRA_IMAGE_URI = "ext_im_uri";
     private Button nextButton;
     private ProgressBar progressBar;
     private FrameLayout fragmentContainer;
 
     private CreateOfferBaseFragment fragment;
 
-    private Offer offer;
+    private ItemCreationViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +47,12 @@ public class CreateOfferActivity extends AppCompatActivity implements View.OnCli
         fragment = new CreateOfferFirstFragment();
         nextButton.setOnClickListener(this);
 
-        offer = getIntent().getParcelableExtra(KEY_OFFER);
-        if (offer == null) {
-            offer = new Offer();
-        }
+        viewModel = ViewModelProviders.of(this).get(ItemCreationViewModel.class);
+
+//        offer = getIntent().getParcelableExtra(EXTRA_OFFER);
+//        if (offer == null) {
+//            offer = new Offer();
+//        }
         openFragment(false);
     }
 
@@ -59,11 +75,26 @@ public class CreateOfferActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.next_button:
                 if (fragment.validFilled()) {
-                    offer = fragment.fillOffer(offer);
+                    Offer offer = fragment.fillOffer(viewModel.getOffer());
                     if (fragment.nextFragment() == null) {
-                        createOffer();
+                        Uri fileUri = getIntent().getParcelableExtra(EXTRA_IMAGE_URI);
+                        viewModel.createOffer(FileUtils.getFile(this, fileUri), new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    finish();
+                                } else {
+                                    MessageHelper.showErrorToast(CreateOfferActivity.this, response.code() + "");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                MessageHelper.showNoConnectionToast(CreateOfferActivity.this);
+                            }
+                        });
                     } else {
-                        getIntent().putExtra(KEY_OFFER, offer);
+                        viewModel.setOffer(offer);
                         fragment = fragment.nextFragment();
                         openFragment(true);
                     }
@@ -84,9 +115,5 @@ public class CreateOfferActivity extends AppCompatActivity implements View.OnCli
     private void onFragmentChange() {
         progressBar.setProgress(fragment.getProgress());
         nextButton.setText(fragment.getNextButtonTextResource());
-    }
-
-    private void createOffer() {
-
     }
 }

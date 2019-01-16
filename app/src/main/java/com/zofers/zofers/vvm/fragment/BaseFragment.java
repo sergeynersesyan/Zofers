@@ -1,4 +1,4 @@
-package com.zofers.zofers.fragment;
+package com.zofers.zofers.vvm.fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

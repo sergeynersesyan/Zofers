@@ -1,10 +1,11 @@
-package com.zofers.zofers.fragment;
+package com.zofers.zofers.vvm.fragment;
 
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
     //    private RadioButton expensesMeRB;
     private EditText costEdittext;
     private EditText currencyEdittext;
+    private TextInputLayout cityTIL;
+    private TextInputLayout costTIL;
     View view;
 
     @Override
@@ -50,6 +53,8 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
         cityEdittext = view.findViewById(R.id.city_editText);
         costEdittext = view.findViewById(R.id.cost_editText);
         currencyEdittext = view.findViewById(R.id.currency_editText);
+        cityTIL = view.findViewById(R.id.city_TIL);
+        costTIL = view.findViewById(R.id.cost_TIL);
 
         radioGroup = view.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -76,7 +81,7 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
             validFilled = false;
         }
         if (cityEdittext.getText().toString().trim().length() == 0) {
-            cityEdittext.setError("Please enter city");
+            cityTIL.setError("Please enter city");
             validFilled = false;
         }
         if (radioGroup.getCheckedRadioButtonId() == -1 && validFilled) {
@@ -84,11 +89,12 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
             validFilled = false;
         }
         if (radioGroup.getCheckedRadioButtonId() != R.id.expensesMe && costEdittext.getText().length() == 0) {
-            costEdittext.setError("PLease enter cost");
+            costTIL.setError("PLease enter cost");
             validFilled = false;
         }
         if (currencyEdittext.getText().toString().trim().length() == 0) {
-            costEdittext.setError("PLease enter currency");
+            costTIL.setEnabled(false);
+            costTIL.setError("PLease enter currency");
             validFilled = false;
         }
         return validFilled;
@@ -100,7 +106,7 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
     }
 
     @Override
-    public Offer fillOffer(Offer offer) {
+    public Offer fillOffer(@NonNull Offer offer) {
         offer.setCountry(countrySpinner.getSelectedItem().toString());
         offer.setCity(cityEdittext.getText().toString().trim());
         offer.setCostMode(costMode());

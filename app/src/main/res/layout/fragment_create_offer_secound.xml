@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:theme="@style/CardView.Light"
-    tools:context="com.zofers.zofers.fragment.CreateOfferFirstFragment">
+    tools:context=".vvm.fragment.CreateOfferFirstFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:hint="Describe offer details">
 
             <EditText
-                android:id="@+id/description_editText"
+                android:id="@+id/description_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="1000"/>

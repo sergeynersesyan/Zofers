@@ -1,12 +1,12 @@
-package com.zofers.zofers.fragment;
+package com.zofers.zofers.vvm.fragment;
 
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,8 +16,10 @@ import android.widget.EditText;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zofers.zofers.R;
+import com.zofers.zofers.vvm.activity.CreateOfferActivity;
 import com.zofers.zofers.callback.PermissionRequestCallback;
 import com.zofers.zofers.model.Offer;
+import com.zofers.zofers.staff.FileHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,13 +31,14 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
     private EditText nameEdittext;
     private EditText descriptionEdittext;
     private View root;
+    private Uri imageUri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_create_offer_secound, container, false);
         image = root.findViewById(R.id.image);
         nameEdittext = root.findViewById(R.id.title_editText);
-        descriptionEdittext = root.findViewById(R.id.description_editText);
+        descriptionEdittext = root.findViewById(R.id.description_textView);
         image.setOnClickListener(this);
         return root;
     }
@@ -47,6 +50,7 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
             if (requestCode == REQUEST_SELECT_PICTURE) {
                 if (data != null) {
                     image.setImageURI(data.getData());
+                    imageUri = data.getData();
                 }
             }
         }
@@ -69,6 +73,20 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
             descriptionEdittext.setError("PLease enter offer description");
             validFilled = false;
         }
+        if (imageUri == null) {
+            Snackbar.make(root,"Please select image", Snackbar.LENGTH_SHORT).show();
+            validFilled = false;
+        }
+
+        if (validFilled) {
+            byte[] binaryImage = FileHelper.getImageBinary(getContext(), imageUri);
+            if (binaryImage == null) {
+                validFilled = false;
+            } else {
+                getActivity().getIntent().putExtra(CreateOfferActivity.EXTRA_IMAGE_BYTES, binaryImage);
+                getActivity().getIntent().putExtra(CreateOfferActivity.EXTRA_IMAGE_URI, imageUri);
+            }
+        }
         return validFilled;
     }
 
@@ -78,9 +96,10 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
     }
 
     @Override
-    public Offer fillOffer(Offer offer) {
-        offer.setTitle(nameEdittext.getText().toString().trim());
+    public Offer fillOffer(@NonNull Offer offer) {
+        offer.setName(nameEdittext.getText().toString().trim());
         offer.setDescription(descriptionEdittext.getText().toString().trim());
+//        offer.setImageUrl(imageUrl);
         return offer;
     }
 

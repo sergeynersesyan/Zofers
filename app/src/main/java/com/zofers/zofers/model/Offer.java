@@ -4,7 +4,9 @@ package com.zofers.zofers.model;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.StringRes;
 
+import com.zofers.zofers.App;
 import com.zofers.zofers.R;
 
 /**
@@ -23,9 +25,10 @@ public class Offer implements Parcelable {
     public static final int GENDER_FOR_CUSTOM = 3;
     public static final int GENDER_NO_MATTER = 4;
 
+    private String _id;
     private String country; //req 1
     private String city; //req 1
-    private String title; //req 2
+    private String name; //req 2
     private String description; //req 2
     private String imageUrl; //req 2
     private int costMode; //req 1
@@ -44,6 +47,9 @@ public class Offer implements Parcelable {
 
     public Offer() {}
 
+    public String getId() {
+        return _id;
+    }
 
     public String getCountry() {
         return country;
@@ -53,8 +59,8 @@ public class Offer implements Parcelable {
         return city;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
@@ -62,7 +68,7 @@ public class Offer implements Parcelable {
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return App.getInstance().getBASE_URL() + imageUrl;
     }
 
     public int getCostMode() {
@@ -117,8 +123,8 @@ public class Offer implements Parcelable {
         this.city = city;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setDescription(String description) {
@@ -173,21 +179,22 @@ public class Offer implements Parcelable {
         this.rateCount = rateCount;
     }
 
-    public String getCostText(Context context) {
+    public @StringRes int getCostTextRes(Context context) {
         switch (costMode) {
             case COST_MODE_GUEST:
-                return context.getString(R.string.cost_mode_attender);
+                return R.string.cost_mode_attender;
             case COST_MODE_BOTH:
-                return context.getString(R.string.cost_mode_both);
+                return R.string.cost_mode_both;
             default:// COST_MODE_CREATOR:
-                return context.getString(R.string.cost_mode_creator);
+                return R.string.cost_mode_creator;
         }
     }
 
     protected Offer(Parcel in) {
+        _id = in.readString();
         country = in.readString();
         city = in.readString();
-        title = in.readString();
+        name = in.readString();
         description = in.readString();
         imageUrl = in.readString();
         costMode = in.readInt();
@@ -211,9 +218,10 @@ public class Offer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
         dest.writeString(country);
         dest.writeString(city);
-        dest.writeString(title);
+        dest.writeString(name);
         dest.writeString(description);
         dest.writeString(imageUrl);
         dest.writeInt(costMode);
@@ -242,4 +250,12 @@ public class Offer implements Parcelable {
             return new Offer[size];
         }
     };
+
+    public int getPeopleTextResource() {
+        if (gender == GENDER_FOR_FEMALE) {
+            return R.plurals.for_woman;
+        } else if (gender == GENDER_FOR_MALE) {
+            return R.plurals.for_men;
+        } else return R.plurals.for_person;
+    }
 }

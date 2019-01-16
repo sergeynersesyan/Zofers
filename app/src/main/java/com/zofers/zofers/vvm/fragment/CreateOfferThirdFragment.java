@@ -1,7 +1,8 @@
-package com.zofers.zofers.fragment;
+package com.zofers.zofers.vvm.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class CreateOfferThirdFragment extends CreateOfferBaseFragment {
     }
 
     @Override
-    public Offer fillOffer(Offer offer) {
+    public Offer fillOffer(@NonNull Offer offer) {
         if (peopleCountEdittext.getText().length() > 0) {
             offer.setPeopleCount(Integer.parseInt(peopleCountEdittext.getText().toString()));
         }

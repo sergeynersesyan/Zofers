@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zofers.zofers.activity.CreateOfferActivity">
+    tools:context=".vvm.activity.CreateOfferActivity">
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/progress"

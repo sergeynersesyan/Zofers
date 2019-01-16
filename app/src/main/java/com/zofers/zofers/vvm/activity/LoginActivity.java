@@ -1,9 +1,8 @@
-package com.zofers.zofers.activity;
+package com.zofers.zofers.vvm.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;

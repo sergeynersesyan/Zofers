@@ -1,5 +1,6 @@
 package com.zofers.zofers.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,13 +13,15 @@ import com.zofers.zofers.R;
 import com.zofers.zofers.model.Offer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mr Nersesyan on 26/08/2018.
  */
 
 public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder>{
-    ArrayList<Offer> items = new ArrayList<>();
+    private List<Offer> items = new ArrayList<>();
+    private Listener listener;
 
     @NonNull
     @Override
@@ -35,6 +38,11 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void setItems(List<Offer> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,9 +65,30 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
         public void bind (Offer offer) {
             image.setImageURI(offer.getImageUrl());
             city.setText(offer.getCity());
-            title.setText(offer.getTitle());
-            costs.setText(offer.getCostText(costs.getContext()));
-//            people.setText(offer.getPeopleCount());
+            title.setText(offer.getName());
+            costs.setText(offer.getCostTextRes(costs.getContext()));
+
+            int peopleCount = offer.getPeopleCount();
+            if (peopleCount > 0) {
+                String peopleText = people.getContext().getResources().getQuantityString(offer.getPeopleTextResource(), peopleCount, peopleCount);
+                people.setText(peopleText);
+                people.setVisibility(View.VISIBLE);
+            } else {
+                people.setVisibility(View.GONE);
+            }
+            itemView.setOnClickListener((view) -> {
+                if (listener != null) {
+                    listener.onItemClick(offer);
+                }
+            });
         }
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void onItemClick (Offer offer);
     }
 }
