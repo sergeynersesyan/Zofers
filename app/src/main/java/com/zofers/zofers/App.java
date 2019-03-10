@@ -3,10 +3,8 @@ package com.zofers.zofers;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.zofers.zofers.service.ServiceApi;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.zofers.zofers.staff.PreferenceService;
+import com.zofers.zofers.staff.UserManager;
 
 /**
  * Created by Mr Nersesyan on 26/08/2018.
@@ -15,20 +13,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends Application {
 
     private static App app;
-    private ServiceApi api;
-    private final String BASE_URL = "http://192.168.0.103:3000/";
+    private PreferenceService preferenceService;
+    private UserManager userManager;
 
     @Override
     public void onCreate() {
-
         super.onCreate();
+        preferenceService = new PreferenceService(getApplicationContext());
+        userManager = new UserManager(preferenceService);
         Fresco.initialize(this);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        api = retrofit.create(ServiceApi.class);
         app = this;
     }
 
@@ -36,11 +29,11 @@ public class App extends Application {
         return app;
     }
 
-    public ServiceApi getApi () {
-        return api;
+    public PreferenceService getPreferenceService() {
+        return preferenceService;
     }
 
-    public String getBASE_URL() {
-        return BASE_URL;
+    public UserManager getUserManager() {
+        return userManager;
     }
 }

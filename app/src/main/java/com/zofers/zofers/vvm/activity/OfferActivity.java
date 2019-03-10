@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OfferActivity extends AppCompatActivity {
+public class OfferActivity extends BaseActivity {
 
     public static final String EXTRA_OFFER = "key_offer";
 

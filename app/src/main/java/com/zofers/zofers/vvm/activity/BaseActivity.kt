@@ -2,6 +2,7 @@ package com.zofers.zofers.vvm.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.zofers.zofers.App
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -11,5 +12,9 @@ open class BaseActivity : AppCompatActivity() {
         for ( i in x ) {
 
         }
+    }
+
+    protected fun getApp (): App {
+        return App.getInstance();
     }
 }

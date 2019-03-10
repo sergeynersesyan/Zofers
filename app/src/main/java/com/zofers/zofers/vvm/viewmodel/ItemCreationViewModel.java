@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.zofers.zofers.App;
 import com.zofers.zofers.model.Offer;
+import com.zofers.zofers.service.RetrofitProvider;
 
 import java.io.File;
 
@@ -27,7 +28,7 @@ public class ItemCreationViewModel extends ViewModel {
         MultipartBody.Part body = MultipartBody.Part.createFormData("offerImage", image.getName(), reqFile);
         RequestBody offerParam = RequestBody.create(MediaType.parse("application/json"), new Gson().toJson(offer));
 
-        Call<ResponseBody> call = App.getInstance().getApi().createOffer(offerParam, body);
+        Call<ResponseBody> call = RetrofitProvider.getInstance().getOfferApi().createOffer(offerParam, body);
 
         call.enqueue(callback);
     }

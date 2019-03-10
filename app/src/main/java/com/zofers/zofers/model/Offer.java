@@ -8,6 +8,7 @@ import android.support.annotation.StringRes;
 
 import com.zofers.zofers.App;
 import com.zofers.zofers.R;
+import com.zofers.zofers.service.RetrofitProvider;
 
 /**
  * Created by Mr Nersesyan on 25/08/2018.
@@ -68,7 +69,7 @@ public class Offer implements Parcelable {
     }
 
     public String getImageUrl() {
-        return App.getInstance().getBASE_URL() + imageUrl;
+        return RetrofitProvider.getInstance().getBASE_URL() + imageUrl;
     }
 
     public int getCostMode() {
