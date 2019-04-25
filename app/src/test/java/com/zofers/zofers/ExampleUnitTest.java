@@ -1,5 +1,7 @@
 package com.zofers.zofers;
 
+import com.zofers.zofers.staff.MessageHelper;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,6 +14,6 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        assertEquals(4, 6-1);
     }
 }

@@ -7,7 +7,7 @@ import android.widget.Toast;
 public class MessageHelper {
 
     public static void showErrorToast(Context context, String text) {
-        Toast.makeText(context, "error " + text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "something went wrong " + text, Toast.LENGTH_SHORT).show();
     }
 
     public static void showNoConnectionToast (Context context) {

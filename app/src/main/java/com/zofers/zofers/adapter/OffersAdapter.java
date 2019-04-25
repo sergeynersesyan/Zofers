@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -19,30 +20,49 @@ import java.util.List;
  * Created by Mr Nersesyan on 26/08/2018.
  */
 
-public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder>{
-    private List<Offer> items = new ArrayList<>();
+public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    private static final int ITEM_TYPE_FILTERS = 1;
+
+    private List<Offer> items;
     private Listener listener;
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == ITEM_TYPE_FILTERS) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filters, parent, false);
+            return new FiltersViewHolder(view);
+        }
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_offer, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(items.get(position));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == ITEM_TYPE_FILTERS) {
+            ((FiltersViewHolder)holder).bind();
+            return;
+        }
+
+        ((ViewHolder)holder).bind(items.get(position-1));
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items == null ? 0 : 1 + items.size();
     }
 
     public void setItems(List<Offer> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return ITEM_TYPE_FILTERS;
+        }
+        return super.getItemViewType(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,6 +71,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
         private TextView title;
         private TextView costs;
         private TextView people;
+        private ImageView peopleImage;
 
 
         public ViewHolder(View itemView) {
@@ -60,6 +81,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
             title = itemView.findViewById(R.id.title_textView);
             costs = itemView.findViewById(R.id.costs_textView);
             people = itemView.findViewById(R.id.people_textView);
+            peopleImage = itemView.findViewById(R.id.people_imageView);
         }
 
         public void bind (Offer offer) {
@@ -73,14 +95,27 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
                 String peopleText = people.getContext().getResources().getQuantityString(offer.getPeopleTextResource(), peopleCount, peopleCount);
                 people.setText(peopleText);
                 people.setVisibility(View.VISIBLE);
+                peopleImage.setVisibility(View.VISIBLE);
             } else {
                 people.setVisibility(View.GONE);
+                peopleImage.setVisibility(View.GONE);
             }
             itemView.setOnClickListener((view) -> {
                 if (listener != null) {
                     listener.onItemClick(offer);
                 }
             });
+        }
+    }
+
+    public class FiltersViewHolder extends RecyclerView.ViewHolder {
+
+        public FiltersViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        public void bind() {
+
         }
     }
 

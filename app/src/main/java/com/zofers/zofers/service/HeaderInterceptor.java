@@ -13,7 +13,7 @@ import okhttp3.Response;
 
 public class HeaderInterceptor implements Interceptor {
 
-    UserManager userManager;
+    private UserManager userManager;
 
     public HeaderInterceptor (UserManager userManager) {
         this.userManager = userManager;
@@ -23,10 +23,11 @@ public class HeaderInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
-
+        if (userManager.isAuthorized()) {
             request = request.newBuilder()
                     .addHeader("Authorization", userManager.getAuthToken())
                     .build();
+        }
 
         return chain.proceed(request);
     }
