@@ -5,6 +5,11 @@
     tools:context=".activities.HomeActivity">
     <item android:id="@+id/action_search"
         android:title="@string/action_search"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
+
+    <item android:id="@+id/action_profile"
+        android:title="@string/action_profile"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_image"/>
 </menu>

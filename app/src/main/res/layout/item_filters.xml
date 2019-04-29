@@ -15,6 +15,7 @@
         android:background="@drawable/costs_background"
         android:text="@string/filters"
         android:textColor="@color/colorAccent"
+        android:focusableInTouchMode="true"
         android:textSize="16sp" />
 
     <TextView

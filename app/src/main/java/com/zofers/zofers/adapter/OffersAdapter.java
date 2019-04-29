@@ -110,12 +110,15 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class FiltersViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView filters;
+
         public FiltersViewHolder(@NonNull View itemView) {
             super(itemView);
+            filters = itemView.findViewById(R.id.filters_text);
         }
 
         public void bind() {
-
+//            filters.requestFocus();
         }
     }
 

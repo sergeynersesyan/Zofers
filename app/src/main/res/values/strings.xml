@@ -54,5 +54,6 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
     <string name="action_search">Search city</string>
+    <string name="action_profile">Search city</string>
     <string name="filters">filters</string>
 </resources>

@@ -29,7 +29,7 @@ public interface OfferApi {
     Call<ResponseBody> createOffer(@Part("offer") RequestBody offer, @Part MultipartBody.Part image);
 
     @GET("/offers")
-    Call<List<Offer>> getFeed();
+    Call<List<Offer>> getFeed(@Query("q") String query);
 
     @DELETE("/offers/{id}")
     Call<ResponseBody> deleteOffer(@Path("id") String id);

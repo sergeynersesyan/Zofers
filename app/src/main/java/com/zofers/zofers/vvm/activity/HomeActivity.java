@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +43,7 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setTitle(null);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -85,13 +88,13 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        EditText searchEditText = searchView.findViewById(R.id.search_src_text);
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+//        EditText searchEditText = searchView.findViewById(R.id.search_src_text);
 //        searchItem.expandActionView();
 
         searchView.setOnQueryTextListener(this);
         searchView.setIconified(false);
-
+        searchView.setGravity(Gravity.LEFT);
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -104,25 +107,36 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
                 return true;
             }
         });
+        searchView.clearFocus();
 
         View closeButton = searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         if (closeButton != null) {
-            closeButton.setOnClickListener(v -> searchView.setQuery("", false));
+            closeButton.setOnClickListener(v -> {
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+            });
         }
-
 
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        viewModel.load();
+        viewModel.load(s);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String s) {
+        if (TextUtils.isEmpty(s)) {
+            onQueryTextSubmit(null);
+            return true;
+        }
         return false;
     }
 }
