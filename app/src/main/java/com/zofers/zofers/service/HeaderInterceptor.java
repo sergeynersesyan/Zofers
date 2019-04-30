@@ -23,7 +23,7 @@ public class HeaderInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
-        if (userManager.isAuthorized()) {
+        if (userManager.hasAuthorized()) {
             request = request.newBuilder()
                     .addHeader("Authorization", userManager.getAuthToken())
                     .build();

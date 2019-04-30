@@ -8,8 +8,8 @@
         app:showAsAction="ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
-    <item android:id="@+id/action_profile"
-        android:title="@string/action_profile"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_image"/>
+    <!--<item android:id="@+id/action_profile"-->
+        <!--android:title="@string/action_profile"-->
+        <!--app:showAsAction="always"-->
+        <!--android:icon="@drawable/ic_person_white_24dp"/>-->
 </menu>

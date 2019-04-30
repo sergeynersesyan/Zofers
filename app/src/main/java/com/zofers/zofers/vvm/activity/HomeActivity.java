@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.zofers.zofers.R;
 import com.zofers.zofers.adapter.OffersAdapter;
@@ -31,13 +32,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class HomeActivity extends BaseActivity implements SearchView.OnQueryTextListener, View.OnClickListener {
 
-    private RecyclerView recyclerView;
     private OffersAdapter adapter;
     private FeedViewModel viewModel;
 
+    private RecyclerView recyclerView;
     private SearchView searchView;
+    private ImageView profileImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,7 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, CreateOfferActivity.class);
-                startActivity(intent);
-            }
-        });
+        fab.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.offers_recycler_view);
         adapter = new OffersAdapter();
@@ -65,6 +61,9 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
             intent.putExtra(OfferActivity.EXTRA_OFFER, offer);
             startActivity(intent);
         });
+
+        profileImageView = findViewById(R.id.profile_button);
+        profileImageView.setOnClickListener(this);
 
         viewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
         viewModel.load();
@@ -78,6 +77,7 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
                     break;
                 case States.FAIL:
                     MessageHelper.showNoConnectionToast(HomeActivity.this);
+                    break;
             }
         });
     }
@@ -111,12 +111,8 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
 
         View closeButton = searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         if (closeButton != null) {
-            closeButton.setOnClickListener(v -> {
-                searchView.setQuery("", false);
-                searchView.clearFocus();
-            });
+            closeButton.setOnClickListener(this);
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -138,5 +134,24 @@ public class HomeActivity extends BaseActivity implements SearchView.OnQueryText
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.profile_button:
+                Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.fab:
+                Intent intent1 = new Intent(this, CreateOfferActivity.class);
+                startActivity(intent1);
+                break;
+            case android.support.v7.appcompat.R.id.search_close_btn:
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+                break;
+
+        }
     }
 }

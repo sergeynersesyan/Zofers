@@ -26,7 +26,7 @@ public class UserManager {
         preferences.setString(KEY_AUTH_TOKEN, authToken);
     }
 
-    public boolean isAuthorized() {
+    public boolean hasAuthorized() {
         return getAuthToken() != null;
     }
 

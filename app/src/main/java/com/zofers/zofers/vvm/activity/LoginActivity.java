@@ -45,7 +45,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (getApp().getUserManager().isAuthorized()) {
+        //todo before release
+        if (getApp().getUserManager().hasAuthorized() || true) {
             openApp();
         }
         // Set up the login form.
