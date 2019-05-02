@@ -17,27 +17,46 @@
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
-        <Spinner
-            android:id="@+id/country_spinner"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin" />
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:paddingLeft="4dp"
+            android:text="Country"
+            android:textSize="12sp" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/country_spinner"
+            style="@style/Widget.AppCompat.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:paddingLeft="4dp" />
+
+        <View
+            android:id="@+id/country_underline_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray" />
+
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/city_TIL"
-            style="textinput"
-            app:hintTextAppearance="@style/error_appearance"
-            app:hintEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:hint="@string/create_offer_city"
             app:errorEnabled="true"
-            >
+            app:hintEnabled="true">
 
             <EditText
                 android:id="@+id/city_editText"
                 android:layout_width="match_parent"
-                android:hint="@string/create_offer_city"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
@@ -83,18 +102,16 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/cost_TIL"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                app:errorEnabled="true"
-                app:hintEnabled="true"
-                app:hintAnimationEnabled="false"
                 android:layout_height="wrap_content"
-                android:hint="How much the guest pays">
+                android:layout_weight="1"
+                android:hint="How much the guest pays"
+                app:errorEnabled="true"
+                app:hintEnabled="true">
 
                 <EditText
                     android:id="@+id/cost_editText"
@@ -104,16 +121,23 @@
                     android:maxLength="20" />
             </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/currency_editText"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/currency_TIL"
                 android:layout_width="80dp"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:inputType="textShortMessage"
-                android:maxLength="10"
-                android:layout_gravity="bottom"
-                android:hint="currency"
-                android:text="$" />
+                android:hint="Currency"
+                app:errorEnabled="true"
+                app:hintEnabled="true">
+
+                <EditText
+                    android:id="@+id/currency_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="textShortMessage"
+                    android:maxLength="10"
+                    android:text="$" />
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,9 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
     private static final int REQUEST_SELECT_PICTURE = 1015;
     private SimpleDraweeView image;
     private EditText nameEdittext;
+    private TextInputLayout nameTIL;
     private EditText descriptionEdittext;
+    private TextInputLayout descriptionTIL;
     private View root;
     private Uri imageUri;
 
@@ -39,6 +42,8 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
         image = root.findViewById(R.id.image);
         nameEdittext = root.findViewById(R.id.title_editText);
         descriptionEdittext = root.findViewById(R.id.description_textView);
+        nameTIL = root.findViewById(R.id.title_TIL);
+        descriptionTIL = root.findViewById(R.id.description_TIL);
         image.setOnClickListener(this);
         return root;
     }
@@ -66,11 +71,11 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
     public boolean validFilled() {
         boolean validFilled = true;
         if (nameEdittext.getText().toString().trim().length() == 0) {
-            nameEdittext.setError("PLease enter name");
+            nameTIL.setError(" ");
             validFilled = false;
         }
         if (descriptionEdittext.getText().toString().trim().length() == 0) {
-            descriptionEdittext.setError("PLease enter offer description");
+            descriptionTIL.setError(" ");
             validFilled = false;
         }
         if (imageUri == null) {

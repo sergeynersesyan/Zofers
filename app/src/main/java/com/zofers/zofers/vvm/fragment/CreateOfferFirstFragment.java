@@ -35,6 +35,8 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
     private EditText currencyEdittext;
     private TextInputLayout cityTIL;
     private TextInputLayout costTIL;
+    private TextInputLayout currencyTIL;
+    private View countryUnderline;
     View view;
 
     @Override
@@ -55,6 +57,8 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
         currencyEdittext = view.findViewById(R.id.currency_editText);
         cityTIL = view.findViewById(R.id.city_TIL);
         costTIL = view.findViewById(R.id.cost_TIL);
+        currencyTIL = view.findViewById(R.id.currency_TIL);
+        countryUnderline = view.findViewById(R.id.country_underline_view);
 
         radioGroup = view.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -63,7 +67,11 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
                 boolean freeForGuest = checkedId == R.id.expensesMe;
                 costEdittext.setEnabled(!freeForGuest);
                 currencyEdittext.setEnabled(!freeForGuest);
+                if (freeForGuest) {
+                    costEdittext.setText("");
+                }
             }
+
         });
         return view;
     }
@@ -77,11 +85,12 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
     public boolean validFilled() {
         boolean validFilled = true;
         if (countrySpinner.getSelectedItemPosition() == 0) {
-            Snackbar.make(view,"Please select country", Snackbar.LENGTH_SHORT).show();
+//            Snackbar.make(view,"Please select country", Snackbar.LENGTH_SHORT).show();
+            countryUnderline.setBackgroundColor(getContext().getResources().getColor(R.color.error_color));
             validFilled = false;
         }
         if (cityEdittext.getText().toString().trim().length() == 0) {
-            cityTIL.setError("Please enter city");
+            cityTIL.setError(" ");
             validFilled = false;
         }
         if (radioGroup.getCheckedRadioButtonId() == -1 && validFilled) {
@@ -89,12 +98,11 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
             validFilled = false;
         }
         if (radioGroup.getCheckedRadioButtonId() != R.id.expensesMe && costEdittext.getText().length() == 0) {
-            costTIL.setError("PLease enter cost");
+            costTIL.setError(" ");
             validFilled = false;
         }
         if (currencyEdittext.getText().toString().trim().length() == 0) {
-            costTIL.setEnabled(false);
-            costTIL.setError("PLease enter currency");
+            currencyTIL.setError(" ");
             validFilled = false;
         }
         return validFilled;

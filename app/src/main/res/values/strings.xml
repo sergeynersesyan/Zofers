@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Zofers</string>
 
+    <!--actions-->
+    <string name="action_next">NEXT</string>
+    <string name="action_finish">FINISH</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_delete">Delete</string>
+
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -12,19 +19,31 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_credentials">Incorrect email or password</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="image_permission_denied">Permission denied</string>
+
+
+    <!--create offer-->
+    <string name="title_activity_create_offer">Create new offer</string>
     <string name="cost_mode_creator">Free for you</string>
     <string name="cost_mode_both">You pay part of cost</string>
     <string name="cost_mode_attender">You pay</string>
-    <string name="title_activity_home">HomeActivity</string>
     <string name="create_offer_city">City</string>
 
-    <string name="image_permission_denied">Permission denied</string>
-    <string name="action_next">NEXT</string>
-    <string name="action_finish">FINISH</string>
+    <!--home page-->
+    <string name="title_activity_home">HomeActivity</string>
 
+    <string name="action_search">Search city</string>
+    <string name="action_profile">Search city</string>
+    <string name="filters">filters</string>
+
+
+
+
+
+
+
+    <!--other-->
     <plurals name="for_men">
         <item quantity="one">for %d man</item>
         <item quantity="other">for %d man</item>
@@ -47,13 +66,8 @@
         <item>Custom</item>
         <item>No Matter</item>
     </string-array>
-    <string name="title_activity_offer">OfferActivity</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_delete">Delete</string>
+    <string name="title_activity_offer">OfferActivity</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
-    <string name="action_search">Search city</string>
-    <string name="action_profile">Search city</string>
-    <string name="filters">filters</string>
 </resources>

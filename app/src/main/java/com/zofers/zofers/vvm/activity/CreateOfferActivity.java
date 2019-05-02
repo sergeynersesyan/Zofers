@@ -16,6 +16,7 @@ import com.zofers.zofers.R;
 import com.zofers.zofers.model.Offer;
 import com.zofers.zofers.staff.FileUtils;
 import com.zofers.zofers.staff.MessageHelper;
+import com.zofers.zofers.view.LoadingDialog;
 import com.zofers.zofers.vvm.fragment.CreateOfferBaseFragment;
 import com.zofers.zofers.vvm.fragment.CreateOfferFirstFragment;
 import com.zofers.zofers.vvm.viewmodel.ItemCreationViewModel;
@@ -32,6 +33,7 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
     private Button nextButton;
     private ProgressBar progressBar;
     private FrameLayout fragmentContainer;
+    private LoadingDialog loadingDialog = new LoadingDialog();
 
     private CreateOfferBaseFragment fragment;
 
@@ -41,6 +43,7 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_offer);
+        setTitle(R.string.title_activity_create_offer);
         nextButton = findViewById(R.id.next_button);
         progressBar = findViewById(R.id.progress);
         fragmentContainer = findViewById(R.id.fragment_container);
@@ -78,6 +81,7 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
                     Offer offer = fragment.fillOffer(viewModel.getOffer());
                     if (fragment.nextFragment() == null) {
                         Uri fileUri = getIntent().getParcelableExtra(EXTRA_IMAGE_URI);
+                        loadingDialog.show(getSupportFragmentManager(), null);
                         viewModel.createOffer(FileUtils.getFile(this, fileUri), new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -86,10 +90,12 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
                                 } else {
                                     MessageHelper.showErrorToast(CreateOfferActivity.this, response.code() + "");
                                 }
+                                loadingDialog.dismiss();
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                loadingDialog.dismiss();
                                 MessageHelper.showNoConnectionToast(CreateOfferActivity.this);
                             }
                         });
