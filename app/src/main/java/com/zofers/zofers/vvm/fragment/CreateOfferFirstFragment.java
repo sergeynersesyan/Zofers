@@ -2,11 +2,6 @@ package com.zofers.zofers.vvm.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +10,12 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.zofers.zofers.R;
 import com.zofers.zofers.model.Offer;
 
@@ -22,9 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
 
     private Spinner countrySpinner;

@@ -2,10 +2,8 @@ package com.zofers.zofers.vvm.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.zofers.zofers.R;
 import com.zofers.zofers.staff.MessageHelper;
 import com.zofers.zofers.vvm.viewmodel.LoginViewModel;

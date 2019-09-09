@@ -4,7 +4,8 @@ package com.zofers.zofers.model;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.StringRes;
+
+import androidx.annotation.StringRes;
 
 import com.zofers.zofers.App;
 import com.zofers.zofers.R;
@@ -69,7 +70,7 @@ public class Offer implements Parcelable {
     }
 
     public String getImageUrl() {
-        return RetrofitProvider.getInstance().getBASE_URL() + imageUrl;
+        return imageUrl;
     }
 
     public int getCostMode() {
@@ -180,7 +181,8 @@ public class Offer implements Parcelable {
         this.rateCount = rateCount;
     }
 
-    public @StringRes int getCostTextRes(Context context) {
+    public @StringRes
+    int getCostTextRes(Context context) {
         switch (costMode) {
             case COST_MODE_GUEST:
                 return R.string.cost_mode_attender;

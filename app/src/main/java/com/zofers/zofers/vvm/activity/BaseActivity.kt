@@ -2,9 +2,9 @@ package com.zofers.zofers.vvm.activity
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.zofers.zofers.App
 
 open class BaseActivity : AppCompatActivity() {
@@ -21,7 +21,7 @@ open class BaseActivity : AppCompatActivity() {
     fun isNetworkAvailable(): Boolean {
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
-        return netInfo != null && netInfo.isConnectedOrConnecting
+        return netInfo != null && netInfo.isConnected
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

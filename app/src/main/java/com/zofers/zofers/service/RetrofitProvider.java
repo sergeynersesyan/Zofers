@@ -20,7 +20,7 @@ public class RetrofitProvider {
 
     private OfferApi offerApi;
     private LoginApi loginApi;
-    private final String BASE_URL = "http://192.168.0.103:3000/";
+    private final String BASE_URL = "http://192.168.0.101:3000/";
 
     private static final RetrofitProvider ourInstance = new RetrofitProvider();
 

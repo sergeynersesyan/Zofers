@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "558848005913",
+    "firebase_url": "https://zofers-8a5a6.firebaseio.com",
+    "project_id": "zofers-8a5a6",
+    "storage_bucket": "zofers-8a5a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558848005913:android:9dd77e60be44b72ebc5788",
+        "android_client_info": {
+          "package_name": "com.zofers.zofers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558848005913-b93evjeie9frssrvdc1etvgdrb2a377v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zofers.zofers",
+            "certificate_hash": "ef25ddb384792f548257aae0670124041bfd7d74"
+          }
+        },
+        {
+          "client_id": "558848005913-t3td3ttapfp517eqbpb7kn6kb5gtni63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKKXH8bnRcHWWAiAKSjGzB538xJCHak1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558848005913-t3td3ttapfp517eqbpb7kn6kb5gtni63.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

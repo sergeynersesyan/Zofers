@@ -5,12 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.provider.OpenableColumns;
-import android.support.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -1,8 +1,8 @@
 package com.zofers.zofers.vvm.fragment;
 
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.zofers.zofers.R;
 import com.zofers.zofers.model.Offer;
