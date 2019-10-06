@@ -1,93 +1,93 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:theme="@style/CardView.Light"
-		app:cardCornerRadius="4dp"
-		app:cardElevation="4dp"
-		app:cardUseCompatPadding="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/CardView.Light"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true"
 
-		tools:context=".vvm.fragment.CreateOfferFirstFragment">
+    tools:context=".vvm.fragment.CreateOfferFirstFragment">
 
-	<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:padding="@dimen/activity_horizontal_margin">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
 
-		<EditText
-				android:id="@+id/people_count_edittext"
-				android:layout_width="120dp"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:inputType="number" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="People Count (optional)"
+            android:textSize="12sp" />
 
-		<EditText
-				android:id="@+id/requirements_edittext"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:hint="eg: 20-40 years old"
-				android:maxLength="500" />
+        <EditText
+            android:id="@+id/people_count_edittext"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
-		<EditText
-				android:id="@+id/availability_editText"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:hint="eg: not working hours"
-				android:maxLength="500" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/double_horizontal_margin"
+            android:text="Gender (optional)"
+            android:textSize="12sp" />
 
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/double_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:text="Requirements (optional)"
-				android:textSize="12sp" />
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/genderSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/activity_vertical_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:text="People Count (optional)"
-				android:textSize="12sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/double_horizontal_margin"
+            android:text="Requirements (optional)"
+            android:textSize="12sp" />
 
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/double_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:text="Availability (optional)"
-				android:textSize="12sp" />
+        <EditText
+            android:id="@+id/requirements_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:hint="eg: 20-40 years old"
+            android:maxLength="500" />
 
 
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/double_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:text="Gender (optional)"
-				android:textSize="12sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/double_horizontal_margin"
+            android:text="Availability (optional)"
+            android:textSize="12sp" />
 
-		<androidx.appcompat.widget.AppCompatSpinner
-				android:id="@+id/genderSpinner"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin" />
+        <EditText
+            android:id="@+id/availability_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:hint="eg: not working hours"
+            android:maxLength="500" />
 
 
-	</LinearLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
 

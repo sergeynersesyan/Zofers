@@ -47,13 +47,8 @@ public class OfferActivity extends BaseActivity {
         image.setImageURI(offer.getImageUrl());
         description.setText(offer.getDescription());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
 
         viewModel = ViewModelProviders.of(this).get(OfferViewModel.class);
     }
@@ -68,18 +63,7 @@ public class OfferActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                viewModel.delete(offer.getId(), new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (isFinishing()) return;
-                        if (response.isSuccessful()) finish();
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
+                viewModel.delete(offer);
                 break;
 
         }

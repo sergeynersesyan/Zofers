@@ -3,14 +3,16 @@ package com.zofers.zofers.vvm.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-import com.zofers.zofers.service.RetrofitProvider;
-
-import okhttp3.ResponseBody;
-import retrofit2.Callback;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.zofers.zofers.model.Offer;
 
 public class OfferViewModel extends ViewModel {
 
-	public void delete(String offerId, Callback<ResponseBody> callback) {
-		RetrofitProvider.getInstance().getOfferApi().deleteOffer(offerId).enqueue(callback);
+	public void delete(Offer offer) {
+		FirebaseFirestore.getInstance()
+				.collection("offer")
+				.document(offer.getId())
+				.delete();
+//				.addOnSuccessListener();
 	}
 }

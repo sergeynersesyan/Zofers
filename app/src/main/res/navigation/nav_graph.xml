@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:id="@+id/nav_graph"
+		app:startDestination="@id/loginActivity">
+
+	<activity
+			android:id="@+id/profileActivity"
+			android:name="com.zofers.zofers.vvm.activity.ProfileActivity"
+			android:label="ProfileActivity" >
+		<action
+				android:id="@+id/action_profileActivity_to_loginActivity"
+				app:destination="@id/loginActivity"
+				app:launchSingleTop="true" />
+	</activity>
+	<activity
+			android:id="@+id/loginActivity"
+			android:name="com.zofers.zofers.vvm.activity.LoginActivity"
+			android:label="activity_login"
+			app:action="pr"
+			tools:layout="@layout/activity_login" >
+		<action
+				android:id="@+id/action_loginActivity_to_homeActivity"
+				app:destination="@id/homeActivity" />
+	</activity>
+	<activity
+			android:id="@+id/createOfferActivity"
+			android:name="com.zofers.zofers.vvm.activity.CreateOfferActivity"
+			android:label="activity_create_offer"
+			tools:layout="@layout/activity_create_offer" />
+	<activity
+			android:id="@+id/homeActivity"
+			android:name="com.zofers.zofers.vvm.activity.HomeActivity"
+			android:label="activity_home"
+			tools:layout="@layout/activity_home" >
+		<action
+				android:id="@+id/action_homeActivity_to_profileActivity"
+				app:destination="@id/profileActivity" />
+		<action
+				android:id="@+id/action_homeActivity_to_createOfferActivity"
+				app:destination="@id/createOfferActivity" />
+		<action
+				android:id="@+id/action_homeActivity_to_offerActivity"
+				app:destination="@id/offerActivity" />
+	</activity>
+	<activity
+			android:id="@+id/offerActivity"
+			android:name="com.zofers.zofers.vvm.activity.OfferActivity"
+			android:label="activity_offer"
+			tools:layout="@layout/activity_offer" />
+</navigation>

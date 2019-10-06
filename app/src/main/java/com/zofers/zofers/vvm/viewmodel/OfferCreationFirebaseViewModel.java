@@ -16,6 +16,8 @@ public class OfferCreationFirebaseViewModel extends AppViewModel {
 	public void createOffer(Uri image, ServiceCallback<Offer> callback) {
 //
 
+
+		offer.setUserID(getCurrentUser().getUid());
 		// Create a storage reference from our app
 		StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 

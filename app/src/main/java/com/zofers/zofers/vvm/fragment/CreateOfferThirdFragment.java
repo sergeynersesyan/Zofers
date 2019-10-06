@@ -29,17 +29,13 @@ public class CreateOfferThirdFragment extends CreateOfferBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_create_offer_third, container, false);
         genderSpinner = root.findViewById(R.id.genderSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.gender_list, android.R.layout.simple_list_item_1);//new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, genderList());
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.gender_list, android.R.layout.simple_list_item_1);
         genderSpinner.setAdapter(adapter);
 
         peopleCountEdittext = root.findViewById(R.id.people_count_edittext);
         reqEdittext = root.findViewById(R.id.requirements_edittext);
         availEdittext = root.findViewById(R.id.availability_editText);
         return root;
-    }
-
-    private int genderList() {
-        return 0;
     }
 
     @Override

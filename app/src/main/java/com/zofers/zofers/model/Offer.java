@@ -7,9 +7,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.StringRes;
 
-import com.zofers.zofers.App;
 import com.zofers.zofers.R;
-import com.zofers.zofers.service.RetrofitProvider;
 
 /**
  * Created by Mr Nersesyan on 25/08/2018.
@@ -41,7 +39,7 @@ public class Offer implements Parcelable {
     private String requirements; // opt 3
     private String availability; // opt 3
 
-    private int userId;
+    private String userID;
     private int bookCount;
     private float rating; //don't need yet
     private int rateCount;
@@ -51,6 +49,10 @@ public class Offer implements Parcelable {
 
     public String getId() {
         return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
     }
 
     public String getCountry() {
@@ -97,8 +99,8 @@ public class Offer implements Parcelable {
         return gender;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserID() {
+        return userID;
     }
 
     public int getBookCount() {
@@ -165,8 +167,8 @@ public class Offer implements Parcelable {
         this.availability = availability;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void setBookCount(int bookCount) {
@@ -207,7 +209,7 @@ public class Offer implements Parcelable {
         gender = in.readInt();
         requirements = in.readString();
         availability = in.readString();
-        userId = in.readInt();
+        userID = in.readString();
         bookCount = in.readInt();
         rating = in.readFloat();
         rateCount = in.readInt();
@@ -234,7 +236,7 @@ public class Offer implements Parcelable {
         dest.writeInt(gender);
         dest.writeString(requirements);
         dest.writeString(availability);
-        dest.writeInt(userId);
+        dest.writeString(userID);
         dest.writeInt(bookCount);
         dest.writeFloat(rating);
         dest.writeInt(rateCount);
