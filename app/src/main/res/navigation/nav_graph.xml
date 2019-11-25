@@ -7,7 +7,7 @@
 
 	<activity
 			android:id="@+id/profileActivity"
-			android:name="com.zofers.zofers.vvm.activity.ProfileActivity"
+			android:name="com.zofers.zofers.profile.ProfileActivity"
 			android:label="ProfileActivity" >
 		<action
 				android:id="@+id/action_profileActivity_to_loginActivity"
@@ -16,7 +16,7 @@
 	</activity>
 	<activity
 			android:id="@+id/loginActivity"
-			android:name="com.zofers.zofers.vvm.activity.LoginActivity"
+			android:name="com.zofers.zofers.login.LoginActivity"
 			android:label="activity_login"
 			app:action="pr"
 			tools:layout="@layout/activity_login" >
@@ -26,12 +26,12 @@
 	</activity>
 	<activity
 			android:id="@+id/createOfferActivity"
-			android:name="com.zofers.zofers.vvm.activity.CreateOfferActivity"
+			android:name="com.zofers.zofers.create.CreateOfferActivity"
 			android:label="activity_create_offer"
 			tools:layout="@layout/activity_create_offer" />
 	<activity
 			android:id="@+id/homeActivity"
-			android:name="com.zofers.zofers.vvm.activity.HomeActivity"
+			android:name="com.zofers.zofers.home.HomeActivity"
 			android:label="activity_home"
 			tools:layout="@layout/activity_home" >
 		<action
@@ -46,7 +46,7 @@
 	</activity>
 	<activity
 			android:id="@+id/offerActivity"
-			android:name="com.zofers.zofers.vvm.activity.OfferActivity"
+			android:name="com.zofers.zofers.offer.OfferActivity"
 			android:label="activity_offer"
 			tools:layout="@layout/activity_offer" />
 </navigation>

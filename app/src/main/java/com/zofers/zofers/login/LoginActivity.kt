@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.activity
+package com.zofers.zofers.login
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -8,26 +8,16 @@ import android.text.TextUtils
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.inputmethod.EditorInfo
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
 import com.zofers.zofers.R
 import com.zofers.zofers.staff.MessageHelper
-import com.zofers.zofers.vvm.viewmodel.LoginViewModel
-import com.zofers.zofers.vvm.viewmodel.States
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
-import com.google.android.gms.common.api.ApiException
+import com.zofers.zofers.staff.States
 import com.zofers.zofers.databinding.ActivityLoginBinding
+import com.zofers.zofers.home.HomeActivity
+import com.zofers.zofers.BaseActivity
 
 
 class LoginActivity : BaseActivity(), OnClickListener {

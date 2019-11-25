@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.viewmodel;
+package com.zofers.zofers.create;
 
 import androidx.lifecycle.ViewModel;
 

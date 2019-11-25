@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.fragment;
+package com.zofers.zofers.create;
 
 
 import android.app.Activity;
@@ -17,8 +17,8 @@ import androidx.fragment.app.Fragment;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.zofers.zofers.BaseActivity;
 import com.zofers.zofers.R;
-import com.zofers.zofers.vvm.activity.CreateOfferActivity;
 import com.zofers.zofers.callback.PermissionRequestCallback;
 import com.zofers.zofers.model.Offer;
 import com.zofers.zofers.staff.FileHelper;
@@ -28,7 +28,7 @@ import com.zofers.zofers.staff.FileHelper;
  */
 public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implements View.OnClickListener {
 
-    private static final int REQUEST_SELECT_PICTURE = 1015;
+    private static final int REQUEST_SELECT_PICTURE = 1000;
     private SimpleDraweeView image;
     private EditText nameEdittext;
     private TextInputLayout nameTIL;
@@ -60,7 +60,6 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
                 }
             }
         }
-
     }
 
     @Override
@@ -89,7 +88,6 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
             if (binaryImage == null) {
                 validFilled = false;
             } else {
-                getActivity().getIntent().putExtra(CreateOfferActivity.EXTRA_IMAGE_BYTES, binaryImage);
                 getActivity().getIntent().putExtra(CreateOfferActivity.EXTRA_IMAGE_URI, imageUri);
             }
         }
@@ -105,7 +103,6 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
     public Offer fillOffer(@NonNull Offer offer) {
         offer.setName(nameEdittext.getText().toString().trim());
         offer.setDescription(descriptionEdittext.getText().toString().trim());
-//        offer.setImageUrl(imageUrl);
         return offer;
     }
 
@@ -119,33 +116,6 @@ public class CreateOfferSecoundFragment extends CreateOfferBaseFragment implemen
     }
 
     private void openGallery() {
-        promptExternalStoragePermissions(new PermissionRequestCallback() {
-            @Override
-            public void onResponse(boolean granted) {
-                if (getActivity() == null) return;
-                if (granted) {
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    startActivityForResult(Intent.createChooser(intent, "Select picture"), REQUEST_SELECT_PICTURE);
-                } else {
-                    Snackbar snackbar = Snackbar.make(root, R.string.image_permission_denied, Snackbar.LENGTH_LONG);
-
-                    snackbar.setAction("Open settings", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setData(uri);
-                            startActivity(intent);
-                        }
-                    });
-                    snackbar.show();
-                }
-            }
-        });
+        ((BaseActivity)getActivity()).openGallery(root, REQUEST_SELECT_PICTURE, this);
     }
 }

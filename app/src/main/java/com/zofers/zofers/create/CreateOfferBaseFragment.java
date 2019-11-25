@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.fragment;
+package com.zofers.zofers.create;
 
 
 import androidx.annotation.NonNull;
@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import com.zofers.zofers.R;
 import com.zofers.zofers.model.Offer;
+import com.zofers.zofers.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.

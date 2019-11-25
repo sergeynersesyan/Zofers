@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.activity
+package com.zofers.zofers.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -20,10 +20,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
+import com.zofers.zofers.create.CreateOfferActivity
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.staff.MessageHelper
-import com.zofers.zofers.vvm.viewmodel.FeedViewModel
-import com.zofers.zofers.vvm.viewmodel.States
+import com.zofers.zofers.BaseActivity
+import com.zofers.zofers.offer.OfferActivity
+import com.zofers.zofers.profile.ProfileActivity
+import com.zofers.zofers.staff.States
 
 class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClickListener {
 

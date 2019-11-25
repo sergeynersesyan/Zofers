@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.viewmodel
+package com.zofers.zofers.login
 
 import android.app.Activity
 import android.content.Intent
@@ -9,20 +9,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.zofers.zofers.vvm.activity.BaseActivity
+import com.google.firebase.firestore.FirebaseFirestore
+import com.zofers.zofers.AppViewModel
+import com.zofers.zofers.BaseActivity
+import com.zofers.zofers.model.Profile
+import com.zofers.zofers.staff.States
 
 class LoginViewModel : AppViewModel() {
 
 	//	private val api: LoginApi = retrofitProvider.loginApi
 	private val authListener = { task: Task<AuthResult> ->
-		if (task.isSuccessful) {
-			state.value = States.FINISH
-		} else {
-			state.value = States.ERROR
-		}
+		ensureWriteProfile()
 	}
+
 	private lateinit var googleSignInClient: GoogleSignInClient
 
 	companion object {
@@ -82,5 +82,37 @@ class LoginViewModel : AppViewModel() {
 				.addOnCompleteListener(activity, authListener)
 	}
 
+	private fun ensureWriteProfile() {
+		FirebaseFirestore.getInstance()
+				.collection("profile")
+				.document(currentUser!!.uid)
+				.get()
+				.addOnSuccessListener {
+					if (it.exists()) {
+						state.value = States.FINISH
+					} else {
+						createProfile()
+					}
+				}
+				.addOnFailureListener {
+					createProfile()
+				}
+	}
 
+	private fun createProfile() {
+		val profile = Profile().apply {
+			userID = currentUser!!.uid
+		}
+		val db = FirebaseFirestore.getInstance()
+		db.collection("profile")
+				.document(profile.userID)
+				.set(profile)
+				.addOnCompleteListener { task ->
+					if (task.isSuccessful) {
+						state.value = States.FINISH
+					} else {
+						state.value = States.ERROR
+					}
+				}
+	}
 }

@@ -5,5 +5,5 @@ package com.zofers.zofers.callback;
  */
 
 public interface PermissionRequestCallback {
-    void onResponse(boolean b);
+    void onResponse(boolean granted);
 }

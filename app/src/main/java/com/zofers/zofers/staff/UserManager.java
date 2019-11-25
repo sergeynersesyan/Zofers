@@ -2,7 +2,7 @@ package com.zofers.zofers.staff;
 
 import android.content.Intent;
 
-import com.zofers.zofers.vvm.activity.LoginActivity;
+import com.zofers.zofers.login.LoginActivity;
 
 public class UserManager {
     private String KEY_AUTH_TOKEN = "k_a_tok";

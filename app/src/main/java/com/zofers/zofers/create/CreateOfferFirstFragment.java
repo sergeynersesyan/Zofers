@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.fragment;
+package com.zofers.zofers.create;
 
 
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;

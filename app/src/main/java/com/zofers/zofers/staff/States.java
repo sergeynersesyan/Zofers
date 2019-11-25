@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.viewmodel;
+package com.zofers.zofers.staff;
 
 public final class States {
     public static final int NONE = 0;

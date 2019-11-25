@@ -1,4 +1,4 @@
-package com.zofers.zofers.vvm.activity;
+package com.zofers.zofers.create;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,22 +13,12 @@ import androidx.lifecycle.ViewModelProviders;
 import com.zofers.zofers.R;
 import com.zofers.zofers.model.Offer;
 import com.zofers.zofers.service.ServiceCallback;
-import com.zofers.zofers.staff.FileUtils;
 import com.zofers.zofers.staff.MessageHelper;
 import com.zofers.zofers.view.LoadingDialog;
-import com.zofers.zofers.vvm.fragment.CreateOfferBaseFragment;
-import com.zofers.zofers.vvm.fragment.CreateOfferFirstFragment;
-import com.zofers.zofers.vvm.viewmodel.ItemCreationViewModel;
-import com.zofers.zofers.vvm.viewmodel.OfferCreationFirebaseViewModel;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.zofers.zofers.BaseActivity;
 
 public class CreateOfferActivity extends BaseActivity implements View.OnClickListener {
 	public static final String KEY_OFFER = "ext_k_off";
-	public static final String EXTRA_IMAGE_BYTES = "ext_im_bs";
 	public static final String EXTRA_IMAGE_URI = "ext_im_uri";
 	private Button nextButton;
 	private ProgressBar progressBar;
@@ -51,11 +41,6 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
 		nextButton.setOnClickListener(this);
 
 		viewModel = ViewModelProviders.of(this).get(OfferCreationFirebaseViewModel.class);
-
-//        offer = getIntent().getParcelableExtra(EXTRA_OFFER);
-//        if (offer == null) {
-//            offer = new Offer();
-//        }
 		openFragment(false);
 	}
 
@@ -69,7 +54,6 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
 		}
 		transaction.commit();
 		onFragmentChange();
-
 	}
 
 
@@ -83,7 +67,7 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
 				if (fragment.nextFragment() == null) {
 					Uri fileUri = getIntent().getParcelableExtra(EXTRA_IMAGE_URI);
 					loadingDialog.show(getSupportFragmentManager(), null);
-					viewModel.createOffer(fileUri, new ServiceCallback<Offer>() {
+					viewModel.createOffer(this, fileUri, new ServiceCallback<Offer>() {
 						@Override
 						public void onSuccess(Offer response) {
 							finish();

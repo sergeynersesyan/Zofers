@@ -12,7 +12,7 @@
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			tools:context=".vvm.activity.ProfileActivity">
+			tools:context=".profile.ProfileActivity">
 
 			<TextView
 				android:id="@+id/user_name"
@@ -88,6 +88,8 @@
 				android:layout_height="wrap_content"
 				android:maxHeight="1000dp"
 				android:layout_margin="@dimen/activity_horizontal_margin"
+				app:spanCount="2"
+				app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 				app:layout_constraintLeft_toLeftOf="parent"
 				app:layout_constraintRight_toRightOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/divider" />
@@ -99,10 +101,10 @@
 				android:layout_margin="@dimen/activity_horizontal_margin"
 				android:layout_marginTop="16dp"
 				android:layout_marginRight="16dp"
+				android:background="@drawable/no_avatar_background"
 				app:layout_constraintRight_toRightOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				app:placeholderImage="@drawable/ic_avatar"
-				android:background="@drawable/no_avatar_background"
 				app:roundAsCircle="true" />
 
 			<ImageView
@@ -112,7 +114,7 @@
 				android:tint="@color/colorAccent"
 				app:layout_constraintTop_toTopOf="@+id/avatar"
 				app:layout_constraintStart_toStartOf="@+id/avatar"
-				app:srcCompat="@drawable/ic_add_black_24dp" />
+				app:srcCompat="@drawable/ic_add_circle_outline_black_24dp" />
 
 
 		</androidx.constraintlayout.widget.ConstraintLayout>

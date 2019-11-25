@@ -42,6 +42,9 @@ public class FileHelper {
         return filePath;
     }
 
+    /**
+     * compress image and creates byte array of it
+     */
     public static byte[] getImageBinary (Context context, Uri imageUri) {
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(imageUri);

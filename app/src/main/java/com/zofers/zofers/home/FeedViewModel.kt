@@ -1,9 +1,11 @@
-package com.zofers.zofers.vvm.viewmodel
+package com.zofers.zofers.home
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.service.RetrofitProvider
+import com.zofers.zofers.AppViewModel
+import com.zofers.zofers.staff.States
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

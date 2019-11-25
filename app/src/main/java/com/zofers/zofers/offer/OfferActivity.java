@@ -1,9 +1,8 @@
-package com.zofers.zofers.vvm.activity;
+package com.zofers.zofers.offer;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -14,12 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.zofers.zofers.R;
 import com.zofers.zofers.model.Offer;
-import com.zofers.zofers.vvm.viewmodel.OfferViewModel;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.zofers.zofers.BaseActivity;
 
 public class OfferActivity extends BaseActivity {
 
