@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
-import com.facebook.drawee.view.SimpleDraweeView
+import coil.api.load
+import coil.transform.RoundedCornersTransformation
 import com.zofers.zofers.R
 import com.zofers.zofers.model.Offer
 
@@ -23,8 +23,8 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
 	companion object {
-		private val ITEM_TYPE_OFFER = 0
-		private val ITEM_TYPE_FILTERS = 1
+		private const val ITEM_TYPE_OFFER = 0
+		private const val ITEM_TYPE_FILTERS = 1
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -63,28 +63,20 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 	}
 
 	inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		private val image: SimpleDraweeView
-		private val city: TextView
-		private val title: TextView
-		private val costs: TextView
-		private val people: TextView
-		private val peopleImage: ImageView
-
-
-		init {
-			image = itemView.findViewById(R.id.image)
-			city = itemView.findViewById(R.id.city_textView)
-			title = itemView.findViewById(R.id.title_textView)
-			costs = itemView.findViewById(R.id.costs_textView)
-			people = itemView.findViewById(R.id.people_textView)
-			peopleImage = itemView.findViewById(R.id.people_imageView)
-		}
+		private val image: ImageView = itemView.findViewById(R.id.image)
+		private val city: TextView = itemView.findViewById(R.id.city_textView)
+		private val title: TextView = itemView.findViewById(R.id.title_textView)
+		private val costs: TextView = itemView.findViewById(R.id.costs_textView)
+		private val people: TextView = itemView.findViewById(R.id.people_textView)
+		private val peopleImage: ImageView = itemView.findViewById(R.id.people_imageView)
 
 		fun bind(offer: Offer) {
-			image.setImageURI(offer.imageUrl)
+			image.load(offer.imageUrl) {
+				transformations(RoundedCornersTransformation(image.context.resources.getDimension(R.dimen.default_radius)))
+			}
 			city.text = offer.city
 			title.text = offer.name
-			costs.setText(offer.getCostTextRes(costs.context))
+			costs.setText(offer.costTextRes)
 
 			val peopleCount = offer.peopleCount
 			if (peopleCount > 0) {

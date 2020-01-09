@@ -8,24 +8,24 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuItemCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
 import com.zofers.zofers.create.CreateOfferActivity
+import com.zofers.zofers.databinding.ActivityHomeBinding
 import com.zofers.zofers.model.Offer
-import com.zofers.zofers.staff.MessageHelper
-import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.offer.OfferActivity
 import com.zofers.zofers.profile.ProfileActivity
+import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 
 class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClickListener {
@@ -34,23 +34,20 @@ class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClic
 	private lateinit var viewModel: FeedViewModel
 
 	private lateinit var searchView: SearchView
-	private var recyclerView: RecyclerView? = null
-	private var profileImageView: ImageView? = null
+	private lateinit var binding: ActivityHomeBinding
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_home)
+		binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 		title = null
-		val toolbar = findViewById<Toolbar>(R.id.toolbar)
-		setSupportActionBar(toolbar)
+		setSupportActionBar(binding.toolbar)
 
 		val fab = findViewById<FloatingActionButton>(R.id.fab)
 		fab.setOnClickListener(this)
 
-		recyclerView = findViewById(R.id.offers_recycler_view)
 		adapter = OffersAdapter()
-		recyclerView!!.layoutManager = LinearLayoutManager(this@HomeActivity)
-		recyclerView!!.adapter = adapter
+		binding.content.offersRecyclerView.layoutManager = LinearLayoutManager(this@HomeActivity)
+		binding.content.offersRecyclerView.adapter = adapter
 
 		adapter.setListener(object : OffersAdapter.Listener {
 			override fun onItemClick(offer: Offer) {
@@ -60,9 +57,15 @@ class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClic
 			}
 		})
 
-		profileImageView = findViewById(R.id.profile_button)
-		profileImageView!!.setOnClickListener(this)
+		binding.content.swipeRefresh.setOnRefreshListener {
+			viewModel.loadFirebase()
+		}
+		binding.profileButton.setOnClickListener(this)
 
+		setupViewModel()
+	}
+
+	private fun setupViewModel() {
 		viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
 		viewModel.loadFirebase()
 		viewModel.offersList.observe(this, Observer<List<Offer>> { offers ->
@@ -70,8 +73,10 @@ class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClic
 		})
 		viewModel.state.observe(this, Observer<Int> { state ->
 			when (state) {
+				States.LOADING -> binding.content.swipeRefresh.isRefreshing = true
 				States.ERROR -> MessageHelper.showErrorToast(this@HomeActivity, "")
 				States.FAIL -> MessageHelper.showNoConnectionToast(this@HomeActivity)
+				States.NONE -> binding.content.swipeRefresh.isRefreshing = false
 			}
 		})
 	}
@@ -106,7 +111,7 @@ class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClic
 	}
 
 	override fun onQueryTextSubmit(s: String?): Boolean {
-		viewModel.load(s)
+		viewModel.loadFirebase(s)
 		return false
 	}
 
@@ -129,8 +134,8 @@ class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClic
 				startActivity(intent1)
 			}
 			androidx.appcompat.R.id.search_close_btn -> {
-				searchView!!.setQuery("", false)
-				searchView!!.clearFocus()
+				searchView.setQuery("", false)
+				searchView.clearFocus()
 			}
 		}
 	}

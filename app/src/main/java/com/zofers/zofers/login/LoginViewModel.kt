@@ -18,7 +18,6 @@ import com.zofers.zofers.staff.States
 
 class LoginViewModel : AppViewModel() {
 
-	//	private val api: LoginApi = retrofitProvider.loginApi
 	private val authListener = { task: Task<AuthResult> ->
 		ensureWriteProfile()
 	}
@@ -85,10 +84,11 @@ class LoginViewModel : AppViewModel() {
 	private fun ensureWriteProfile() {
 		FirebaseFirestore.getInstance()
 				.collection("profile")
-				.document(currentUser!!.uid)
+				.document(auth.currentUser!!.uid)
 				.get()
 				.addOnSuccessListener {
-					if (it.exists()) {
+					if (it.exists() && it.toObject(Profile::class.java)!!.id == auth.currentUser!!.uid) {
+						userManager.userProfile = it.toObject(Profile::class.java)
 						state.value = States.FINISH
 					} else {
 						createProfile()
@@ -101,14 +101,16 @@ class LoginViewModel : AppViewModel() {
 
 	private fun createProfile() {
 		val profile = Profile().apply {
-			userID = currentUser!!.uid
+			id = auth.currentUser!!.uid
+			name = auth.currentUser?.displayName
 		}
 		val db = FirebaseFirestore.getInstance()
 		db.collection("profile")
-				.document(profile.userID)
+				.document(profile.id)
 				.set(profile)
 				.addOnCompleteListener { task ->
 					if (task.isSuccessful) {
+						userManager.userProfile = profile
 						state.value = States.FINISH
 					} else {
 						state.value = States.ERROR

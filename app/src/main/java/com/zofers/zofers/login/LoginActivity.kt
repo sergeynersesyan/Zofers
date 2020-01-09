@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.auth.FirebaseAuth
 import com.zofers.zofers.R
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
@@ -30,7 +31,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
 		super.onCreate(savedInstanceState)
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 		initViewModel()
-		viewModel.currentUser?.let {
+		if (viewModel.currentUser != null && FirebaseAuth.getInstance().currentUser != null) {
 			openApp()
 		}
 		initView()

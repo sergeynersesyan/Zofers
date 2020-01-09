@@ -17,7 +17,6 @@ import com.zofers.zofers.callback.PermissionRequestCallback
 
 open class BaseActivity : AppCompatActivity() {
 
-
 	companion object {
 		private const val WRITE_STORAGE_PERMISSION_REQUEST_CODE = 1234
 	}
@@ -30,7 +29,7 @@ open class BaseActivity : AppCompatActivity() {
 	}
 
 	protected fun getApp(): App {
-		return application as App;
+		return application as App
 	}
 
 	fun isNetworkAvailable(): Boolean {

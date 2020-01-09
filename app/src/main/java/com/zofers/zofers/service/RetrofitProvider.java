@@ -51,9 +51,9 @@ public class RetrofitProvider {
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient
-                    .addInterceptor(new HeaderInterceptor(App.getInstance().getUserManager()))
+                    .addInterceptor(new HeaderInterceptor())
                     .authenticator((route, response) -> {
-                        App.getInstance().getUserManager().asumaUnauthorised();
+//                        App.getInstance().getUserManager().asumaUnauthorised();
                         return null;
                     });
 

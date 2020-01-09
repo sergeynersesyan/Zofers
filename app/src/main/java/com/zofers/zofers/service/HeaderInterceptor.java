@@ -11,12 +11,13 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+// This class currently useless
 public class HeaderInterceptor implements Interceptor {
 
     private UserManager userManager;
 
-    public HeaderInterceptor (UserManager userManager) {
-        this.userManager = userManager;
+    public HeaderInterceptor () {
+//        this.userManager = userManager;
     }
 
     @Override

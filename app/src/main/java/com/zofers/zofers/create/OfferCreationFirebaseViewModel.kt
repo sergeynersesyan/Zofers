@@ -12,7 +12,7 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 	var offer: Offer = Offer()
 
 	fun createOffer(context: Context, image: Uri, callback: ServiceCallback<Offer>) {
-		offer.userID = currentUser?.uid
+		offer.userID = currentUser?.id
 
 		uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
 			offer.imageUrl = uri.toString()

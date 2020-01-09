@@ -3,120 +3,135 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
-	<ScrollView
+	<FrameLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:scrollbars="vertical">
+		android:layout_height="match_parent">
 
-
-		<androidx.constraintlayout.widget.ConstraintLayout
+		<ScrollView
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			tools:context=".profile.ProfileActivity">
+			android:layout_height="match_parent"
+			android:scrollbars="vertical">
 
-			<TextView
-				android:id="@+id/user_name"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/activity_horizontal_margin"
-				android:textSize="24sp"
-				app:layout_constraintBottom_toBottomOf="@+id/avatar"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="@+id/avatar"
-				tools:text="User Name" />
 
-			<TextView
-				android:id="@+id/public_about"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/avatar"
-				tools:text="type something about you" />
-
-			<TextView
-				android:id="@+id/offers_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/double_horizontal_margin"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				android:text="@string/profile_offers_section_title"
-				android:textSize="18sp"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/public_about" />
-
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/offers_recycler_view"
+			<androidx.constraintlayout.widget.ConstraintLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/activity_horizontal_margin"
-				android:minHeight="250dp"
-				android:orientation="horizontal"
-				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintRight_toRightOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/offers_text"
-				tools:listitem="@layout/item_offer_small" />
+				tools:context=".profile.ProfileActivity">
 
-			<TextView
-				android:id="@+id/private_title"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/double_horizontal_margin"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				android:text="@string/profinle_private_section_title"
-				android:textSize="18sp"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/offers_recycler_view" />
+				<TextView
+					android:id="@+id/user_name"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/activity_horizontal_margin"
+					android:textSize="24sp"
+					app:layout_constraintBottom_toBottomOf="@+id/avatar"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="@+id/avatar"
+					tools:text="User Name" />
 
-			<View
-				android:id="@+id/divider"
-				android:layout_width="match_parent"
-				android:layout_height="0.5dp"
-				android:layout_margin="@dimen/activity_horizontal_margin"
-				android:background="@color/gray"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/private_title" />
+				<TextView
+					android:id="@+id/public_about"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/avatar"
+					tools:text="type something about you" />
+
+				<TextView
+					android:id="@+id/offers_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/double_horizontal_margin"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					android:text="@string/profile_offers_section_title"
+					android:textSize="18sp"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/public_about" />
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/offers_recycler_view"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/activity_vertical_margin"
+					android:layout_marginBottom="@dimen/activity_vertical_margin"
+					android:clipToPadding="false"
+					android:minHeight="250dp"
+					android:orientation="horizontal"
+					android:paddingLeft="@dimen/activity_horizontal_margin"
+					android:paddingRight="@dimen/activity_horizontal_margin"
+					app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/offers_text"
+					tools:listitem="@layout/item_offer_small" />
+
+				<TextView
+					android:id="@+id/private_title"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/double_horizontal_margin"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					android:text="@string/profinle_private_section_title"
+					android:textSize="18sp"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/offers_recycler_view" />
+
+				<View
+					android:id="@+id/divider"
+					android:layout_width="match_parent"
+					android:layout_height="0.5dp"
+					android:layout_margin="@dimen/activity_horizontal_margin"
+					android:background="@color/gray"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/private_title" />
 
 
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/gallery_recycler_view"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:maxHeight="1000dp"
-				android:layout_margin="@dimen/activity_horizontal_margin"
-				app:spanCount="2"
-				app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintRight_toRightOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/divider" />
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/gallery_recycler_view"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/activity_horizontal_margin"
+					android:nestedScrollingEnabled="false"
+					app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/divider"
+					app:spanCount="2" />
 
-			<com.facebook.drawee.view.SimpleDraweeView
-				android:id="@+id/avatar"
-				android:layout_width="100dp"
-				android:layout_height="100dp"
-				android:layout_margin="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="16dp"
-				android:layout_marginRight="16dp"
-				android:background="@drawable/no_avatar_background"
-				app:layout_constraintRight_toRightOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:placeholderImage="@drawable/ic_avatar"
-				app:roundAsCircle="true" />
+				<ImageView
+					android:id="@+id/avatar"
+					android:layout_width="100dp"
+					android:layout_height="100dp"
+					android:layout_margin="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="16dp"
+					android:layout_marginEnd="16dp"
+					android:background="@drawable/no_avatar_background"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					android:contentDescription="avatar"/>
 
-			<ImageView
-				android:id="@+id/add_avatar"
-				android:layout_width="32dp"
-				android:layout_height="32dp"
-				android:tint="@color/colorAccent"
-				app:layout_constraintTop_toTopOf="@+id/avatar"
-				app:layout_constraintStart_toStartOf="@+id/avatar"
-				app:srcCompat="@drawable/ic_add_circle_outline_black_24dp" />
+				<ImageView
+					android:id="@+id/add_avatar"
+					android:layout_width="32dp"
+					android:layout_height="32dp"
+					android:tint="@color/colorAccent"
+					app:layout_constraintStart_toStartOf="@+id/avatar"
+					app:layout_constraintTop_toTopOf="@+id/avatar"
+					app:srcCompat="@drawable/ic_add_circle_outline_black_24dp" />
 
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</ScrollView>
 
-		</androidx.constraintlayout.widget.ConstraintLayout>
-	</ScrollView>
+		<ImageView
+			android:id="@+id/big_image"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:visibility="gone"
+			android:scaleType="fitCenter"
+			android:background="@color/gray_transparent" />
+	</FrameLayout>
 </layout>

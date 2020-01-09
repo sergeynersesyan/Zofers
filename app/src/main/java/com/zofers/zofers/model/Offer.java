@@ -1,13 +1,14 @@
 
 package com.zofers.zofers.model;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.StringRes;
 
 import com.zofers.zofers.R;
+
+import java.util.UUID;
 
 /**
  * Created by Mr Nersesyan on 25/08/2018.
@@ -25,7 +26,7 @@ public class Offer implements Parcelable {
     public static final int GENDER_FOR_CUSTOM = 3;
     public static final int GENDER_NO_MATTER = 4;
 
-    private String _id;
+    private String id;
     private String country; //req 1
     private String city; //req 1
     private String name; //req 2
@@ -45,14 +46,16 @@ public class Offer implements Parcelable {
     private int rateCount;
     private int viewCount;
 
-    public Offer() {}
-
-    public String getId() {
-        return _id;
+    public Offer() {
+        id = UUID.randomUUID().toString();
     }
 
-    public void setId(String _id) {
-        this._id = _id;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCountry() {
@@ -184,19 +187,23 @@ public class Offer implements Parcelable {
     }
 
     public @StringRes
-    int getCostTextRes(Context context) {
+    int getCostTextRes() {
         switch (costMode) {
             case COST_MODE_GUEST:
                 return R.string.cost_mode_attender;
             case COST_MODE_BOTH:
-                return R.string.cost_mode_both;
+                return R.string.cost_mode_attender;
             default:// COST_MODE_CREATOR:
                 return R.string.cost_mode_creator;
         }
     }
 
+//    public String getCostText () {
+//
+//    }
+
     protected Offer(Parcel in) {
-        _id = in.readString();
+        id = in.readString();
         country = in.readString();
         city = in.readString();
         name = in.readString();
@@ -223,7 +230,7 @@ public class Offer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(_id);
+        dest.writeString(id);
         dest.writeString(country);
         dest.writeString(city);
         dest.writeString(name);

@@ -3,7 +3,6 @@ package com.zofers.zofers.profile
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Offer
@@ -17,11 +16,14 @@ class ProfileViewModel : AppViewModel() {
 	val profile = MutableLiveData<Profile>()
 
 	fun logout() {
+		currentUser = null
 		auth.signOut()
 	}
 
 	fun init() {
-		FirebaseFirestore.getInstance().collection("offer").whereEqualTo("userID", currentUser!!.uid)
+		FirebaseFirestore.getInstance()
+				.collection("offer")
+				.whereEqualTo("userID", currentUser!!.id)
 				.get()
 				.addOnCompleteListener { task ->
 					if (task.isSuccessful) {
@@ -36,33 +38,24 @@ class ProfileViewModel : AppViewModel() {
 						state.setValue(States.FAIL)
 					}
 				}
-
-		FirebaseFirestore.getInstance().collection("profile").document(currentUser!!.uid)
-				.get()
-				.addOnCompleteListener { task ->
-					if (task.isSuccessful) {
-						val prof =  task.result?.toObject(Profile::class.java)
-						prof?.let {
-							profile.value = prof
-						}
-					} else {
-						state.setValue(States.FAIL)
-					}
-				}
+		profile.value = currentUser
 	}
 
 	fun onNewProfileImage(context: Context, uri: Uri) {
-		currentUser?.let { user ->
+		profile.value?.let { user ->
 			state.value = States.LOADING
-			uploadImage(context, uri, "images/user${user.uid}/profile") { url ->
-				val profileUpdates = UserProfileChangeRequest.Builder()
-						.setPhotoUri(url)
-						.build()
-
-				user.updateProfile(profileUpdates)
+			uploadImage(context, uri, "images/user${user.id}/profile") { url ->
+				val db = FirebaseFirestore.getInstance()
+				db.collection("profile")
+						.document(user.id)
+						.update("avatarUrl", url.toString())
 						.addOnCompleteListener { task ->
-							if (task.isSuccessful) {
-								state.value = States.NONE
+							state.value = if (task.isSuccessful) {
+								user.avatarUrl = url.toString()
+								currentUser = user
+								States.NONE
+							} else {
+								States.ERROR
 							}
 						}
 			}
@@ -70,15 +63,13 @@ class ProfileViewModel : AppViewModel() {
 	}
 
 	fun onNewPrivateImage(context: Context, uri: Uri) {
-		currentUser?.let { user ->
+		profile.value?.let { user ->
 			state.value = States.LOADING
-			uploadImage(context, uri, "images/user/${user.uid}/private/$uri") { url ->
-				//					profile.
-				profile.value?.let {
-					it.privateImages.add(url.toString())
-					updateProfilePrivateImages(user.uid, it.privateImages)
-					state.value = States.NONE
-				}
+			uploadImage(context, uri, "images/user/${user.id}/private/$uri") { url ->
+				user.privateImages.add(url.toString())
+				updateProfilePrivateImages(user.id, user.privateImages)
+				state.value = States.NONE
+				currentUser = user
 			}
 		}
 	}

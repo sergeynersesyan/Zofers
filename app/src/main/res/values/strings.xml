@@ -5,6 +5,7 @@
     <string name="action_next">NEXT</string>
     <string name="action_finish">FINISH</string>
     <string name="action_settings">Settings</string>
+    <string name="action_favorite">Favorite</string>
     <string name="action_delete">Delete</string>
 
 
@@ -74,5 +75,6 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="profile_offers_section_title">Offers</string>
     <string name="profinle_private_section_title">Private info</string>
+	<string name="interested">Interested</string>
 
 </resources>

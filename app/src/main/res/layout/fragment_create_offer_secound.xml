@@ -1,7 +1,7 @@
-<androidx.cardview.widget.CardView
-		xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+
+	<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:fresco="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -11,27 +11,23 @@
 		app:cardUseCompatPadding="true"
 		tools:context=".create.CreateOfferFirstFragment">
 
-	<LinearLayout
+		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:padding="@dimen/activity_horizontal_margin">
 
-		<com.facebook.drawee.view.SimpleDraweeView
+			<ImageView
 				android:id="@+id/image"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="200dp"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginLeft="@dimen/activity_horizontal_margin"
 				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:background="?attr/selectableItemBackground"
-				android:minHeight="120dp"
-				fresco:backgroundImage="@color/lightGray"
-				fresco:placeholderImage="@drawable/ic_image"
-				fresco:roundedCornerRadius="4dp" />
-		<!--fresco:actualImageScaleType="focusCrop"-->
+				android:background="@drawable/gray_background_rounded"
+				android:scaleType="centerInside"/>
 
-		<com.google.android.material.textfield.TextInputLayout
+			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/title_TIL"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -43,16 +39,16 @@
 				app:counterMaxLength="100"
 				app:errorEnabled="true">
 
-			<EditText
+				<EditText
 					android:id="@+id/title_editText"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:inputType="text"
 					android:maxLength="100" />
-		</com.google.android.material.textfield.TextInputLayout>
+			</com.google.android.material.textfield.TextInputLayout>
 
 
-		<com.google.android.material.textfield.TextInputLayout
+			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/description_TIL"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -63,17 +59,17 @@
 				app:counterMaxLength="1000"
 				app:errorEnabled="true">
 
-			<EditText
-					android:id="@+id/description_textView"
+				<EditText
+					android:id="@+id/description_editText"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:inputType="textMultiLine"
 					android:maxLength="1000"
 					android:minLines="3" />
-		</com.google.android.material.textfield.TextInputLayout>
+			</com.google.android.material.textfield.TextInputLayout>
 
 
-	</LinearLayout>
+		</LinearLayout>
 
-</androidx.cardview.widget.CardView>
-
+	</androidx.cardview.widget.CardView>
+</layout>

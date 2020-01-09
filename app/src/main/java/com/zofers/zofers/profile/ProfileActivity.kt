@@ -6,9 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
@@ -69,6 +72,8 @@ class ProfileActivity : BaseActivity() {
 		galleryAdapter = ImageGalleryAdapter()
 		galleryAdapter.listener = object : ImageGalleryAdapter.Listener {
 			override fun onImageCLick(url: String?) {
+				binding.bigImage.visibility = View.VISIBLE
+				binding.bigImage.load(url)
 			}
 
 			override fun onAddClick() {
@@ -77,14 +82,18 @@ class ProfileActivity : BaseActivity() {
 		}
 		binding.galleryRecyclerView.adapter = galleryAdapter
 		updateVIew()
+		binding.bigImage.setOnClickListener { binding.bigImage.visibility = View.GONE }
 	}
 
 	private fun updateVIew () {
 		profileViewModel.currentUser?.let { user ->
-			setTitle(user.displayName)
-			binding.userName.text = user.displayName
+			setTitle(user.name)
+			binding.userName.text = user.name
 			binding.publicAbout.text = "Type something \n about you"
-			binding.avatar.setImageURI(user.photoUrl, null)
+			binding.avatar.load(user.avatarUrl) {
+				placeholder(R.drawable.ic_avatar)
+				transformations(CircleCropTransformation())
+			}
 		}
 	}
 
@@ -105,7 +114,6 @@ class ProfileActivity : BaseActivity() {
 		})
 		profileViewModel.profile.observe(this, Observer {
 			galleryAdapter.items = it.privateImages
-
 		})
 	}
 
