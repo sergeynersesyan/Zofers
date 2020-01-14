@@ -1,80 +1,81 @@
 <resources>
-    <string name="app_name">Zofers</string>
+	<string name="app_name">Zofers</string>
 
-    <!--actions-->
-    <string name="action_next">NEXT</string>
-    <string name="action_finish">FINISH</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_favorite">Favorite</string>
-    <string name="action_delete">Delete</string>
-
-
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="sign_in_google">Sign in with google</string>
-    <string name="sign_in_facebook">Sign in with facebook</string>
-    <string name="action_register">Register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_busy_email">This email address already registered</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_credentials">Incorrect email or password</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
-    <string name="image_permission_denied">Permission denied</string>
-    <string name="sign_out">"Sign Out."</string>
+	<!--actions-->
+	<string name="action_next">NEXT</string>
+	<string name="action_finish">FINISH</string>
+	<string name="action_settings">Settings</string>
+	<string name="action_favorite">Favorite</string>
+	<string name="action_delete">Delete</string>
 
 
-    <!--create offer-->
-    <string name="title_activity_create_offer">Create new offer</string>
-    <string name="cost_mode_creator">Free for you</string>
-    <string name="cost_mode_both">You pay part of cost</string>
-    <string name="cost_mode_attender">You pay</string>
-    <string name="create_offer_city">City</string>
-
-    <!--home page-->
-    <string name="title_activity_home">HomeActivity</string>
-
-    <string name="action_search">Search city</string>
-    <string name="action_profile">Search city</string>
-    <string name="filters">filters</string>
-
-
-
-
-
+	<!-- Strings related to login -->
+	<string name="prompt_email">Email</string>
+	<string name="prompt_password">Password</string>
+	<string name="action_sign_in">Sign in</string>
+	<string name="sign_in_google">Sign in with google</string>
+	<string name="sign_in_facebook">Sign in with facebook</string>
+	<string name="action_register">Register</string>
+	<string name="action_sign_in_short">Sign in</string>
+	<string name="error_invalid_email">This email address is invalid</string>
+	<string name="error_busy_email">This email address already registered</string>
+	<string name="error_invalid_password">This password is too short</string>
+	<string name="error_incorrect_credentials">Incorrect email or password</string>
+	<string name="error_field_required">This field is required</string>
+	<string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+	<string name="image_permission_denied">Permission denied</string>
+	<string name="sign_out">"Sign Out."</string>
 
 
-    <!--other-->
-    <plurals name="for_men">
-        <item quantity="one">for %d man</item>
-        <item quantity="other">for %d man</item>
-    </plurals>
+	<!--create offer-->
+	<string name="title_activity_create_offer">Create new offer</string>
+	<string name="cost_mode_creator">Free for you</string>
+	<string name="cost_mode_both">You pay part of cost</string>
+	<string name="cost_mode_attender">You pay</string>
+	<string name="create_offer_city">City</string>
 
-    <plurals name="for_woman">
-        <item quantity="one">for %d woman</item>
-        <item quantity="other">for %d women</item>
-    </plurals>
+	<!--home page-->
+	<string name="title_activity_home">HomeActivity</string>
 
-    <plurals name="for_person">
-        <item quantity="one">for %d person</item>
-        <item quantity="other">for %d persons</item>
-    </plurals>
+	<string name="action_search">Search city</string>
+	<string name="action_profile">Search city</string>
+	<string name="filters">filters</string>
 
-    <string-array name="gender_list">
-        <item>Not Selected</item>
-        <item>Male</item>
-        <item>Female</item>
-        <item>Custom</item>
-        <item>No Matter</item>
-    </string-array>
-
-    <string name="title_activity_offer">OfferActivity</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="profile_offers_section_title">Offers</string>
-    <string name="profinle_private_section_title">Private info</string>
+	<!-- offer page-->
 	<string name="interested">Interested</string>
+	<string name="pending_approval">pending approval</string>
+	<string name="approved">approved</string>
+
+	<!--	profile page-->
+	<string name="profile_offers_section_title">Offers</string>
+	<string name="profinle_private_section_title">Private info</string>
+
+
+	<!--other-->
+	<plurals name="for_men">
+		<item quantity="one">for %d man</item>
+		<item quantity="other">for %d man</item>
+	</plurals>
+
+	<plurals name="for_woman">
+		<item quantity="one">for %d woman</item>
+		<item quantity="other">for %d women</item>
+	</plurals>
+
+	<plurals name="for_person">
+		<item quantity="one">for %d person</item>
+		<item quantity="other">for %d persons</item>
+	</plurals>
+
+	<string-array name="gender_list">
+		<item>Not Selected</item>
+		<item>Male</item>
+		<item>Female</item>
+		<item>Custom</item>
+		<item>No Matter</item>
+	</string-array>
+
+	<string name="title_activity_offer">OfferActivity</string>
+	<string name="title_activity_scrolling">ScrollingActivity</string>
 
 </resources>

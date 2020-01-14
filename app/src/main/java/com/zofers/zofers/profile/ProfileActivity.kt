@@ -2,6 +2,7 @@ package com.zofers.zofers.profile
 
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -29,8 +30,16 @@ class ProfileActivity : BaseActivity() {
 	private var progressDialog: ProgressDialog? = null
 
 	companion object {
+		private const val EXTRA_USER_ID = "ext_us_id"
+
 		private const val REQ_CODE_GALLERY_AVATAR = 1001
 		private const val REQ_CODE_GALLERY_PRIVATE = 1002
+
+		fun start (packageContext: Context, userID: String) {
+			val intent = Intent(packageContext, ProfileActivity::class.java)
+			intent.putExtra(EXTRA_USER_ID, userID)
+			packageContext.startActivity(intent)
+		}
 
 	}
 
@@ -99,7 +108,7 @@ class ProfileActivity : BaseActivity() {
 
 	private fun setupViewModel() {
 		profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
-		profileViewModel.init()
+		profileViewModel.init(intent.getStringExtra(EXTRA_USER_ID))
 		profileViewModel.offersList.observe(this, Observer { offers ->
 			offersAdapter.setItems(offers)
 		})

@@ -8,6 +8,8 @@ import androidx.annotation.StringRes;
 
 import com.zofers.zofers.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,6 +17,7 @@ import java.util.UUID;
  */
 
 public class Offer implements Parcelable {
+    public static final String DOC_NAME = "offer";
 
     public static final int COST_MODE_CREATOR = 0;
     public static final int COST_MODE_BOTH = 1;
@@ -45,6 +48,8 @@ public class Offer implements Parcelable {
     private float rating; //don't need yet
     private int rateCount;
     private int viewCount;
+    private List<String> interestedUsers;
+    private List<String> approvedUsers;
 
     public Offer() {
         id = UUID.randomUUID().toString();
@@ -186,6 +191,22 @@ public class Offer implements Parcelable {
         this.rateCount = rateCount;
     }
 
+    public List<String> getInterestedUsers() {
+        return interestedUsers;
+    }
+
+    public void setInterestedUsers(List<String> interestedUsers) {
+        this.interestedUsers = interestedUsers;
+    }
+
+    public List<String> getApprovedUsers() {
+        return approvedUsers;
+    }
+
+    public void setApprovedUsers(List<String> approvedUsers) {
+        this.approvedUsers = approvedUsers;
+    }
+
     public @StringRes
     int getCostTextRes() {
         switch (costMode) {
@@ -221,6 +242,18 @@ public class Offer implements Parcelable {
         rating = in.readFloat();
         rateCount = in.readInt();
         viewCount = in.readInt();
+        if (in.readByte() == 0x01) {
+            interestedUsers = new ArrayList<>();
+            in.readList(interestedUsers, String.class.getClassLoader());
+        } else {
+            interestedUsers = null;
+        }
+        if (in.readByte() == 0x01) {
+            approvedUsers = new ArrayList<String>();
+            in.readList(approvedUsers, String.class.getClassLoader());
+        } else {
+            approvedUsers = null;
+        }
     }
 
     @Override
@@ -248,6 +281,18 @@ public class Offer implements Parcelable {
         dest.writeFloat(rating);
         dest.writeInt(rateCount);
         dest.writeInt(viewCount);
+        if (interestedUsers == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(interestedUsers);
+        }
+        if (approvedUsers == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(approvedUsers);
+        }
     }
 
     @SuppressWarnings("unused")

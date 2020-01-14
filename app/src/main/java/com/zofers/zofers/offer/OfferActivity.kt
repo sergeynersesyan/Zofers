@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -42,14 +43,9 @@ class OfferActivity : BaseActivity() {
 		viewModel?.offer = offer
 
 		binding?.coverImage?.load(offer.imageUrl)
-		binding?.interestedButton?.setOnClickListener {
-			viewModel?.onInterestedClicked()
-		}
-		binding?.appBar?.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
-			override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
-				updateMenuItemColors(state)
-			}
-		})
+
+
+		setupView()
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,6 +65,32 @@ class OfferActivity : BaseActivity() {
 			R.id.action_delete -> viewModel!!.delete()
 		}
 		return super.onOptionsItemSelected(item)
+	}
+
+	private fun setupView() {
+		val button = binding?.interestedButton
+		when (viewModel?.getState()) {
+			OfferState.MY ->
+				button?.visibility = View.GONE
+			OfferState.DEFAULT ->
+				button?.setOnClickListener {
+					viewModel?.onInterestedClicked()
+				}
+			OfferState.PENDING -> {
+				button?.isEnabled = false
+				button?.text = getString(R.string.pending_approval)
+			}
+			OfferState.APPROVED -> {
+				button?.isEnabled = false
+				button?.text = getString(R.string.approved)
+			}
+		}
+
+		binding?.appBar?.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+			override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
+				updateMenuItemColors(state)
+			}
+		})
 	}
 
 	private fun updateMenuItemColors(state: AppBarStateChangeListener.State) {

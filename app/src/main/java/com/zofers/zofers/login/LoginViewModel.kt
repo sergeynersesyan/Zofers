@@ -19,7 +19,11 @@ import com.zofers.zofers.staff.States
 class LoginViewModel : AppViewModel() {
 
 	private val authListener = { task: Task<AuthResult> ->
-		ensureWriteProfile()
+		if (task.isSuccessful) {
+			ensureWriteProfile()
+		} else {
+			state.value = States.ERROR
+		}
 	}
 
 	private lateinit var googleSignInClient: GoogleSignInClient

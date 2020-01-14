@@ -126,8 +126,9 @@ class HomeActivity : BaseActivity(), SearchView.OnQueryTextListener, View.OnClic
 	override fun onClick(v: View) {
 		when (v.id) {
 			R.id.profile_button -> {
-				val intent = Intent(this, ProfileActivity::class.java)
-				startActivity(intent)
+				viewModel.currentUser?.let {
+					ProfileActivity.start(this, it.id)
+				}
 			}
 			R.id.fab -> {
 				val intent1 = Intent(this, CreateOfferActivity::class.java)

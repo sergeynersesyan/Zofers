@@ -2,9 +2,13 @@ package com.zofers.zofers
 
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.service.RetrofitProvider
@@ -49,6 +53,14 @@ open class AppViewModel : ViewModel() {
 					imagesRef.downloadUrl.addOnSuccessListener(onSuccess)
 				}
 
+	}
+
+	fun updateDocument(collectionName: String, id: String, field: String, value: Any, onCompletionListener: ((Task<Void>) -> Unit)) {
+		val db = FirebaseFirestore.getInstance()
+		db.collection(collectionName)
+				.document(id)
+				.update(field, value)
+				.addOnCompleteListener (onCompletionListener)
 	}
 
 //	fun getProfile(uid: String?): Profile? {

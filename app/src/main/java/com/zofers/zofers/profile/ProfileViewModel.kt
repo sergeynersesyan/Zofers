@@ -11,16 +11,17 @@ import com.zofers.zofers.staff.States
 import java.util.*
 
 class ProfileViewModel : AppViewModel() {
-
 	val offersList = MutableLiveData<List<Offer>>()
 	val profile = MutableLiveData<Profile>()
+	lateinit var profileID: String
 
 	fun logout() {
 		currentUser = null
 		auth.signOut()
 	}
 
-	fun init() {
+	fun init(userID: String) {
+		profileID = userID
 		FirebaseFirestore.getInstance()
 				.collection("offer")
 				.whereEqualTo("userID", currentUser!!.id)
@@ -38,26 +39,38 @@ class ProfileViewModel : AppViewModel() {
 						state.setValue(States.FAIL)
 					}
 				}
-		profile.value = currentUser
+
+		if (profileID == currentUser?.id) {
+			profile.value = currentUser
+		} else {
+			FirebaseFirestore.getInstance().collection("profile").document(profileID)
+					.get()
+					.addOnCompleteListener { task ->
+						if (task.isSuccessful) {
+							val prof = task.result?.toObject(Profile::class.java)
+							prof?.let {
+								profile.value = prof
+							}
+						} else {
+							state.postValue(States.FAIL)
+						}
+					}
+		}
 	}
 
 	fun onNewProfileImage(context: Context, uri: Uri) {
 		profile.value?.let { user ->
 			state.value = States.LOADING
 			uploadImage(context, uri, "images/user${user.id}/profile") { url ->
-				val db = FirebaseFirestore.getInstance()
-				db.collection("profile")
-						.document(user.id)
-						.update("avatarUrl", url.toString())
-						.addOnCompleteListener { task ->
-							state.value = if (task.isSuccessful) {
-								user.avatarUrl = url.toString()
-								currentUser = user
-								States.NONE
-							} else {
-								States.ERROR
-							}
-						}
+				updateDocument("profile", user.id, "avatarUrl", url.toString()) { task ->
+					state.value = if (task.isSuccessful) {
+						user.avatarUrl = url.toString()
+						currentUser = user
+						States.NONE
+					} else {
+						States.ERROR
+					}
+				}
 			}
 		}
 	}
@@ -67,9 +80,15 @@ class ProfileViewModel : AppViewModel() {
 			state.value = States.LOADING
 			uploadImage(context, uri, "images/user/${user.id}/private/$uri") { url ->
 				user.privateImages.add(url.toString())
-				updateProfilePrivateImages(user.id, user.privateImages)
-				state.value = States.NONE
-				currentUser = user
+				updateDocument("profile", user.id, "privateImages", user.privateImages) { task ->
+					state.value = if (task.isSuccessful) {
+						currentUser = user
+						States.NONE
+					} else {
+						user.privateImages.remove(url.toString())
+						States.ERROR
+					}
+				}
 			}
 		}
 	}
