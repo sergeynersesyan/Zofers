@@ -19,7 +19,7 @@ import com.zofers.zofers.staff.UserManager
 
 open class AppViewModel : ViewModel() {
 	var state: MutableLiveData<Int> = MutableLiveData()
-	protected var retrofitProvider: RetrofitProvider
+//	protected var retrofitProvider: RetrofitProvider
 	val auth = FirebaseAuth.getInstance()
 	var userManager: UserManager
 	var currentUser: Profile?
@@ -33,7 +33,7 @@ open class AppViewModel : ViewModel() {
 
 	init {
 		state.value = States.NONE
-		retrofitProvider = RetrofitProvider.getInstance()
+//		retrofitProvider = RetrofitProvider.getInstance()
 		userManager = App.instance.userManager
 	}
 
@@ -62,23 +62,4 @@ open class AppViewModel : ViewModel() {
 				.update(field, value)
 				.addOnCompleteListener (onCompletionListener)
 	}
-
-//	fun getProfile(uid: String?): Profile? {
-//		if (uid == null) return null
-//		FirebaseFirestore.getInstance()
-//				.collection("profile")
-//				.document(uid)
-//				.get()
-//				.addOnSuccessListener {
-//					if (it.exists()) {//						it.toObject(Profile::class.java)
-//						state.value = States.FINISH
-//					} else {
-//						auth.signOut()
-//					}
-//				}
-//				.addOnFailureListener {
-//					auth.signOut()
-//				}
-//	}
-
 }

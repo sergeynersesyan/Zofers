@@ -25,7 +25,7 @@ open class BaseActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		supportActionBar?.setDisplayHomeAsUpEnabled(true);
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 	}
 
 	protected fun getApp(): App {

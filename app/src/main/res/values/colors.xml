@@ -11,4 +11,5 @@
     <color name="gray">#888888</color>
     <color name="gray_black">#444444</color>
     <color name="gray_transparent">#CC888888</color>
+	<color name="message_baloon_bg_color">#cccccc</color>
 </resources>

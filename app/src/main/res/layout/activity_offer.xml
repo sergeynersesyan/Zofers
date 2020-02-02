@@ -56,7 +56,7 @@
 			android:layout_height="match_parent"
 			android:layout_marginBottom="100dp"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior"
-			tools:context=".offer.OfferActivity"
+			tools:context=".ui.offer.OfferActivity"
 			tools:showIn="@layout/activity_offer">
 
 			<androidx.constraintlayout.widget.ConstraintLayout
@@ -147,8 +147,7 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="bottom"
 			android:padding="16dp"
-			android:text="@string/interested"
-			app:srcCompat="@android:drawable/ic_dialog_email" />
+			android:text="@string/interested" />
 
 
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>

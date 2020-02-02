@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/messenger_balloon_radius"
+        android:topLeftRadius="@dimen/messenger_balloon_radius_small"/>
+    <solid android:color="@color/message_baloon_bg_color" />
+</shape>

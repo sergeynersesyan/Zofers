@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	tools:context="com.zofers.zofers.offer.OfferActivity">
+	tools:context=".ui.offer.OfferActivity">
 	<item
 		android:id="@+id/action_pin"
 		android:icon="@drawable/ic_favorite_border_black_24dp"

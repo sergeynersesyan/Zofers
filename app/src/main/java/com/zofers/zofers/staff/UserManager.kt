@@ -3,7 +3,7 @@ package com.zofers.zofers.staff
 import android.content.Intent
 
 import com.google.gson.Gson
-import com.zofers.zofers.login.LoginActivity
+import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.model.Profile
 
 class UserManager(private val preferences: PreferenceService) {
