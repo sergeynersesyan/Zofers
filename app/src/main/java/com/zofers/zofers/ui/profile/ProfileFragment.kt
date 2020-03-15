@@ -21,9 +21,6 @@ import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
-/**
- * A simple [Fragment] subclass.
- */
 class ProfileFragment : BaseFragment() {
 
 	lateinit var binding: ActivityProfileBinding

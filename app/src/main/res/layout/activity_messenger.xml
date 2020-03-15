@@ -1,0 +1,113 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_action_bar_relativeLayout"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:reverseLayout="true" />
+
+        <TextView
+            android:id="@+id/default_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/bottom_action_bar_relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/card_background"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:elevation="4dp">
+
+            <EditText
+                android:id="@+id/messenger_input_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_toStartOf="@+id/send_image_button"
+                android:background="@drawable/message_input_background"
+                android:hint="@string/messenger_write_messaage_hint"
+                android:inputType="text|textCapSentences|textMultiLine"
+                android:maxLength="1024"
+                android:paddingLeft="10dp"
+                android:paddingTop="8dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="8dp"
+                android:textColorHint="@color/black_divider"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/send_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/ic_send_black_24dp"
+                android:tint="@color/alternativeAccent"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/requested_conversation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/card_background"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/delete_request_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_decline"
+                android:textColor="@color/alternativeAccent" />
+
+            <Button
+                android:id="@+id/accept_request_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_accept"
+                android:textColor="@color/alternativeAccent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cannot_respond_layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:background="?attr/colorPrimary"
+            android:clickable="true"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:text="@string/messenger_cannot_respond"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</layout>

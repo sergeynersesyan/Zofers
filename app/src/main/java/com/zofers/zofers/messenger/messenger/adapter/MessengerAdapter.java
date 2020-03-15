@@ -23,21 +23,10 @@
 //
 //import androidx.recyclerview.widget.RecyclerView;
 //
-//import com.sololearn.app.R;
-//import com.sololearn.app.adapters.messenger.viewHolder.LoadingViewHolder;
-//import com.sololearn.app.adapters.messenger.viewHolder.MessageBaseViewHolder;
-//import com.sololearn.app.helpers.ColorHelper;
-//import com.sololearn.app.helpers.UIHelper;
-//import com.sololearn.app.parsers.PostParser;
-//import com.sololearn.app.views.AvatarDraweeView;
-//import com.sololearn.core.models.IUserItem;
-//import com.sololearn.core.models.messenger.Conversation;
-//import com.sololearn.core.models.messenger.Message;
-//import com.sololearn.core.models.messenger.Participant;
-//import com.sololearn.core.util.StringUtils;
-//import com.zofers.zofers.messenger.messenger.model.Conversation;
-//import com.zofers.zofers.messenger.messenger.model.Message;
-//import com.zofers.zofers.messenger.messenger.model.Participant;
+//import com.zofers.zofers.R;
+//import com.zofers.zofers.model.Conversation;
+//import com.zofers.zofers.model.Message;
+//import com.zofers.zofers.model.Participant;
 //
 //import java.util.ArrayList;
 //import java.util.List;
@@ -517,32 +506,32 @@
 //            }
 //        }
 //
-//        public void makeMessageBaloonForm(int messageType, boolean showTime) {
-//            if (messageType == MessageType.ALONE) {
-//                topSpace.setVisibility(View.VISIBLE);
-//                bottomSpace.setVisibility(View.VISIBLE);
-//                avatar.setVisibility(View.VISIBLE);
-//                messageTextView.setBackgroundResource(R.drawable.message_baloon);
-//            } else {
-//                if (messageType == MessageType.TOP) {
-//                    topSpace.setVisibility(View.VISIBLE);
-//                    bottomSpace.setVisibility(View.GONE);
-//                    messageTextView.setBackgroundResource(R.drawable.message_baloon_tome_top);
-//                    avatar.setVisibility(View.GONE);
-//                } else if (messageType == MessageType.CENTER) {
-//                    topSpace.setVisibility(View.GONE);
-//                    bottomSpace.setVisibility(View.GONE);
-//                    messageTextView.setBackgroundResource(R.drawable.message_baloon_tome_center);
-//                    avatar.setVisibility(View.GONE);
-//                } else if (messageType == MessageType.BOTTOM) {
-//                    topSpace.setVisibility(View.GONE);
-//                    bottomSpace.setVisibility(View.VISIBLE);
-//                    messageTextView.setBackgroundResource(R.drawable.message_baloon_tome_bottom);
-//                    avatar.setVisibility(View.VISIBLE);
-//                }
-//            }
-//            timeTextView.setVisibility(showTime ? View.VISIBLE : View.GONE);
-//        }
+////        public void makeMessageBaloonForm(int messageType, boolean showTime) {
+////            if (messageType == MessageType.ALONE) {
+////                topSpace.setVisibility(View.VISIBLE);
+////                bottomSpace.setVisibility(View.VISIBLE);
+////                avatar.setVisibility(View.VISIBLE);
+////                messageTextView.setBackgroundResource(R.drawable.message_baloon);
+////            } else {
+////                if (messageType == MessageType.TOP) {
+////                    topSpace.setVisibility(View.VISIBLE);
+////                    bottomSpace.setVisibility(View.GONE);
+////                    messageTextView.setBackgroundResource(R.drawable.message_baloon_tome_top);
+////                    avatar.setVisibility(View.GONE);
+////                } else if (messageType == MessageType.CENTER) {
+////                    topSpace.setVisibility(View.GONE);
+////                    bottomSpace.setVisibility(View.GONE);
+////                    messageTextView.setBackgroundResource(R.drawable.message_baloon_tome_center);
+////                    avatar.setVisibility(View.GONE);
+////                } else if (messageType == MessageType.BOTTOM) {
+////                    topSpace.setVisibility(View.GONE);
+////                    bottomSpace.setVisibility(View.VISIBLE);
+////                    messageTextView.setBackgroundResource(R.drawable.message_baloon_tome_bottom);
+////                    avatar.setVisibility(View.VISIBLE);
+////                }
+////            }
+////            timeTextView.setVisibility(showTime ? View.VISIBLE : View.GONE);
+////        }
 //
 //        @Override
 //        public int seenTextDefaultVisibility(Message message) {

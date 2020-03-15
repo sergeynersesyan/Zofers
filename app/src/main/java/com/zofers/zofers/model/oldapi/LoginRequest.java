@@ -1,4 +1,4 @@
-package com.zofers.zofers.model;
+package com.zofers.zofers.model.oldapi;
 
 public class LoginRequest {
   final String email;

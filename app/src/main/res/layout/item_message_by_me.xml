@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="60dp"
+    android:layout_marginStart="60dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="2dp">
+
+    <Space
+        android:id="@+id/top_space"
+        android:layout_width="1dp"
+        android:layout_height="6dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/message_time_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/messenger_small_text_height"
+        android:layout_below="@id/top_space"
+        android:layout_centerHorizontal="true"
+        android:paddingRight="68dp"
+        android:paddingEnd="68dp"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:textSize="10sp"
+        tools:text="10:10" />
+
+    <FrameLayout
+        android:id="@+id/attachment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linear_container"
+        android:layout_alignRight="@+id/linear_container"
+        android:layout_below="@id/linear_container" />
+
+    <TextView
+        android:id="@+id/message_seen_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/messenger_small_text_height"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/attachment_container"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="Sent"
+        android:textSize="10sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/seen_heads_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/message_seen_textView"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/linear_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/message_time_textView"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/info_icon"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_marginRight="4dp"-->
+<!--            android:src="@drawable/ic_info_outline_black_24dp"-->
+<!--            android:tint="@android:color/holo_red_dark"-->
+<!--            android:visibility="gone" />-->
+
+        <TextView
+            android:id="@+id/message_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:background="@drawable/message_baloon_my"
+            android:elevation="1dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/white"
+            android:textColorLink="@color/white"
+            android:textSize="16sp"
+            tools:text="message 1  sd f fasdasdasdadasdasdasdxzs dfss" />
+    </LinearLayout>
+
+    <Space
+        android:id="@+id/bottom_space"
+        android:layout_width="1dp"
+        android:layout_height="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/seen_heads_recyclerView" />
+</RelativeLayout>

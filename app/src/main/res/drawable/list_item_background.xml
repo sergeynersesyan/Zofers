@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ © 2013 - 2016 SoloLearn, Inc.
+  ~ All rights reserved. This unpublished material is proprietary to SoloLearn, Inc.
+  ~ The methods, techniques, code, code annotations, libraries, and other data and information herein are considered trade secrets and/or confidential information of SoloLearn, Inc.
+  ~  Reproduction or distribution, in whole or in part, is forbidden except by express written consent of SoloLearn, Inc.
+  -->
+
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight" >
+
+    <item>
+        <selector>
+            <item android:state_selected="true" android:drawable="@color/list_item_highlighted"/>
+            <item android:drawable="@color/card_background"/>
+        </selector>
+    </item>
+</ripple>

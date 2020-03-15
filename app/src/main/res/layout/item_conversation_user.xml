@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="match_parent"
-	android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_background"
+    android:elevation="0.5dp"
+    android:minHeight="48dp"
+    android:orientation="vertical"
+    android:stateListAnimator="@animator/touch_elevation">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/icon_avatar"
+        android:layout_width="@dimen/list_avatar_size"
+        android:layout_height="@dimen/list_avatar_size"
+        android:layout_margin="12dp"
+        android:src="@drawable/ic_avatar" />
+
+    <TextView
+        android:id="@+id/user_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@+id/conversation_date_text_view"
+        android:layout_toEndOf="@id/icon_avatar"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="15sp"
+        tools:text="Sergey Ners" />
+
+    <TextView
+        android:id="@+id/conversation_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/user_name_text_view"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:maxLines="1"
+        android:textColor="@color/gray_transparent"
+        android:textSize="12sp"
+        tools:text="10:10" />
+
+    <TextView
+        android:id="@+id/last_message_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/user_name_text_view"
+        android:layout_below="@id/user_name_text_view"
+        android:layout_marginEnd="24dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingTop="2dp"
+        android:textColor="@color/gray_transparent"
+        android:textSize="13sp"
+        tools:text="dolorem ipsum asdasdasdasdasdasdas dolor sit amet" />
+
+    <ImageView
+        android:id="@+id/info_icon"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignBottom="@id/last_message_text_view"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/ic_info_outline_black_24dp"
+        android:tint="@android:color/holo_red_dark"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.75dp"
+        android:layout_alignStart="@id/last_message_text_view"
+        android:layout_below="@id/last_message_text_view"
+        android:layout_marginTop="13dp"
+        android:background="@color/black_divider" />
+
+</RelativeLayout>

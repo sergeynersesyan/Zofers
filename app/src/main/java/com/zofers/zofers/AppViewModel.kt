@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.zofers.zofers.firebase.FirebaseService
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.service.RetrofitProvider
 import com.zofers.zofers.staff.FileHelper
@@ -29,7 +30,7 @@ open class AppViewModel : ViewModel() {
 		set(value) {
 			userManager.userProfile = value
 		}
-
+	var firebaseService = FirebaseService() //todo integrate dagger
 
 	init {
 		state.value = States.NONE
@@ -53,13 +54,5 @@ open class AppViewModel : ViewModel() {
 					imagesRef.downloadUrl.addOnSuccessListener(onSuccess)
 				}
 
-	}
-
-	fun updateDocument(collectionName: String, id: String, field: String, value: Any, onCompletionListener: ((Task<Void>) -> Unit)) {
-		val db = FirebaseFirestore.getInstance()
-		db.collection(collectionName)
-				.document(id)
-				.update(field, value)
-				.addOnCompleteListener (onCompletionListener)
 	}
 }

@@ -119,7 +119,7 @@
 //
 //    @Override
 //    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_messenger, container, false);
+//        View view = inflater.inflate(R.layout.activity_messenger, container, false);
 //
 //        unbinder = ButterKnife.bind(this, view);
 //        loadingView.setErrorRes(R.string.internet_connection_failed);

@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.google.android.material.appbar.AppBarLayout
@@ -39,14 +41,9 @@ class OfferActivity : BaseActivity() {
 		title = ""
 
 		val offer: Offer = intent.getParcelableExtra(EXTRA_OFFER)
-		binding?.offer = offer
-		viewModel = ViewModelProviders.of(this).get(OfferViewModel::class.java)
-		viewModel?.offer = offer
 
-		binding?.coverImage?.load(offer.imageUrl)
-
-
-		setupView()
+		initViewModel(offer)
+		setupView(offer)
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -68,18 +65,46 @@ class OfferActivity : BaseActivity() {
 		return super.onOptionsItemSelected(item)
 	}
 
-	private fun setupView() {
-		val button = binding?.interestedButton
+	private fun initViewModel (offer: Offer) {
+		viewModel = ViewModelProvider(this).get(OfferViewModel::class.java)
+		viewModel?.init(offer)
+		viewModel?.offer?.observe (this, Observer<Offer> { ofik ->
+			updateView(ofik)
+		})
+	}
 
+	private fun setupView(offer: Offer) {
+		binding?.appBar?.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+			override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
+				updateMenuItemColors(state)
+			}
+		})
+		binding?.interestedButton?.setOnClickListener {
+			when (viewModel?.getState()) {
+				OfferState.DEFAULT -> {
+					viewModel?.onInterestedClicked()
+				}
+				OfferState.PENDING -> {
+					viewModel?.onInterestedCancelled()
+				}
+				OfferState.MY,
+				OfferState.APPROVED -> {
+					//ignore
+				}
+			}
+		}
+//		updateView(offer)
+	}
+
+	private fun updateView (offer: Offer) {
+		val button = binding?.interestedButton
 		when (viewModel?.getState()) {
 			OfferState.MY ->
 				button?.visibility = View.GONE
-			OfferState.DEFAULT ->
-				button?.setOnClickListener {
-					viewModel?.onInterestedClicked()
-				}
+			OfferState.DEFAULT -> {
+				button?.text = getString(R.string.interested)
+			}
 			OfferState.PENDING -> {
-				button?.disable()
 				button?.text = getString(R.string.pending_approval)
 			}
 			OfferState.APPROVED -> {
@@ -88,11 +113,8 @@ class OfferActivity : BaseActivity() {
 			}
 		}
 
-		binding?.appBar?.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
-			override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
-				updateMenuItemColors(state)
-			}
-		})
+		binding?.offer = offer
+		binding?.coverImage?.load(offer.imageUrl)
 	}
 
 	private fun updateMenuItemColors(state: AppBarStateChangeListener.State) {

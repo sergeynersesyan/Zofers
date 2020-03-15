@@ -58,7 +58,7 @@ class FeedViewModel : AppViewModel() {
 	}
 
 	private fun getFilteredOffers(query: String, listener: OnCompleteListener<QuerySnapshot>) {
-		FirebaseFirestore.getInstance().collection("offer").whereEqualTo("city", query)
+		FirebaseFirestore.getInstance().collection("offer").whereEqualTo("city", query.toLowerCase(Locale.getDefault()))
 //				.orderBy("viewCount")
 //				.limit(5)
 //				.whereEqualTo("name", query)

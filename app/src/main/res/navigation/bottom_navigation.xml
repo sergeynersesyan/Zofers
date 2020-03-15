@@ -14,7 +14,11 @@
 		android:id="@+id/navigation_notifications"
 		android:name="com.zofers.zofers.ui.notifications.NotificationsFragment"
 		android:label="@string/title_notifications"
-		tools:layout="@layout/fragment_notifications" />
+		tools:layout="@layout/fragment_notifications" >
+		<action
+			android:id="@+id/action_navigation_notifications_to_messengerActivity"
+			app:destination="@id/messengerActivity" />
+	</fragment>
 
 	<fragment
 		android:id="@+id/navigation_profile"
@@ -25,4 +29,8 @@
 			android:name="ARG_USER_ID"
 			app:argType="string" />
 	</fragment>
+	<activity
+		android:id="@+id/messengerActivity"
+		android:name="com.zofers.zofers.ui.notifications.messenger.MessengerActivity"
+		android:label="MessengerActivity" />
 </navigation>

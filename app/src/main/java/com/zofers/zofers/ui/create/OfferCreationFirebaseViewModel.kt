@@ -17,7 +17,8 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 		uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
 			offer.imageUrl = uri.toString()
 			FirebaseFirestore.getInstance().collection("offer")
-					.add(offer)
+					.document(offer.id)
+					.set(offer)
 					.addOnSuccessListener {
 						callback.onSuccess(null) // todo change null
 					}

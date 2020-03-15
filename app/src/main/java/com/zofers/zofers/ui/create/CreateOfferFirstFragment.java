@@ -114,7 +114,7 @@ public class CreateOfferFirstFragment extends CreateOfferBaseFragment {
     @Override
     public Offer fillOffer(@NonNull Offer offer) {
         offer.setCountry(countrySpinner.getSelectedItem().toString());
-        offer.setCity(cityEdittext.getText().toString().trim());
+        offer.setCity(cityEdittext.getText().toString().trim().toLowerCase());
         offer.setCostMode(costMode());
         if (radioGroup.getCheckedRadioButtonId() != R.id.expensesMe) {
             String cost = costEdittext.getText().toString();

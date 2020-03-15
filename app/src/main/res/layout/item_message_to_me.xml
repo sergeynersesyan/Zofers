@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="2dp">
+
+    <TextView
+        android:id="@+id/message_seen_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/messenger_small_text_height"
+        android:layout_alignLeft="@+id/message_textView"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        tools:text="Seen"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="10sp"
+        android:layout_below="@+id/attachment_container"/>
+
+    <Space
+        android:id="@+id/top_space"
+        android:layout_width="1dp"
+        android:layout_height="6dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/message_time_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="10:10"
+        android:textSize="10sp"
+        android:layout_below="@id/top_space"/>
+
+
+    <FrameLayout
+        android:id="@+id/avatar_container"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/message_textView">
+
+        <ImageView
+            android:id="@+id/icon_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            tools:src="@drawable/ic_avatar" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/message_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_toEndOf="@id/avatar_container"
+        android:layout_toRightOf="@id/avatar_container"
+        android:autoLink="web"
+        android:background="@drawable/message_baloon"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        tools:text="how is my text? la la la, the text of my song, la la la"
+        android:textSize="16sp"
+        android:layout_below="@+id/message_time_textView"/>
+
+    <FrameLayout
+        android:id="@+id/attachment_container"
+        android:layout_below="@+id/message_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/message_textView"
+        android:layout_alignRight="@+id/message_textView" />
+
+<!--seen text is here-->
+
+    <Space
+        android:id="@+id/bottom_space"
+        android:layout_width="1dp"
+        android:layout_below="@id/message_seen_textView"
+        android:layout_height="8dp" />
+
+</RelativeLayout>
+

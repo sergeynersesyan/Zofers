@@ -77,7 +77,7 @@ public class CreateOfferActivity extends BaseActivity implements View.OnClickLis
 						@Override
 						public void onFailure() {
 							loadingDialog.dismiss();
-							MessageHelper.showNoConnectionToast(CreateOfferActivity.this);
+							MessageHelper.INSTANCE.showNoConnectionToast(CreateOfferActivity.this);
 						}
 					});
 				} else {

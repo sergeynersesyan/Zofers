@@ -61,7 +61,7 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 		binding.swipeRefresh.setOnRefreshListener {
 			viewModel.loadFirebase()
 		}
-//		binding.profileButton.setOnClickListener(this)
+		binding.fab.setOnClickListener(this)
 
 		return root
 	}
