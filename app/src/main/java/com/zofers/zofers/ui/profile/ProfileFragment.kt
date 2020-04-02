@@ -16,21 +16,23 @@ import com.zofers.zofers.BaseFragment
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
 import com.zofers.zofers.databinding.ActivityProfileBinding
+import com.zofers.zofers.databinding.FragmentProfileBinding
 import com.zofers.zofers.model.Offer
+import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
 class ProfileFragment : BaseFragment() {
 
-	lateinit var binding: ActivityProfileBinding
+	lateinit var binding: FragmentProfileBinding
 	private lateinit var profileViewModel: ProfileViewModel
 	private lateinit var offersAdapter: OffersAdapter
 	private lateinit var galleryAdapter: ImageGalleryAdapter
 	private var progressDialog: ProgressDialog? = null
 
 	companion object {
-		private const val ARG_USER_ID = "arg_us_id"
+		const val ARG_USER_ID = "arg_us_id"
 
 		private const val REQ_CODE_GALLERY_AVATAR = 1001
 		private const val REQ_CODE_GALLERY_PRIVATE = 1002
@@ -45,7 +47,7 @@ class ProfileFragment : BaseFragment() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		setupViewModel()
 
-		val root = inflater.inflate(R.layout.activity_profile, container, false)
+		val root = inflater.inflate(R.layout.fragment_profile, container, false)
 
 		binding = DataBindingUtil.bind(root)!!
 		offersAdapter = OffersAdapter()
@@ -93,20 +95,17 @@ class ProfileFragment : BaseFragment() {
 			}
 		}
 		binding.galleryRecyclerView.adapter = galleryAdapter
-		updateVIew()
 		binding.bigImage.setOnClickListener { binding.bigImage.visibility = View.GONE }
 	}
 
 
-	private fun updateVIew() {
-		profileViewModel.currentUser?.let { user ->
-			activity?.title = user.name
-			binding.userName.text = user.name
-			binding.publicAbout.text = "Type something \n about you"
-			binding.avatar.load(user.avatarUrl) {
-				placeholder(R.drawable.ic_avatar)
-				transformations(CircleCropTransformation())
-			}
+	private fun updateView(user: Profile) {
+		activity?.title = user.name
+		binding.userName.text = user.name
+		binding.publicAbout.text = "Type something \n about you"
+		binding.avatar.load(user.avatarUrl) {
+			placeholder(R.drawable.ic_avatar)
+			transformations(CircleCropTransformation())
 		}
 	}
 
@@ -122,12 +121,12 @@ class ProfileFragment : BaseFragment() {
 				States.LOADING -> progressDialog = ProgressDialog.show(context, "Wait a secund", "Uploading your image")
 				States.NONE -> {
 					progressDialog?.dismiss()
-					updateVIew()
 				}
 			}
 		})
 		profileViewModel.profile.observe(viewLifecycleOwner, Observer {
 			galleryAdapter.items = it.privateImages
+			updateView(it)
 		})
 	}
 

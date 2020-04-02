@@ -90,8 +90,9 @@
     <string name="action_decline">DECLINE</string>
     <string name="action_accept">ACCEPT</string>
     <string name="messenger_cannot_respond">You can\'t respond to this conversation</string>
+	<string name="this_offer_is_for">This offer is for:</string>
 
-    <plurals name="date_format_relative_minutes">
+	<plurals name="date_format_relative_minutes">
         <item quantity="one">%d min</item>
         <item quantity="other">%d mins</item>
     </plurals>

@@ -221,34 +221,4 @@ public class Conversation {
 		}
 		return false;
 	}
-
-	public boolean isSameSettings(Conversation conversation) {
-		if (conversation == null) return false;
-		if (!conversation.id.equals(id)) {
-			return false;
-		}
-		if ((conversation.name == null && name != null) || (conversation.name != null && name == null) || (name != null && !name.equals(conversation.name))) {
-			return false;
-		}
-		if (isBlocked ^ conversation.isBlocked) {
-			return false;
-		}
-		if (participants.size() != conversation.participants.size()) {
-			return false;
-		}
-
-		for (int i = 0; i < participants.size(); i++) {
-
-			if (!participants.get(i).getId().equals(conversation.participants.get(i).getId())) {
-				return false;
-			}
-			if (participants.get(i).getStatus() != conversation.participants.get(i).getStatus()) {
-				return false;
-			}
-			if (participants.get(i).isBlocked() ^ conversation.participants.get(i).isBlocked()) {
-				return false;
-			}
-		}
-		return true;
-	}
 }

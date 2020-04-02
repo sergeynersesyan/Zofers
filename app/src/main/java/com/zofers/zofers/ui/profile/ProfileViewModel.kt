@@ -13,7 +13,6 @@ import java.util.*
 class ProfileViewModel : AppViewModel() {
     val offersList = MutableLiveData<List<Offer>>()
     val profile = MutableLiveData<Profile>()
-    lateinit var profileID: String
 
     fun logout() {
         currentUser = null
@@ -21,10 +20,9 @@ class ProfileViewModel : AppViewModel() {
     }
 
     fun init(userID: String) {
-        profileID = userID
         FirebaseFirestore.getInstance()
                 .collection("offer")
-                .whereEqualTo("userID", currentUser!!.id)
+                .whereEqualTo("userID", userID)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -40,10 +38,10 @@ class ProfileViewModel : AppViewModel() {
                     }
                 }
 
-        if (profileID == currentUser?.id) {
+        if (userID == currentUser?.id) {
             profile.value = currentUser
         } else {
-            FirebaseFirestore.getInstance().collection("profile").document(profileID)
+            FirebaseFirestore.getInstance().collection("profile").document(userID)
                     .get()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -92,7 +90,6 @@ class ProfileViewModel : AppViewModel() {
             }
         }
     }
-
 
     private fun updateProfilePrivateImages(documentID: String, privateImages: MutableList<String>) {
         val db = FirebaseFirestore.getInstance()

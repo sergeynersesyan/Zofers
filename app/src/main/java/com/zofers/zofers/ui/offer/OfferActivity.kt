@@ -12,12 +12,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.appbar.AppBarLayout
 import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
 import com.zofers.zofers.databinding.ActivityOfferBinding
 import com.zofers.zofers.model.Offer
+import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.disable
+import com.zofers.zofers.ui.profile.ProfileActivity
 import com.zofers.zofers.view.AppBarStateChangeListener
 
 class OfferActivity : BaseActivity() {
@@ -48,7 +51,9 @@ class OfferActivity : BaseActivity() {
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		menuInflater.inflate(R.menu.menu_offer, menu)
-		favoriteMenuDrawable = menu.findItem(R.id.action_pin).icon
+		val favoriteItem = menu.findItem(R.id.action_pin)
+		favoriteMenuDrawable = favoriteItem.icon
+		favoriteItem.isVisible = false // implement on new release
 		if (viewModel?.isCurrentUserOffer() == true) {
 			val deleteItem = menu.findItem(R.id.action_delete)
 			deleteMenuDrawable = deleteItem.icon
@@ -65,11 +70,18 @@ class OfferActivity : BaseActivity() {
 		return super.onOptionsItemSelected(item)
 	}
 
-	private fun initViewModel (offer: Offer) {
+	private fun initViewModel(offer: Offer) {
 		viewModel = ViewModelProvider(this).get(OfferViewModel::class.java)
 		viewModel?.init(offer)
-		viewModel?.offer?.observe (this, Observer<Offer> { ofik ->
+		viewModel?.offer?.observe(this, Observer<Offer> { ofik ->
 			updateView(ofik)
+		})
+		viewModel?.user?.observe(this, Observer<Profile> { user ->
+			binding?.userName?.text = user.name
+			binding?.avatar?.load(user.avatarUrl) {
+				placeholder(R.drawable.ic_avatar)
+				transformations(CircleCropTransformation())
+			}
 		})
 	}
 
@@ -93,10 +105,10 @@ class OfferActivity : BaseActivity() {
 				}
 			}
 		}
-//		updateView(offer)
+		binding?.avatar?.setOnClickListener { ProfileActivity.start(this, offer.userID) }
 	}
 
-	private fun updateView (offer: Offer) {
+	private fun updateView(offer: Offer) {
 		val button = binding?.interestedButton
 		when (viewModel?.getState()) {
 			OfferState.MY ->

@@ -11,6 +11,7 @@ import com.zofers.zofers.staff.States
 class OfferViewModel : AppViewModel() {
 
     val offer = MutableLiveData<Offer>()
+    val user = MutableLiveData<Profile>()
 
     fun init(offer: Offer) {
         this.offer.value = offer
@@ -23,6 +24,18 @@ class OfferViewModel : AppViewModel() {
 
             if (snapshot != null && snapshot.exists()) {
                 this.offer.value = snapshot.toObject(Offer::class.java)
+            }
+        }
+
+        val userDocRef = FirebaseFirestore.getInstance()
+                .collection(Profile.DOC_NAME).document(offer.userID)
+        userDocRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                return@addSnapshotListener // failed
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                this.user.value = snapshot.toObject(Profile::class.java)
             }
         }
 
