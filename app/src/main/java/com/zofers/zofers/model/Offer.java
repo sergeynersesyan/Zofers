@@ -211,11 +211,11 @@ public class Offer implements Parcelable {
     int getCostTextRes() {
         switch (costMode) {
             case COST_MODE_GUEST:
-                return R.string.cost_mode_attender;
+                return R.string.cost_mode_full;
             case COST_MODE_BOTH:
-                return R.string.cost_mode_attender;
+                return R.string.cost_mode_part;
             default:// COST_MODE_CREATOR:
-                return R.string.cost_mode_creator;
+                return R.string.cost_mode_free;
         }
     }
 

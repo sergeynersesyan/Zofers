@@ -81,7 +81,7 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 			val peopleCount = offer.peopleCount
 			if (peopleCount > 0) {
 				val peopleText = people.context.resources.getQuantityString(offer.peopleTextResource, peopleCount, peopleCount)
-				people.text = peopleText
+				people.text = String.format(people.context.getString(R.string.for_someone), peopleText)
 				people.visibility = View.VISIBLE
 				peopleImage.visibility = View.VISIBLE
 			} else {

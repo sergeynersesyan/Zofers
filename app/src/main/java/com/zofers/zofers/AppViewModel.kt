@@ -2,17 +2,12 @@ package com.zofers.zofers
 
 import android.content.Context
 import android.net.Uri
-import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.zofers.zofers.firebase.FirebaseService
 import com.zofers.zofers.model.Profile
-import com.zofers.zofers.service.RetrofitProvider
 import com.zofers.zofers.staff.FileHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.staff.UserManager
@@ -20,7 +15,7 @@ import com.zofers.zofers.staff.UserManager
 
 open class AppViewModel : ViewModel() {
 	var state: MutableLiveData<Int> = MutableLiveData()
-//	protected var retrofitProvider: RetrofitProvider
+	//	protected var retrofitProvider: RetrofitProvider
 	val auth = FirebaseAuth.getInstance()
 	var userManager: UserManager
 	var currentUser: Profile?
@@ -53,6 +48,5 @@ open class AppViewModel : ViewModel() {
 				.addOnSuccessListener {
 					imagesRef.downloadUrl.addOnSuccessListener(onSuccess)
 				}
-
 	}
 }

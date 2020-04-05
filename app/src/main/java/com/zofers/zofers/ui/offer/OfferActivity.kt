@@ -105,6 +105,24 @@ class OfferActivity : BaseActivity() {
 				}
 			}
 		}
+
+		val forText = StringBuilder()
+		if (offer.peopleCount > 0) {
+			forText.append(resources.getQuantityString(offer.peopleTextResource, offer.peopleCount, offer.peopleCount))
+		}
+		if(!offer.requirements.isNullOrEmpty()) {
+			forText.append(", ")
+			forText.append(offer.requirements)
+		}
+		if(!offer.availability.isNullOrEmpty()) {
+			forText.append(", ")
+			forText.append(offer.availability)
+		}
+		if (forText.isEmpty()) {
+			binding?.forTextContainer?.visibility = View.GONE
+		} else {
+			binding?.forTextViewData?.text = forText
+		}
 		binding?.avatar?.setOnClickListener { ProfileActivity.start(this, offer.userID) }
 	}
 

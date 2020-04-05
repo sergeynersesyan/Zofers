@@ -15,6 +15,9 @@ class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>
 			notifyDataSetChanged()
 		}
 	var listener: Listener? = null
+	var showAddButton = true
+	private val offset: Int
+	get() = if (showAddButton) 1 else 0
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
@@ -22,12 +25,12 @@ class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>
 	}
 
 	override fun getItemCount(): Int {
-		return items.size + 1
+		return items.size + offset
 	}
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		if (position > 0) {
-			holder.bind(items[position - 1])
+			holder.bind(items[position - offset])
 		} else {
 			holder.bind(null)
 		}

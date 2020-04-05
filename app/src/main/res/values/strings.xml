@@ -29,9 +29,13 @@
 
     <!--create offer-->
     <string name="title_activity_create_offer">Create new offer</string>
-    <string name="cost_mode_creator">Free for you</string>
-    <string name="cost_mode_both">You pay part of cost</string>
-    <string name="cost_mode_attender">You pay</string>
+    <string name="cost_mode_free">Free for you</string>
+    <string name="cost_mode_part">You pay part</string>
+    <string name="cost_mode_full">You pay</string>
+
+    <string name="cost_mode_free_my">Free for guest</string>
+    <string name="cost_mode_part_my">Guest pays part of cost</string>
+    <string name="cost_mode_full_my">Guest pays</string>
     <string name="create_offer_city">City</string>
 
     <!--home page-->
@@ -45,6 +49,7 @@
     <string name="interested">Interested</string>
     <string name="pending_approval">pending approval</string>
     <string name="approved">approved</string>
+    <string name="for_someone">for %s</string>
 
     <!--	profile page-->
     <string name="profile_offers_section_title">Offers</string>
@@ -53,18 +58,18 @@
 
     <!--other-->
     <plurals name="for_men">
-        <item quantity="one">for %d man</item>
-        <item quantity="other">for %d man</item>
+        <item quantity="one">%d man</item>
+        <item quantity="other">%d man</item>
     </plurals>
 
     <plurals name="for_woman">
-        <item quantity="one">for %d woman</item>
-        <item quantity="other">for %d women</item>
+        <item quantity="one">%d woman</item>
+        <item quantity="other">%d women</item>
     </plurals>
 
     <plurals name="for_person">
-        <item quantity="one">for %d person</item>
-        <item quantity="other">for %d persons</item>
+        <item quantity="one">%d person</item>
+        <item quantity="other">%d persons</item>
     </plurals>
 
     <string-array name="gender_list">
@@ -90,7 +95,7 @@
     <string name="action_decline">DECLINE</string>
     <string name="action_accept">ACCEPT</string>
     <string name="messenger_cannot_respond">You can\'t respond to this conversation</string>
-	<string name="this_offer_is_for">This offer is for:</string>
+	<string name="this_offer_is_for">This offer for:</string>
 
 	<plurals name="date_format_relative_minutes">
         <item quantity="one">%d min</item>

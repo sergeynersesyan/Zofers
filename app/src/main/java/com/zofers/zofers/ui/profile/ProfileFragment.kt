@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
@@ -15,7 +14,6 @@ import coil.transform.CircleCropTransformation
 import com.zofers.zofers.BaseFragment
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
-import com.zofers.zofers.databinding.ActivityProfileBinding
 import com.zofers.zofers.databinding.FragmentProfileBinding
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
@@ -50,7 +48,6 @@ class ProfileFragment : BaseFragment() {
 		val root = inflater.inflate(R.layout.fragment_profile, container, false)
 
 		binding = DataBindingUtil.bind(root)!!
-		offersAdapter = OffersAdapter()
 		setupView()
 		return root
 	}
@@ -58,7 +55,9 @@ class ProfileFragment : BaseFragment() {
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 		super.onCreateOptionsMenu(menu, inflater)
-		inflater.inflate(R.menu.menu_profile, menu)
+		if (profileViewModel.isCurrentUser) {
+			inflater.inflate(R.menu.menu_profile, menu)
+		}
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -73,33 +72,41 @@ class ProfileFragment : BaseFragment() {
 	}
 
 	private fun setupView() {
+		offersAdapter = OffersAdapter().apply {
+			itemResId = R.layout.item_offer_small
+			setListener(object : OffersAdapter.Listener {
+				override fun onItemClick(offer: Offer) {
+					val intent = Intent(context, OfferActivity::class.java)
+					intent.putExtra(OfferActivity.EXTRA_OFFER, offer)
+					startActivity(intent)
+				}
+			})
+		}
 		binding.offersRecyclerView.adapter = offersAdapter
-		offersAdapter.itemResId = R.layout.item_offer_small
-		binding.avatar.setOnClickListener { openGallery(binding.root, REQ_CODE_GALLERY_AVATAR) }
-		offersAdapter.setListener(object : OffersAdapter.Listener {
-			override fun onItemClick(offer: Offer) {
-				val intent = Intent(context, OfferActivity::class.java)
-				intent.putExtra(OfferActivity.EXTRA_OFFER, offer)
-				startActivity(intent)
-			}
-		})
-		galleryAdapter = ImageGalleryAdapter()
-		galleryAdapter.listener = object : ImageGalleryAdapter.Listener {
-			override fun onImageCLick(url: String?) {
-				binding.bigImage.visibility = View.VISIBLE
-				binding.bigImage.load(url)
-			}
+		if (profileViewModel.isCurrentUser) {
+			binding.avatar.setOnClickListener { openGallery(binding.root, REQ_CODE_GALLERY_AVATAR) }
+		} else {
+			binding.addAvatar.visibility = View.GONE
+		}
+		galleryAdapter = ImageGalleryAdapter().apply {
+			listener = object : ImageGalleryAdapter.Listener {
+				override fun onImageCLick(url: String?) {
+					binding.bigImage.visibility = View.VISIBLE
+					binding.bigImage.load(url)
+				}
 
-			override fun onAddClick() {
-				openGallery(binding.root, REQ_CODE_GALLERY_PRIVATE)
+				override fun onAddClick() {
+					openGallery(binding.root, REQ_CODE_GALLERY_PRIVATE)
+				}
 			}
+			showAddButton = profileViewModel.isCurrentUser
 		}
 		binding.galleryRecyclerView.adapter = galleryAdapter
 		binding.bigImage.setOnClickListener { binding.bigImage.visibility = View.GONE }
 	}
 
 
-	private fun updateView(user: Profile) {
+	private fun updateUserDependingView(user: Profile) {
 		activity?.title = user.name
 		binding.userName.text = user.name
 		binding.publicAbout.text = "Type something \n about you"
@@ -107,6 +114,13 @@ class ProfileFragment : BaseFragment() {
 			placeholder(R.drawable.ic_avatar)
 			transformations(CircleCropTransformation())
 		}
+		galleryAdapter.items = user.privateImages
+
+		val privateVisibility = if (profileViewModel.isCurrentUser || profileViewModel.isConnected) View.VISIBLE else View.GONE
+
+		binding.privateTitle.visibility = privateVisibility
+		binding.divider.visibility = privateVisibility
+		binding.galleryRecyclerView.visibility = privateVisibility
 	}
 
 	private fun setupViewModel() {
@@ -125,8 +139,7 @@ class ProfileFragment : BaseFragment() {
 			}
 		})
 		profileViewModel.profile.observe(viewLifecycleOwner, Observer {
-			galleryAdapter.items = it.privateImages
-			updateView(it)
+			updateUserDependingView(it)
 		})
 	}
 

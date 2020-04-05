@@ -13,6 +13,8 @@ import java.util.*
 class ProfileViewModel : AppViewModel() {
     val offersList = MutableLiveData<List<Offer>>()
     val profile = MutableLiveData<Profile>()
+    var isCurrentUser = false
+    var isConnected = false
 
     fun logout() {
         currentUser = null
@@ -38,7 +40,8 @@ class ProfileViewModel : AppViewModel() {
                     }
                 }
 
-        if (userID == currentUser?.id) {
+        isCurrentUser = userID == currentUser?.id
+        if (isCurrentUser) {
             profile.value = currentUser
         } else {
             FirebaseFirestore.getInstance().collection("profile").document(userID)
@@ -48,6 +51,7 @@ class ProfileViewModel : AppViewModel() {
                             val prof = task.result?.toObject(Profile::class.java)
                             prof?.let {
                                 profile.value = prof
+                                isConnected = prof.connections.contains(currentUser?.id)
                             }
                         } else {
                             state.postValue(States.FAIL)
