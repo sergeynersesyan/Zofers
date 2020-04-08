@@ -11,14 +11,14 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
+import com.zofers.zofers.databinding.ActivityLoginBinding
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
-import com.zofers.zofers.databinding.ActivityLoginBinding
 import com.zofers.zofers.ui.home.HomeActivity
-import com.zofers.zofers.BaseActivity
 
 
 class LoginActivity : BaseActivity(), OnClickListener {
@@ -59,7 +59,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
 	}
 
 	private fun initViewModel() {
-		viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+		viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 		viewModel.state.observe(this, Observer { state ->
 			when (state) {
 				States.NONE -> showProgress(false)
@@ -84,7 +84,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
 				}
 			}
 		})
-		viewModel.initGoogleSignIn(this)
+		viewModel.init(this)
 	}
 
 	private fun attemptLogin() {

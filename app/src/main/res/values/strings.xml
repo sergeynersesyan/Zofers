@@ -118,4 +118,7 @@
         <item quantity="other">%d days</item>
     </plurals>
 
+    <string name="facebook_app_id">685025355658566</string>
+    <string name="fb_login_protocol_scheme">fb685025355658566</string>
+
 </resources>

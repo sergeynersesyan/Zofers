@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import coil.transform.CircleCropTransformation
+import com.facebook.login.LoginManager
 import com.zofers.zofers.BaseFragment
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
@@ -64,6 +65,7 @@ class ProfileFragment : BaseFragment() {
 		when (item.itemId) {
 			R.id.log_out -> {
 				profileViewModel.logout()
+				LoginManager.getInstance().logOut() // faceBook account
 				startActivity(Intent(context, LoginActivity::class.java))
 				activity?.finish()
 			}
