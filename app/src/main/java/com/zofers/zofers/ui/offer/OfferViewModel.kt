@@ -42,11 +42,9 @@ class OfferViewModel : AppViewModel() {
     }
 
     fun delete() {
-        FirebaseFirestore.getInstance()
-                .collection("offer")
-                .document(offer.value!!.id)
-                .delete()
-        //				.addOnSuccessListener();
+        firebaseService.deleteDocument("offer", offer.value!!.id) {
+
+        }
     }
 
     fun isCurrentUserOffer(): Boolean {
