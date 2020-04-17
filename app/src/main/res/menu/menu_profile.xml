@@ -4,12 +4,19 @@
     tools:context=".ui.offer.OfferActivity">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/edit_password"
+        android:orderInCategory="2"
+        android:title="@string/edit_password"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/log_out"
         android:title="@string/sign_out"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:orderInCategory="3"/>
 </menu>

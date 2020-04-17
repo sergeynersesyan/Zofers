@@ -2,20 +2,29 @@ package com.zofers.zofers.ui.edit_profile
 
 import androidx.lifecycle.MutableLiveData
 import com.zofers.zofers.AppViewModel
+import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
 
 class EditProfileViewModel : AppViewModel() {
 
-    val emptyFieldError = MutableLiveData<Boolean>()
+    val emptyUserNameError = MutableLiveData<Boolean>()
+    val emptyEmailError = MutableLiveData<Boolean>()
     val invalidEmailError = MutableLiveData<Boolean>()
+    val profile = MutableLiveData<Profile>()
 
     fun init() {
-
+        firebaseService.getProfile(currentUser!!.id) {
+            profile.value = it
+        }
     }
 
     fun save (userName: String, email: String, description: String) {
-        if (userName.isEmpty() || email.isEmpty()) {
-            emptyFieldError.value = true
+        if (userName.isEmpty()) {
+            emptyUserNameError.value = true
+            return
+        }
+        if (email.isEmpty()) {
+            emptyEmailError.value = true
             return
         }
         if (!email.contains('@')) {
@@ -40,7 +49,12 @@ class EditProfileViewModel : AppViewModel() {
         }
 
         if (editFieldsMap.isNotEmpty()) {
-            firebaseService.updateDocument("profile", currentUser!!.id, editFieldsMap) {}
+            firebaseService.updateDocument("profile", currentUser!!.id, editFieldsMap) {
+                firebaseService.getProfile(currentUser!!.id) {
+                    currentUser = it
+                }
+                state.value = States.FINISH
+            }
         }
 
     }

@@ -1,4 +1,4 @@
-package com.zofers.zofers.ui.edit_profile
+package com.zofers.zofers.ui.edit_password
 
 import android.content.Context
 import android.net.Uri

@@ -26,6 +26,7 @@
 			android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
+				<action android:name="android.intent.action.VIEW" />
 
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
@@ -41,7 +42,12 @@
 			android:name=".ui.offer.OfferActivity"
 			android:label="@string/title_activity_offer"
 			android:theme="@style/AppTheme.NoActionBar" />
+
 		<activity android:name=".ui.profile.ProfileActivity" />
+
+		<activity android:name=".ui.edit_password.EditPasswordActivity" />
+
+		<activity android:name=".ui.edit_profile.EditProfileActivity" />
 
 		<meta-data
 			android:name="com.facebook.sdk.ApplicationId"

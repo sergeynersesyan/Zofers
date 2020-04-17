@@ -1,6 +1,4 @@
 package com.zofers.zofers.ui.profile
-
-
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
@@ -19,6 +17,8 @@ import com.zofers.zofers.databinding.FragmentProfileBinding
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
+import com.zofers.zofers.ui.edit_password.EditPasswordActivity
+import com.zofers.zofers.ui.edit_profile.EditProfileActivity
 import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
@@ -69,6 +69,12 @@ class ProfileFragment : BaseFragment() {
 				startActivity(Intent(context, LoginActivity::class.java))
 				activity?.finish()
 			}
+			R.id.action_settings -> {
+				context?.let { EditProfileActivity.start(it) }
+			}
+			R.id.edit_password -> {
+				context?.let { EditPasswordActivity.start(it) }
+			}
 		}
 		return super.onOptionsItemSelected(item)
 	}
@@ -111,7 +117,7 @@ class ProfileFragment : BaseFragment() {
 	private fun updateUserDependingView(user: Profile) {
 		activity?.title = user.name
 		binding.userName.text = user.name
-		binding.publicAbout.text = "Type something \n about you"
+		binding.publicAbout.text = if (user.description.isNullOrEmpty()) "Type something \n about you" else user.description
 		binding.avatar.load(user.avatarUrl) {
 			placeholder(R.drawable.ic_avatar)
 			transformations(CircleCropTransformation())

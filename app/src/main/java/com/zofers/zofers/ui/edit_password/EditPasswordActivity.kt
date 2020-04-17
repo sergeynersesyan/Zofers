@@ -1,18 +1,35 @@
-package com.zofers.zofers.ui.edit_profile
+package com.zofers.zofers.ui.edit_password
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
-import com.zofers.zofers.databinding.ActivityEditProfileBinding
+import com.zofers.zofers.databinding.ActivityEditPasswordBinding
 
-class EditPasswordActivity : AppCompatActivity() {
+class EditPasswordActivity : BaseActivity() {
 
-	private lateinit var binding: ActivityEditProfileBinding
+    private lateinit var binding: ActivityEditPasswordBinding
+    private lateinit var viewModel: EditPasswordViewModel
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_password)
-	}
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, EditPasswordActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_password)
+        setupViewModel()
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(this).get(EditPasswordViewModel::class.java)
+        viewModel.init()
+    }
 
 }
