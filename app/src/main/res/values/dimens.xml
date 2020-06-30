@@ -14,7 +14,7 @@
 	<dimen name="text_size_info">20sp</dimen>
 	<dimen name="text_size_long">18sp</dimen>
 	<dimen name="messenger_balloon_radius">24dp</dimen>
-	<dimen name="messenger_balloon_radius_small">4</dimen>
+	<dimen name="messenger_balloon_radius_small">4dp</dimen>
     <dimen name="messenger_small_text_height">14dp</dimen>
     <dimen name="list_avatar_size">48dp</dimen>
 </resources>

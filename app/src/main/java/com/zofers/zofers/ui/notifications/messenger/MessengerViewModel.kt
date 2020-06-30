@@ -2,6 +2,7 @@ package com.zofers.zofers.ui.notifications.messenger
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.model.Message
@@ -33,7 +34,7 @@ class MessengerViewModel : AppViewModel() {
         val docRef = FirebaseFirestore.getInstance()
                 .collection(Conversation.DOC_NAME)
                 .document(conversationID)
-                .collection(Message.DOC_NAME)
+                .collection(Message.DOC_NAME).orderBy("date", Query.Direction.DESCENDING)
 
         docRef.addSnapshotListener { snapshot, e ->
             if (e != null) {

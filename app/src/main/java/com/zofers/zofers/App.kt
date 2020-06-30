@@ -1,6 +1,10 @@
 package com.zofers.zofers
 
 import android.app.Application
+import android.util.Log
+import com.google.firebase.iid.FirebaseInstanceId
+import com.zofers.zofers.firebase.FirebaseService
+import com.zofers.zofers.service.android.FirebaseMessagingService
 import com.zofers.zofers.staff.PreferenceService
 import com.zofers.zofers.staff.UserManager
 
@@ -14,6 +18,7 @@ class App : Application() {
 
 	override fun onCreate() {
 		super.onCreate()
+		initFCM()
 		preferenceService = PreferenceService(applicationContext)
 		userManager = UserManager(preferenceService)
 		instance = this
@@ -22,4 +27,10 @@ class App : Application() {
 	companion object {
 		lateinit var instance: App
 	}
+
+	private fun initFCM() {
+		val token = FirebaseInstanceId.getInstance().token
+		FirebaseService().saveDeviceToken(token)
+	}
+
 }

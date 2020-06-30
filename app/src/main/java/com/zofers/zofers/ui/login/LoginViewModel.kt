@@ -14,13 +14,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.BaseActivity
+import com.zofers.zofers.R
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
 
@@ -64,6 +67,17 @@ class LoginViewModel : AppViewModel() {
 				state.value = States.ERROR
 			}
 		})
+		FirebaseInstanceId.getInstance().instanceId
+				.addOnCompleteListener(OnCompleteListener { task ->
+					if (!task.isSuccessful) {
+						return@OnCompleteListener
+					}
+
+					// Get new Instance ID token
+					val token = task.result?.token
+				})
+
+
 
 	}
 

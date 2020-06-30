@@ -123,5 +123,8 @@
     <string name="action_save">Save</string>
     <string name="country">Country</string>
     <string name="edit_password">Edit Password</string>
+    <string name="edit_profile">Edit Profile</string>
+	<string name="description">Description</string>
+	<string name="name">Name</string>
 
 </resources>

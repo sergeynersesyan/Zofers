@@ -1,8 +1,8 @@
 package com.zofers.zofers.firebase
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.api.AuthProvider
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.model.*
 import java.util.*
@@ -115,19 +115,32 @@ class FirebaseService {
 
 	fun updatePassword(newPassword: String, onCompletionListener: ((Task<Void>) -> Unit)) {
 		val user = FirebaseAuth.getInstance().currentUser
-
+//		val credential = GoogleAuthCredential.CREATOR.;
+//
+//		user?.reauthenticate(credential)?.addOnCompleteListener { task ->
+//			if (task.isSuccessful) {
 		user?.updatePassword(newPassword)
-                ?.addOnCompleteListener (onCompletionListener)
+				?.addOnCompleteListener(onCompletionListener)
+//			} else {
+//				onCompletionListener.invoke(task)
+//			}
+//		}
 	}
+
 
 	fun updateEmail(newEmail: String, onCompletionListener: ((Task<Void>) -> Unit)) {
 		val user = FirebaseAuth.getInstance().currentUser
 
 		user?.updateEmail(newEmail)
-				?.addOnCompleteListener (onCompletionListener)
+				?.addOnCompleteListener(onCompletionListener)
 	}
 
-	fun deleteConversation(fromId: String, toId: String?) {
+	fun deleteConversation(fromId: String, toId: String) {
+		val convID = generateConversationName(fromId, toId)
+		val convRef = FirebaseFirestore
+				.getInstance()
+				.document("${Conversation.DOC_NAME}/${convID}")
+		convRef.delete()
 	}
 
 	fun updateUserName(name: String, onCompletionListener: ((Task<Void>) -> Unit)) {
@@ -138,6 +151,14 @@ class FirebaseService {
 				.build()
 
 		user?.updateProfile(profileUpdates)
-				?.addOnCompleteListener (onCompletionListener)
+				?.addOnCompleteListener(onCompletionListener)
 	}
+
+	fun saveDeviceToken(token: String?) {
+		val user = FirebaseAuth.getInstance().currentUser
+		user?.let {
+			updateDocument("profile", FirebaseAuth.getInstance().currentUser!!.uid, "deviceToken", token.orEmpty()) {}
+		}
+	}
+
 }

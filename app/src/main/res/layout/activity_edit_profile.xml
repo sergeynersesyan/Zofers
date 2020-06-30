@@ -33,6 +33,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
+                        android:hint="@string/name"
                         android:inputType="textCapWords"
                         android:textSize="14sp"
                         tools:text="Mkhitar Heratsi" />
@@ -50,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
+                        android:hint="@string/description"
                         android:inputType="textCapWords"
                         android:textSize="14sp"
                         tools:text="Mkhitar Heratsi" />
@@ -80,18 +82,21 @@
                     android:layout_height="wrap_content"
                     android:padding="4dp"
                     android:text="@string/country"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone"/>
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/country_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp" />
+                    android:layout_height="32dp"
+                    android:visibility="gone"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="4dp"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/edit_save_button"

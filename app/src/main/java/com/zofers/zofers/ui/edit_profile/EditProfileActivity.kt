@@ -12,12 +12,13 @@ import com.zofers.zofers.R
 import com.zofers.zofers.databinding.ActivityEditProfileBinding
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
+import com.zofers.zofers.view.LoadingDialog
 
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditProfileBinding
     private lateinit var viewModel: EditProfileViewModel
-    private var progressDialog: ProgressDialog? = null
+    private var loadingDialog: LoadingDialog? = null
 
     companion object {
         fun start(context: Context) {
@@ -56,12 +57,19 @@ class EditProfileActivity : AppCompatActivity() {
         })
         viewModel.state.observe(this, Observer {
             when (it) {
-                States.LOADING -> progressDialog = ProgressDialog.show(this, "", "")
+                States.LOADING -> {
+                    loadingDialog = LoadingDialog().apply {
+                        show(supportFragmentManager, null)
+                    }
+                }
                 States.NONE -> {
-                    progressDialog?.dismiss()
+                    loadingDialog?.dismiss()
                 }
                 States.FINISH -> finish()
-                States.ERROR -> MessageHelper.showErrorToast(this, "something went wrong")
+                States.ERROR -> {
+                    loadingDialog?.dismiss()
+                    MessageHelper.showErrorToast(this)
+                }
             }
 
         })

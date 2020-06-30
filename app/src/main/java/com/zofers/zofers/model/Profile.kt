@@ -19,6 +19,7 @@ class Profile {
 //	var interestedOffers = mutableListOf<String>()
 	var favoriteOffers = mutableListOf<String>()
 	var connections = mutableListOf<String>()
+	var deviceToken: String? = null
 
 //	Private
 //	Private Photos

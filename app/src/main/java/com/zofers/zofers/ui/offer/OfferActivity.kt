@@ -19,12 +19,16 @@ import com.zofers.zofers.R
 import com.zofers.zofers.databinding.ActivityOfferBinding
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
+import com.zofers.zofers.staff.MessageHelper
+import com.zofers.zofers.staff.States
 import com.zofers.zofers.staff.disable
 import com.zofers.zofers.ui.profile.ProfileActivity
 import com.zofers.zofers.view.AppBarStateChangeListener
+import com.zofers.zofers.view.LoadingDialog
 
 class OfferActivity : BaseActivity() {
 
+	private var loadingDialog: LoadingDialog? = null
 	private var viewModel: OfferViewModel? = null
 	private var binding: ActivityOfferBinding? = null
 	private var favoriteMenuDrawable: Drawable? = null
@@ -81,6 +85,17 @@ class OfferActivity : BaseActivity() {
 			binding?.avatar?.load(user.avatarUrl) {
 				placeholder(R.drawable.ic_avatar)
 				transformations(CircleCropTransformation())
+			}
+		})
+
+		viewModel?.state?.observe(this, Observer {state ->
+			loadingDialog?.dismiss()
+			when (state) {
+				States.FINISH -> finish()
+				States.ERROR -> MessageHelper.showErrorToast(this)
+				States.LOADING -> loadingDialog = LoadingDialog().apply {
+					show(supportFragmentManager, null)
+				}
 			}
 		})
 	}

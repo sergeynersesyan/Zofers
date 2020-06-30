@@ -15,11 +15,14 @@ import com.zofers.zofers.databinding.ActivityHomeBinding
 
 class HomeActivity : BaseActivity() {
 
-	private lateinit var adapter: OffersAdapter
-	private lateinit var viewModel: FeedViewModel
+	companion object {
+		const val EXTRA_OPENING_TAB = "e-o-t"
 
-	private lateinit var searchView: SearchView
-	private lateinit var binding: ActivityHomeBinding
+		const val OPENING_TAB_HOME = 0
+		const val OPENING_TAB_NOTIFICATION = 1
+		const val OPENING_TAB_PROFILE = 2
+
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,6 +38,16 @@ class HomeActivity : BaseActivity() {
 		setupActionBarWithNavController(navController, appBarConfiguration)
 
 		navView.setupWithNavController(navController)
+
+		if (intent.extras?.containsKey(EXTRA_OPENING_TAB) == true) {
+			val navID = when(intent.getIntExtra(EXTRA_OPENING_TAB, 0)) {
+				OPENING_TAB_HOME -> R.id.navigation_home
+				OPENING_TAB_NOTIFICATION -> R.id.navigation_notifications
+				OPENING_TAB_PROFILE -> R.id.navigation_profile
+				else -> R.id.navigation_home
+			}
+			navController.navigate(navID)
+		}
 
 	}
 
