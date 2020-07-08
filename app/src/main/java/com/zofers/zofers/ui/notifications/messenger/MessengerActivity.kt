@@ -1,5 +1,6 @@
 package com.zofers.zofers.ui.notifications.messenger
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -9,49 +10,103 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
 import com.zofers.zofers.databinding.ActivityMessengerBinding
+import com.zofers.zofers.model.Offer
+import com.zofers.zofers.model.Participant
+import com.zofers.zofers.ui.offer.OfferActivity
+import com.zofers.zofers.ui.profile.ProfileActivity
 
 class MessengerActivity : BaseActivity() {
 
-    companion object {
-        const val ARG_CONVERSATION_ID = "arg conv id"
-    }
+	companion object {
+		const val ARG_CONVERSATION_ID = "arg conv id"
+	}
 
-    lateinit var binding: ActivityMessengerBinding
-    lateinit var viewModel: MessengerViewModel
-    lateinit var adapter: MessengerAdapter
+	lateinit var binding: ActivityMessengerBinding
+	lateinit var viewModel: MessengerViewModel
+	lateinit var adapter: MessengerAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_messenger)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		binding = DataBindingUtil.setContentView(this, R.layout.activity_messenger)
 
-        initViewModel()
-        initView()
-    }
+		initViewModel()
+		initView()
+		title = ""
+	}
 
 
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(MessengerViewModel::class.java)
-        viewModel.init(intent.extras?.getString(ARG_CONVERSATION_ID).orEmpty())
-    }
+	private fun initViewModel() {
+		viewModel = ViewModelProvider(this).get(MessengerViewModel::class.java)
+		viewModel.init(intent.extras?.getString(ARG_CONVERSATION_ID).orEmpty())
+	}
 
-    private fun initView() {
-        adapter = MessengerAdapter(viewModel.currentUser!!.id)
-        binding.recyclerView.adapter = adapter
-        viewModel.conversation.observe(this, Observer {conversation ->
-            conversation?.let {
-                adapter.conversation = conversation
+	private fun initView() {
+		adapter = MessengerAdapter(viewModel.currentUser!!.id, object : MessengerAdapter.Listener {
+			override fun onAvatarClick(profile: Participant?) {
+				ProfileActivity.start(this@MessengerActivity, profile?.id.orEmpty())
+			}
 
-                val participantID = conversation.getParticipantsExcept(viewModel.currentUser?.id)[0].id
-                if (viewModel.currentUser?.connections?.contains(participantID) == false) {
-                    binding.requestedConversationLayout.visibility = View.VISIBLE
-                } else {
-                    binding.bottomActionBarRelativeLayout.visibility = View.VISIBLE
-                }
-            }
+			override fun onOfferRequest(offerID: String, listener: ((Offer?) -> Unit)) {
+				viewModel.getOffer(offerID, listener)
+			}
 
-        })
-        viewModel.messages.observe(this, Observer {
-            adapter.setAll(it)
-        })
-    }
+			override fun onOfferClick(offer: Offer) {
+				val intent = Intent(this@MessengerActivity, OfferActivity::class.java)
+				intent.putExtra(OfferActivity.EXTRA_OFFER, offer)
+				startActivity(intent)
+			}
+
+			override fun loadMore() {
+				viewModel.loadMore()
+			}
+
+		})
+		binding.recyclerView.adapter = adapter
+
+		binding.sendImageButton.setOnClickListener {
+			val message = binding.messengerInputText.text.trim().toString()
+			if (message.isNotEmpty()) {
+				viewModel.sendMessage(message)
+				binding.messengerInputText.setText("")
+			}
+		}
+		binding.deleteRequestButton.setOnClickListener {
+			viewModel.deleteConversation()
+			finish()
+		}
+
+		binding.acceptRequestButton.setOnClickListener {
+			viewModel.accept()
+		}
+
+		viewModel.conversation.observe(this, Observer { conversation ->
+			conversation?.let {
+				adapter.conversation = conversation
+				updateRespondLayout()
+				title = viewModel.opponent?.name
+			}
+
+		})
+		viewModel.messages.observe(this, Observer {
+			adapter.setAll(it)
+		})
+		viewModel.updateViewEvent.observe(this, Observer {
+			updateRespondLayout()
+		})
+		viewModel.reachedToEnd.observe(this, Observer { hasReachedEnd ->
+			if (hasReachedEnd) {
+				adapter.hasReachedEnd = true
+			}
+		})
+	}
+
+	private fun updateRespondLayout() {
+		if (viewModel.isMyConnection) {
+			binding.bottomActionBarRelativeLayout.visibility = View.VISIBLE
+			binding.requestedConversationLayout.visibility = View.GONE
+		} else {
+			binding.requestedConversationLayout.visibility = View.VISIBLE
+			binding.bottomActionBarRelativeLayout.visibility = View.INVISIBLE
+		}
+	}
 }

@@ -47,6 +47,10 @@ class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>
 				image.setOnClickListener {
 					listener?.onImageCLick(url)
 				}
+				image.setOnLongClickListener {
+					listener?.onImageLongClick(url)
+					true
+				}
 				return
 			}
 
@@ -59,6 +63,7 @@ class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>
 
 	interface Listener {
 		fun onImageCLick(url: String?)
+		fun onImageLongClick(url: String?)
 		fun onAddClick()
 	}
 }

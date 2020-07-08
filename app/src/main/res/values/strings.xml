@@ -10,8 +10,10 @@
 
 
 	<!-- Strings related to login -->
+	<string name="prompt_name">Name</string>
 	<string name="prompt_email">Email</string>
 	<string name="prompt_password">Password</string>
+	<string name="prompt_confirm_password">Confirm Password</string>
 	<string name="action_sign_in">Sign in</string>
 	<string name="sign_in_google">Sign in with google</string>
 	<string name="sign_in_facebook">Sign in with facebook</string>
@@ -19,19 +21,20 @@
 	<string name="action_sign_in_short">Sign in</string>
 	<string name="error_invalid_email">This email address is invalid</string>
 	<string name="error_busy_email">This email address already registered</string>
-	<string name="error_invalid_password">This password is too short</string>
+	<string name="error_short_password">This password is too short</string>
+	<string name="error_passwords_not_match">Passwords do not match</string>
 	<string name="error_incorrect_credentials">Incorrect email or password</string>
 	<string name="error_field_required">This field is required</string>
 	<string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 	<string name="image_permission_denied">Permission denied</string>
-	<string name="sign_out">"Sign Out."</string>
+	<string name="sign_out">"Sign Out"</string>
 
 
 	<!--create offer-->
 	<string name="title_activity_create_offer">Create new offer</string>
 	<string name="cost_mode_free">Free for you</string>
-	<string name="cost_mode_part">You pay part</string>
-	<string name="cost_mode_full">You pay</string>
+	<string name="cost_mode_part">You pay part (%s)</string>
+	<string name="cost_mode_full">You pay %s</string>
 
 	<string name="cost_mode_free_my">Free for guest</string>
 	<string name="cost_mode_part_my">Guest pays part of cost</string>
@@ -87,8 +90,8 @@
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 	<string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
 	<string name="title_home">Home</string>
-	<string name="title_dashboard">Dashboard</string>
-	<string name="title_notifications">Notifications</string>
+	<string name="title_profile">Profile</string>
+	<string name="title_notifications">Messages</string>
 	<string name="date_format_now">now</string>
 	<string name="date_format_day">%1$d/%2$d/%3$d</string>
 	<string name="messenger_write_messaage_hint">Type a message</string>
@@ -126,5 +129,7 @@
     <string name="edit_profile">Edit Profile</string>
 	<string name="description">Description</string>
 	<string name="name">Name</string>
+	<string name="action_create">create</string>
+	<string name="no_messages_yet">No messages yet</string>
 
 </resources>

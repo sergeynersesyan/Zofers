@@ -1,14 +1,17 @@
 
 package com.zofers.zofers.model;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.zofers.zofers.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +40,7 @@ public class Offer implements Parcelable {
     private String imageUrl; //req 2
     private int costMode; //req 1
     private int cost; //req 1 // 0 if paymentMode == PAYMENT_MODE_CREATOR
+    @Nullable
     private String currency;
     private int peopleCount; // opt 3
     private int gender; // opt 3 // male female custom
@@ -48,6 +52,7 @@ public class Offer implements Parcelable {
     private float rating; //don't need yet
     private int rateCount;
     private int viewCount;
+    private Date creationDate;
     private List<String> interestedUsers;
     private List<String> approvedUsers;
 
@@ -115,6 +120,7 @@ public class Offer implements Parcelable {
         return bookCount;
     }
 
+    @Nullable
     public String getCurrency() {
         return currency;
     }
@@ -147,7 +153,7 @@ public class Offer implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(@Nullable String currency) {
         this.currency = currency;
     }
 
@@ -207,21 +213,20 @@ public class Offer implements Parcelable {
         this.approvedUsers = approvedUsers;
     }
 
-    public @StringRes
-    int getCostTextRes() {
+    public String getCostText(Context context) {
+        if (currency == null) {
+            currency = "$";
+        }
         switch (costMode) {
             case COST_MODE_GUEST:
-                return R.string.cost_mode_full;
+                return context.getString(R.string.cost_mode_full, cost + currency);
             case COST_MODE_BOTH:
-                return R.string.cost_mode_part;
+                return context.getString(R.string.cost_mode_part, cost + currency);
             default:// COST_MODE_CREATOR:
-                return R.string.cost_mode_free;
+                return context.getString(R.string.cost_mode_free);
         }
     }
 
-//    public String getCostText () {
-//
-//    }
 
     protected Offer(Parcel in) {
         id = in.readString();
@@ -314,5 +319,13 @@ public class Offer implements Parcelable {
         } else if (gender == GENDER_FOR_MALE) {
             return R.plurals.for_men;
         } else return R.plurals.for_person;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

@@ -41,6 +41,8 @@ class ConversationListViewHolder private constructor(itemView: View, private val
         val participant = conversation.getParticipantsExcept(userId)[0]
         userNameTextView.text = participant.name
         avatar.load(participant.avatarUrl) {
+            placeholder(R.drawable.ic_avatar)
+            fallback(R.drawable.ic_avatar)
             transformations(CircleCropTransformation())
         }
         lastMessageTextView.text = conversation.lastMessage.text

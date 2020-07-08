@@ -43,12 +43,15 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 		}
 
 		(holder as ViewHolder).bind(items!![position - if (showFilters) 1 else 0])
+		if (position == itemCount - 1) {
+			listener?.loadMore()
+		}
 	}
 
 	override fun getItemCount(): Int {
-		if (items == null) return 0
-
-		return items!!.size + if (showFilters) 1 else 0
+		return items?.let {
+			return it.size + if (showFilters) 1 else 0
+		} ?: 0
 	}
 
 	fun setItems(items: List<Offer>) {
@@ -76,7 +79,7 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 			}
 			city.text = offer.city
 			title.text = offer.name
-			costs.setText(offer.costTextRes)
+			costs.text = offer.getCostText(costs.context)
 
 			val peopleCount = offer.peopleCount
 			if (peopleCount > 0) {
@@ -115,6 +118,7 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 	interface Listener {
 		fun onItemClick(offer: Offer)
+		fun loadMore()
 	}
 
 }

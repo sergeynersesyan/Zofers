@@ -28,7 +28,7 @@ class FirebaseService {
 				.addOnCompleteListener(onCompletionListener)
 	}
 
-	fun sendMessage(fromId: String, toId: String, text: String, isService: Boolean = false, onCompletionListener: ((Task<Void>) -> Unit)) {
+	fun sendMessage(fromId: String, toId: String, text: String, isService: Boolean = false, offerID: String? = null, onCompletionListener: ((Task<Void>) -> Unit)) {
 		val messageId = ObjectId.get().toString()
 		val convId = generateConversationName(fromId, toId)
 		val now = Date()
@@ -39,6 +39,7 @@ class FirebaseService {
 			this.text = text
 			type = if (isService) 1 else 0
 			id = messageId
+			this.offerID = offerID
 		}
 
 		val convRef = FirebaseFirestore.getInstance()
@@ -46,7 +47,9 @@ class FirebaseService {
 
 		convRef.get()
 				.addOnSuccessListener { docSnapshot ->
-					if (!docSnapshot.exists()) {
+					if (docSnapshot.exists()) {
+						convRef.update("lastActionDate", now, "lastMessage", message)
+					} else {
 						var userFrom: Profile?
 						var userTo: Profile?
 						getProfile(fromId) {
@@ -78,7 +81,6 @@ class FirebaseService {
 							}
 						}
 
-
 					}
 				}
 
@@ -89,8 +91,14 @@ class FirebaseService {
 	}
 
 
-	fun sendInvitationMessage(fromId: String, toId: String, onCompletionListener: ((Task<Void>) -> Unit)) {
-		sendMessage(fromId, toId, "Hi, I am interested in this offer", onCompletionListener = onCompletionListener)
+	fun sendInvitationMessage(fromId: String, toId: String, offerID: String? = null, onCompletionListener: ((Task<Void>) -> Unit)) {
+		sendMessage(
+				fromId = fromId,
+				toId = toId,
+				text = "Hi, I am interested in this offer",
+				offerID = offerID,
+				onCompletionListener = onCompletionListener
+		)
 	}
 
 	private fun generateConversationName(fromId: String, toId: String): String {
@@ -99,13 +107,29 @@ class FirebaseService {
 
 	fun getProfile(id: String, l: ((Profile?) -> Unit)) {
 		FirebaseFirestore.getInstance()
-				.collection("profile")
+				.collection(Profile.DOC_NAME)
 				.document(id)
 				.get()
 				.addOnSuccessListener {
 					l.invoke(
 							if (it.exists()) {
 								it.toObject(Profile::class.java)
+							} else {
+								null
+							}
+					)
+				}
+	}
+
+	inline fun <reified T> getDocument(collection: String, id: String, crossinline l: ((T?) -> Unit)) {
+		FirebaseFirestore.getInstance()
+				.collection(collection)
+				.document(id)
+				.get()
+				.addOnSuccessListener {
+					l.invoke(
+							if (it.exists()) {
+								it.toObject(T::class.java)
 							} else {
 								null
 							}
@@ -137,6 +161,10 @@ class FirebaseService {
 
 	fun deleteConversation(fromId: String, toId: String) {
 		val convID = generateConversationName(fromId, toId)
+		deleteConversation(convID)
+	}
+
+	fun deleteConversation(convID: String) {
 		val convRef = FirebaseFirestore
 				.getInstance()
 				.document("${Conversation.DOC_NAME}/${convID}")

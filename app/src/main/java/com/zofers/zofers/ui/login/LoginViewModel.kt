@@ -75,16 +75,29 @@ class LoginViewModel : AppViewModel() {
 
 					// Get new Instance ID token
 					val token = task.result?.token
-				})
+					firebaseService.saveDeviceToken(token)
 
+				})
 
 
 	}
 
-	fun register(email: String, password: String) {
+	fun register(email: String, password: String, name: String) {
 		state.value = States.LOADING
 		auth.createUserWithEmailAndPassword(email, password)
-				.addOnCompleteListener(authListener)
+				.addOnCompleteListener { registrationTask ->
+					if (registrationTask.isSuccessful) {
+						firebaseService.updateUserName(name) { updateNameTask ->
+							if (updateNameTask.isSuccessful) {
+								ensureWriteProfile()
+							} else {
+								state.value = States.ERROR
+							}
+						}
+					} else {
+						state.value = States.ERROR
+					}
+				}
 	}
 
 	fun login(email: String, password: String) {

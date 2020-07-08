@@ -31,11 +31,12 @@
 
     <FrameLayout
         android:id="@+id/attachment_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/linear_container"
         android:layout_alignEnd="@+id/linear_container"
-        android:layout_below="@id/linear_container" />
+        android:gravity="right"
+        android:layout_below="@id/linear_container"
+        tools:ignore="RtlHardcoded" />
 
     <TextView
         android:id="@+id/message_seen_textView"
@@ -48,6 +49,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:ellipsize="end"
+        android:visibility="gone"
         tools:text="Sent"
         android:textSize="10sp"
         tools:ignore="SmallSp" />
@@ -93,7 +95,7 @@
             android:textColor="@color/white"
             android:textColorLink="@color/white"
             android:textSize="16sp"
-            tools:text="message 1  sd f fasdasdasdadasdasdasdxzs dfss" />
+            tools:text="message " />
     </LinearLayout>
 
     <Space

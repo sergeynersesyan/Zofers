@@ -50,7 +50,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
 		binding.googleSignInButton.setOnClickListener(this)
 		binding.emailSignInButton.setOnClickListener(this)
 		binding.toggleButton.setOnClickListener(this)
-		buttonTextsSetup()
+		viewSetup()
 	}
 
 	public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -93,11 +93,18 @@ class LoginActivity : BaseActivity(), OnClickListener {
 		binding.passwordInputLayout.error = null
 
 		// Store values at the time of the login attempt.
-		val email = binding.email.text.toString()
+		val name = binding.name.text.trim().toString()
+		val email = binding.email.text.trim().toString()
 		val password = binding.password.text.toString()
 
 		var cancel = false
 		var focusView: View? = null
+
+		if (isRegisterMode && name.isEmpty()) {
+			binding.nameInputLayout.error = getString(R.string.error_field_required)
+			focusView = binding.name
+			cancel = true
+		}
 
 		// Check for a valid password, if the user entered one.
 		if (password.isEmpty()) {
@@ -105,8 +112,12 @@ class LoginActivity : BaseActivity(), OnClickListener {
 			focusView = binding.password
 			cancel = true
 		} else if (!viewModel.isPasswordValid(password)) {
-			binding.passwordInputLayout.error = getString(R.string.error_invalid_password)
+			binding.passwordInputLayout.error = getString(R.string.error_short_password)
 			focusView = binding.password
+			cancel = true
+		} else if (isRegisterMode && password != binding.confirmPassword.text.toString()) {
+			binding.confirmPasswordInputLayout.error = getString(R.string.error_passwords_not_match)
+			focusView = binding.confirmPassword
 			cancel = true
 		}
 
@@ -121,12 +132,16 @@ class LoginActivity : BaseActivity(), OnClickListener {
 			cancel = true
 		}
 
-		if (cancel) {
-			focusView!!.requestFocus()
-		} else if (isRegisterMode) {
-			viewModel.register(email, password)
-		} else {
-			viewModel.login(email, password)
+		when {
+			cancel -> {
+				focusView!!.requestFocus()
+			}
+			isRegisterMode -> {
+				viewModel.register(email, password, name)
+			}
+			else -> {
+				viewModel.login(email, password)
+			}
 		}
 	}
 
@@ -160,16 +175,45 @@ class LoginActivity : BaseActivity(), OnClickListener {
 		when (v.id) {
 			R.id.toggle_button -> {
 				isRegisterMode = !isRegisterMode
-				buttonTextsSetup()
+				viewSetup()
 			}
 			R.id.email_sign_in_button -> attemptLogin()
 			R.id.google_sign_in_button -> viewModel.onGoogleSignIn(this)
 		}
 	}
 
-	private fun buttonTextsSetup() {
-		binding.toggleButton.setText(if (isRegisterMode) R.string.action_sign_in else R.string.action_register)
-		binding.emailSignInButton.setText(if (isRegisterMode) R.string.action_register else R.string.action_sign_in)
+	private fun viewSetup() {
+		if (isRegisterMode) {
+			binding.toggleButton.setText(R.string.action_sign_in)
+			binding.emailSignInButton.setText(R.string.action_register)
+			binding.nameInputLayout.visibility = View.VISIBLE
+			binding.confirmPasswordInputLayout.visibility = View.VISIBLE
+			//animate input fields
+			binding.nameInputLayout.alpha = 0f
+			binding.confirmPasswordInputLayout.alpha = 0f
+			binding.nameInputLayout.animate().alpha(1f).start()
+			binding.confirmPasswordInputLayout.animate().alpha(1f).start()
+			//animate buttons
+			binding.emailSignInButton.translationY = binding.confirmPasswordInputLayout.height * -1f
+			binding.emailSignInButton.animate().translationY(0f).start()
+			binding.toggleButton.translationY = binding.confirmPasswordInputLayout.height * -1f
+			binding.toggleButton.animate().translationY(0f).start()
+		} else {
+			binding.toggleButton.setText(R.string.action_register)
+			binding.emailSignInButton.setText(R.string.action_sign_in)
+			//animate buttons
+			binding.emailSignInButton.animate().translationY(binding.confirmPasswordInputLayout.height * -1f).start()
+			binding.toggleButton.animate().translationY(binding.confirmPasswordInputLayout.height * -1f).start()
+			//animate input fields
+			binding.nameInputLayout.animate().alpha(0f).start()
+			binding.confirmPasswordInputLayout.animate().alpha(0f).withEndAction {
+				binding.nameInputLayout.visibility = View.GONE
+				binding.confirmPasswordInputLayout.visibility = View.GONE
+				binding.emailSignInButton.translationY = 0f
+				binding.toggleButton.translationY = 0f
+			}.start()
+		}
+
 	}
 }
 

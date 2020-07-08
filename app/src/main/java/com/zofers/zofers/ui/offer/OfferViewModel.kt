@@ -91,20 +91,23 @@ class OfferViewModel : AppViewModel() {
 	private fun changeConnection(add: Boolean) {
 		val offer = offer.value!!
 		currentUser?.let { profile ->
-            val connections = profile.connections
 			if (add) {
-                connections.add(offer.userID)
+				profile.connections.add(offer.userID)
 			} else {
-                connections.remove(offer.userID)
+				profile.connections.remove(offer.userID)
 			}
 
 			firebaseService.updateDocument(Profile.DOC_NAME, currentUser!!.id, "connections", profile.connections) { task ->
 				if (task.isSuccessful) {
-					profile.connections = connections
+					currentUser = profile
 				}
 			}
 			if (add) {
-				firebaseService.sendInvitationMessage(profile.id, offer.userID) { task ->
+				firebaseService.sendInvitationMessage(
+						fromId = profile.id,
+						toId = offer.userID,
+						offerID = offer.id
+				) { task ->
 					if (!task.isSuccessful) {
 						state.value = States.ERROR
 					}

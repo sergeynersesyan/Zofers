@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="4dp"
+                android:textColor="@color/white"
                 android:text="@string/action_next" />
         </LinearLayout>
 

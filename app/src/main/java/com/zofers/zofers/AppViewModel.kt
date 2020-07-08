@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.zofers.zofers.firebase.FirebaseService
@@ -48,5 +49,12 @@ open class AppViewModel : ViewModel() {
 				.addOnSuccessListener {
 					imagesRef.downloadUrl.addOnSuccessListener(onSuccess)
 				}
+	}
+
+	fun deleteImage(pathString: String, onSuccess: ((Task<Void>) -> Unit)) {
+		val storageRef = FirebaseStorage.getInstance().reference
+		// Create a reference to "mountains.jpg"
+		val imagesRef = storageRef.child(pathString)
+		imagesRef.delete().addOnCompleteListener(onSuccess)
 	}
 }

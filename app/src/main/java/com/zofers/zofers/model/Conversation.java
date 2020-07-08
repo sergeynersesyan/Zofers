@@ -14,7 +14,6 @@ public class Conversation {
 	private String name;
 	private Date creationDate;
 	private Date lastActionDate;
-	private boolean isBlocked;
 
 	private List<String> participantIDs;
 	private List<Participant> participants;
@@ -70,14 +69,6 @@ public class Conversation {
 		this.lastMessage = lastMessage;
 	}
 
-	public void setBlocked(boolean blocked) {
-		isBlocked = blocked;
-	}
-
-	public boolean isBlocked() {
-		return isBlocked;
-	}
-
 	public List<String> getParticipantIDs() {
 		return participantIDs;
 	}
@@ -97,26 +88,11 @@ public class Conversation {
 		return null;
 	}
 
-	public List<Participant> activeParticipants() {
-		List<Participant> returnList = new ArrayList<>();
-		for (Participant p : participants) {
-			if (p.doesActive()) {
-				returnList.add(p);
-			}
-		}
-		return returnList;
-	}
-
 	public List<Participant> getParticipantsExcept(String userId) {
 		List<Participant> returnList = new ArrayList<>();
-		if (participants.size() == 2) {
-			//ignore isActive() in this case
-			returnList.add(!participants.get(0).getId().equals(userId) ? participants.get(0) : participants.get(1));
-		} else {
-			for (Participant p : participants) {
-				if (!p.getId().equals(userId) && p.doesActive()) {
-					returnList.add(p);
-				}
+		for (Participant p : participants) {
+			if (!p.getId().equals(userId)) {
+				returnList.add(p);
 			}
 		}
 		return returnList;
@@ -131,25 +107,16 @@ public class Conversation {
 		return null;
 	}
 
-//    public void addMessage(Message message) {
-//        if (messages == null) {
-//            messages = new ArrayList<>();
-//        }
-//        messages.add(message);
-//    }
-
 	public void addParticipant(Participant participant) {
 		if (participants == null) {
 			participants = new ArrayList<>();
 		}
-		participant.setStatus(Participant.STATUS_APPROVED);
 		participants.add(participant);
 	}
 
 	public void removeParticipant(Participant user) {
 		for (Participant p : participants) {
 			if (p.getId().equals(user.getId())) {
-				p.setStatus(Participant.STATUS_REMOVED);
 				break;
 			}
 		}
@@ -173,7 +140,6 @@ public class Conversation {
 		Participant me = null;
 		for (int i = 0; i < participants.size(); i++) {
 			Participant user = participants.get(i);
-			if (!user.doesActive()) continue;
 			if (user.getId().equals(userId)) {
 				me = user;
 				continue;
@@ -197,28 +163,14 @@ public class Conversation {
 		return displayName;
 	}
 
-	public boolean isUnread(String userId) { // todo change userId to string
+	public boolean isUnread(String userId) {
 		Participant participant = getParticipant(userId);
 		if (participant == null) return false;
 		if (lastMessage != null) {
-			return participant.getStatus() != Participant.STATUS_REJECTED && !userId.equals(lastMessage.getUserId()) && !lastMessage.getId().equals(participant.getLastSeenMessageId());
+			return !userId.equals(lastMessage.getUserId()) && !lastMessage.getId().equals(participant.getLastSeenMessageId());
 		} else {
-			return participant.getStatus() != Participant.STATUS_REJECTED && participant.getLastSeenMessageId() == null;
+			return participant.getLastSeenMessageId() == null;
 		}
 	}
 
-	public boolean canRespond(String userId) {
-		return !isBlocked() && getParticipant(userId).getStatus() != Participant.STATUS_REMOVED;
-	}
-
-	public boolean isPending(String profileId) {
-		for (Participant p : getParticipants()) {
-			if (profileId.equals(p.getId())) {
-				if (p.getStatus() == Participant.STATUS_PENDING) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 }

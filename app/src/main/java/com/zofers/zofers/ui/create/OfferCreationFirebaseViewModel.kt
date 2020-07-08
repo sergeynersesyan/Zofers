@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.service.ServiceCallback
+import java.util.*
 
 class OfferCreationFirebaseViewModel : AppViewModel() {
 
@@ -13,6 +14,7 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 
 	fun createOffer(context: Context, image: Uri, callback: ServiceCallback<Offer>) {
 		offer.userID = currentUser?.id
+		offer.creationDate = Date()
 
 		uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
 			offer.imageUrl = uri.toString()

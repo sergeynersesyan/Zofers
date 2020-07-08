@@ -15,7 +15,7 @@
         android:layout_width="@dimen/list_avatar_size"
         android:layout_height="@dimen/list_avatar_size"
         android:layout_margin="12dp"
-        android:src="@drawable/ic_avatar" />
+        tools:src="@drawable/ic_avatar" />
 
     <TextView
         android:id="@+id/user_name_text_view"

@@ -22,6 +22,7 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:textSize="10sp"
+        android:visibility="gone"
         android:layout_below="@+id/attachment_container"/>
 
     <Space
@@ -80,8 +81,7 @@
         android:layout_below="@+id/message_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/message_textView"
-        android:layout_alignRight="@+id/message_textView" />
+        android:layout_alignStart="@+id/message_textView" />
 
 <!--seen text is here-->
 

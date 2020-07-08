@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Nothing to show"
+            android:text="@string/no_messages_yet"
             android:textSize="20sp" />
 
     </FrameLayout>

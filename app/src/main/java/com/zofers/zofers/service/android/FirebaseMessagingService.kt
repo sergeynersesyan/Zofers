@@ -1,12 +1,12 @@
 package com.zofers.zofers.service.android
 
-import android.R
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.icu.text.CaseMap
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
+import com.zofers.zofers.R
 import com.zofers.zofers.firebase.FirebaseService
 import com.zofers.zofers.model.NotificationMessage
 import com.zofers.zofers.ui.home.HomeActivity
@@ -39,7 +40,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 		// messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
 		// [END_EXCLUDE]
 
-		// TODO(developer): Handle FCM messages here.
 		// Not getting messages here? See why this may be: https://goo.gl/39bRNJ
 		Log.d(TAG, "From: ${remoteMessage.from}")
 
@@ -51,13 +51,11 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 			scheduleJob()
 		} else {
 			try {
-//				val notificationMessage = Gson().fromJson(
-//						remoteMessage.data["message"],
-//						NotificationMessage::class.java
-//				)
 				val notificationMessage = remoteMessage.data["message"]
-				val interestedUser = remoteMessage.data["data"]
-				sendNotification(notificationMessage.orEmpty())
+				val title = remoteMessage.data["title"]
+				val imageUrl = remoteMessage.data["imageUrl"]
+				val data = remoteMessage.data["data"]
+				sendNotification(notificationMessage.orEmpty(), title)
 
 			} catch (e: NullPointerException) {
 				Log.e(TAG, "onMessageReceived: NullPointerException: " + e.message)
@@ -67,10 +65,10 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
 
 		// Check if message contains a notification payload.
-		remoteMessage.notification?.body?.let {
-			Log.d(TAG, "Message Notification Body: ${it}")
-			sendNotification(it)
-		}
+//		remoteMessage.notification?.body?.let {
+//			Log.d(TAG, "Message Notification Body: ${it}")
+//			sendNotification(it)
+//		}
 
 	}
 	// [END receive_message]
@@ -116,7 +114,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 	 *
 	 * @param messageBody FCM message body received.
 	 */
-	private fun sendNotification(messageBody: String) {
+	private fun sendNotification(messageBody: String, title: String?) {
 		val intent = Intent(this, HomeActivity::class.java)
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 		intent.putExtra(HomeActivity.EXTRA_OPENING_TAB, HomeActivity.OPENING_TAB_NOTIFICATION)
@@ -127,10 +125,13 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 		val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 		val notificationBuilder = NotificationCompat.Builder(this, channelId)
 				.setContentText(messageBody)
-				.setSmallIcon(R.drawable.ic_dialog_alert)
+				.setSmallIcon(R.mipmap.ic_launcher)
 				.setAutoCancel(true)
 				.setSound(defaultSoundUri)
 				.setContentIntent(pendingIntent)
+		if (!title.isNullOrEmpty()) {
+			notificationBuilder.setContentTitle(title)
+		}
 
 		val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

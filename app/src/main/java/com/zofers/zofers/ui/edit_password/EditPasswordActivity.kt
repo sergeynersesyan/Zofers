@@ -65,10 +65,10 @@ class EditPasswordActivity : BaseActivity() {
             }
         })
         viewModel.passwordShortError.observe(this, Observer {
-            binding.inputLayoutPassword.error = "Password is short"
+            binding.inputLayoutPassword.error = getString(R.string.error_short_password)
         })
         viewModel.passwordsNotMatchError.observe(this, Observer {
-            binding.inputPasswordRepeat.error = "Passwords do not match"
+            binding.inputPasswordRepeat.error = getString(R.string.error_passwords_not_match)
         })
     }
 

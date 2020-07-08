@@ -56,6 +56,10 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 				intent.putExtra(OfferActivity.EXTRA_OFFER, offer)
 				startActivity(intent)
 			}
+
+			override fun onLoadMore() {
+				viewModel.loadMore()
+			}
 		})
 
 		binding.swipeRefresh.setOnRefreshListener {
@@ -128,11 +132,6 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 
 	override fun onClick(v: View) {
 		when (v.id) {
-//			R.id.profile_button -> {
-//				viewModel.currentUser?.let {
-//					ProfileActivity.start(context!!, it.id)
-//				}
-//			}
 			R.id.fab -> {
 				val intent1 = Intent(activity, CreateOfferActivity::class.java)
 				startActivity(intent1)

@@ -84,6 +84,7 @@ class OfferActivity : BaseActivity() {
 			binding?.userName?.text = user.name
 			binding?.avatar?.load(user.avatarUrl) {
 				placeholder(R.drawable.ic_avatar)
+				fallback(R.drawable.ic_avatar)
 				transformations(CircleCropTransformation())
 			}
 		})

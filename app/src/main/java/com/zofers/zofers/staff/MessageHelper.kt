@@ -1,8 +1,10 @@
 package com.zofers.zofers.staff
 
 import android.content.Context
+import android.view.View
 import android.widget.Toast
-import java.time.Duration
+import com.google.android.material.snackbar.Snackbar
+
 
 object MessageHelper {
 
@@ -13,4 +15,10 @@ object MessageHelper {
     fun showNoConnectionToast(context: Context?) {
         showErrorToast(context, "no connection")
     }
+
+    fun showSnackBar(view: View, text: String, duration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
+    }
+
+
 }

@@ -1,9 +1,14 @@
 package com.zofers.zofers.ui.profile
+
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,19 +21,23 @@ import com.zofers.zofers.adapter.OffersAdapter
 import com.zofers.zofers.databinding.FragmentProfileBinding
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
+import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
+import com.zofers.zofers.ui.BackClickHandler
+import com.zofers.zofers.ui.create.CreateOfferActivity
 import com.zofers.zofers.ui.edit_password.EditPasswordActivity
 import com.zofers.zofers.ui.edit_profile.EditProfileActivity
 import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
-class ProfileFragment : BaseFragment() {
+class ProfileFragment : BaseFragment(), BackClickHandler {
 
 	lateinit var binding: FragmentProfileBinding
 	private lateinit var profileViewModel: ProfileViewModel
 	private lateinit var offersAdapter: OffersAdapter
 	private lateinit var galleryAdapter: ImageGalleryAdapter
 	private var progressDialog: ProgressDialog? = null
+	private var bigImage: ImageView? = null
 
 	companion object {
 		const val ARG_USER_ID = "arg_us_id"
@@ -79,6 +88,7 @@ class ProfileFragment : BaseFragment() {
 		return super.onOptionsItemSelected(item)
 	}
 
+
 	private fun setupView() {
 		offersAdapter = OffersAdapter().apply {
 			itemResId = R.layout.item_offer_small
@@ -87,6 +97,10 @@ class ProfileFragment : BaseFragment() {
 					val intent = Intent(context, OfferActivity::class.java)
 					intent.putExtra(OfferActivity.EXTRA_OFFER, offer)
 					startActivity(intent)
+				}
+
+				override fun loadMore() {
+
 				}
 			})
 		}
@@ -99,27 +113,77 @@ class ProfileFragment : BaseFragment() {
 		galleryAdapter = ImageGalleryAdapter().apply {
 			listener = object : ImageGalleryAdapter.Listener {
 				override fun onImageCLick(url: String?) {
-					binding.bigImage.visibility = View.VISIBLE
-					binding.bigImage.load(url)
+					createBigImage(url)
 				}
 
 				override fun onAddClick() {
 					openGallery(binding.root, REQ_CODE_GALLERY_PRIVATE)
 				}
+
+				override fun onImageLongClick(url: String?) {
+					activity?.let { activity ->
+						AlertDialog.Builder(activity)
+								.setMessage("Do you want to delete this image?")
+								.setPositiveButton(android.R.string.yes) { _, _ -> profileViewModel.deleteImage(url) }
+								.setNegativeButton(android.R.string.no) { _, _ -> }
+								.show()
+					}
+				}
 			}
 			showAddButton = profileViewModel.isCurrentUser
 		}
 		binding.galleryRecyclerView.adapter = galleryAdapter
-		binding.bigImage.setOnClickListener { binding.bigImage.visibility = View.GONE }
+//		binding.bigImage.setOnClickListener { binding.bigImage.visibility = View.GONE }
+		binding.createButton.setOnClickListener {
+			startActivity(Intent(activity, CreateOfferActivity::class.java))
+		}
+	}
+
+	private fun createBigImage(url: String?) {
+		activity?.let { activity ->
+			val vg = activity?.window?.decorView?.rootView as? ViewGroup
+			bigImage = ImageView(activity)
+			vg?.addView(bigImage, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+			bigImage?.load(url)
+			bigImage?.setOnClickListener {
+				destroyBigImage()
+			}
+			bigImage?.setBackgroundColor(activity?.resources?.getColor(R.color.gray_transparent) ?: 0)
+		}
+
+//		activity?.let {activity ->
+//			val vg = activity.window.decorView.rootView as? ViewGroup
+//			zoomedImageLayout = LayoutInflater.from(activity).inflate(R.layout.layout_image_zoom, vg, false) as ViewGroup
+//			val image = zoomedImageLayout?.findViewById<ImageView>(R.id.image)
+//			val closeButton = zoomedImageLayout?.findViewById<ImageView>(R.id.close_button)
+//			val deleteButton = zoomedImageLayout?.findViewById<ImageView>(R.id.delete_button)
+//			image?.load(url)
+//			closeButton?.setOnClickListener {
+//				destroyBigImage()
+//			}
+//			deleteButton?.setOnClickListener {
+//				Toast.makeText(activity, "Shit, I can't delete yet", Toast.LENGTH_SHORT).show()
+//			}
+//			vg?.addView(zoomedImageLayout)
+//		}
+
+	}
+
+	private fun destroyBigImage() {
+		bigImage?.let {
+			(activity?.window?.decorView?.rootView as? ViewGroup)?.removeView(it)
+			bigImage = null
+		}
 	}
 
 
 	private fun updateUserDependingView(user: Profile) {
 		activity?.title = user.name
 		binding.userName.text = user.name
-		binding.publicAbout.text = if (user.description.isNullOrEmpty()) "Type something \n about you" else user.description
+		binding.publicAbout.text = if (user.description.isNullOrEmpty()) "No info about you" else user.description
 		binding.avatar.load(user.avatarUrl) {
 			placeholder(R.drawable.ic_avatar)
+			fallback(R.drawable.ic_avatar)
 			transformations(CircleCropTransformation())
 		}
 		galleryAdapter.items = user.privateImages
@@ -136,14 +200,17 @@ class ProfileFragment : BaseFragment() {
 		profileViewModel.init(arguments?.getString(ARG_USER_ID)
 				?: profileViewModel.currentUser?.id.orEmpty())
 		profileViewModel.offersList.observe(viewLifecycleOwner, Observer { offers ->
+			binding.emptyOffersContainer.visibility = if (offers.isNullOrEmpty()) View.VISIBLE else View.GONE
 			offersAdapter.setItems(offers)
 		})
 		profileViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+			progressDialog?.dismiss()
 			when (state) {
 				States.LOADING -> progressDialog = ProgressDialog.show(context, "Wait a secund", "Uploading your image")
 				States.NONE -> {
-					progressDialog?.dismiss()
 				}
+				States.DONE -> MessageHelper.showSnackBar(binding.root, "successfully deleted")
+				States.ERROR -> MessageHelper.showErrorToast(activity)
 			}
 		})
 		profileViewModel.profile.observe(viewLifecycleOwner, Observer {
@@ -172,5 +239,11 @@ class ProfileFragment : BaseFragment() {
 
 	}
 
+	override fun onBackClicked(): Boolean {
+		return bigImage?.let {
+			destroyBigImage()
+			true
+		} ?: false
+	}
 
 }

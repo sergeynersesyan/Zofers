@@ -5,17 +5,20 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Conversation
+import com.zofers.zofers.staff.States
 
 class NotificationsViewModel : AppViewModel() {
 
 	val conversations = MutableLiveData<MutableList<Conversation>>()
 
-	fun init () {
+	fun requestMessages () {
+		state.value = States.LOADING
 		val docRef = FirebaseFirestore.getInstance()
 				.collection(Conversation.DOC_NAME)
 				.whereArrayContains("participantIDs", currentUser!!.id)
-		docRef.addSnapshotListener { snapshot, e ->
-			if (e != null) {
+		docRef.addSnapshotListener { snapshot, exception ->
+			if (exception != null) {
+				state.value = States.ERROR
 				return@addSnapshotListener // failed
 			}
 
@@ -25,6 +28,7 @@ class NotificationsViewModel : AppViewModel() {
 					convList.add(conv.toObject(Conversation::class.java))
 				}
 				conversations.value = convList
+				state.value = States.NONE
 			}
 		}
 	}

@@ -12,6 +12,8 @@ import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
 import com.zofers.zofers.databinding.ActivityHomeBinding
+import com.zofers.zofers.ui.BackClickHandler
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BaseActivity() {
 
@@ -49,6 +51,13 @@ class HomeActivity : BaseActivity() {
 			navController.navigate(navID)
 		}
 
+	}
+
+	override fun onBackPressed() {
+		val handled = (nav_host_fragment.childFragmentManager.fragments[0] as? BackClickHandler)?.onBackClicked() ?: false
+		if (!handled) {
+			super.onBackPressed()
+		}
 	}
 
 
