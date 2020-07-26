@@ -52,7 +52,6 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
                         android:hint="@string/description"
-                        android:inputType="textCapWords"
                         android:textSize="14sp"
                         tools:text="Mkhitar Heratsi" />
 

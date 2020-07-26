@@ -23,7 +23,7 @@ import com.zofers.zofers.ui.home.HomeActivity
 
 class LoginActivity : BaseActivity(), OnClickListener {
 
-	private var isRegisterMode = false
+	private var isRegisterMode = true
 	private lateinit var binding: ActivityLoginBinding
 	private lateinit var viewModel: LoginViewModel
 

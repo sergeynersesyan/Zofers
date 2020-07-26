@@ -1,5 +1,7 @@
 package com.zofers.zofers.ui.notifications
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +48,18 @@ class NotificationsFragment : BaseFragment() {
 		binding.refreshLayout.setOnRefreshListener {
 			messagesViewModel.requestMessages()
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+		app?.isMessengerActive = true
+		val notificationManager = activity?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+		notificationManager?.cancelAll()
+	}
+
+	override fun onPause() {
+		super.onPause()
+		app?.isMessengerActive = false
 	}
 
 	private fun initViewModel() {

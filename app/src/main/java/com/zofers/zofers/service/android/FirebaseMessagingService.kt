@@ -6,23 +6,27 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.icu.text.CaseMap
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.Person
+import androidx.core.graphics.drawable.IconCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import com.zofers.zofers.R
+import com.zofers.zofers.App
 import com.zofers.zofers.firebase.FirebaseService
-import com.zofers.zofers.model.NotificationMessage
+import com.zofers.zofers.model.Message
 import com.zofers.zofers.ui.home.HomeActivity
+import java.io.IOException
+import java.net.URL
 
 
 class FirebaseMessagingService : FirebaseMessagingService() {
 
-	val firebaseService = FirebaseService()
+	private val firebaseService = FirebaseService()
 	/**
 	 * Called when message is received.
 	 *
@@ -55,7 +59,10 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 				val title = remoteMessage.data["title"]
 				val imageUrl = remoteMessage.data["imageUrl"]
 				val data = remoteMessage.data["data"]
-				sendNotification(notificationMessage.orEmpty(), title)
+//				val message = Gson().fromJson(data, Message::class.java) // date syntax error
+				if (!(application as App).isMessengerActive) {
+					sendNotification(notificationMessage.orEmpty(), title, imageUrl, imageUrl.hashCode() + title.hashCode())
+				}
 
 			} catch (e: NullPointerException) {
 				Log.e(TAG, "onMessageReceived: NullPointerException: " + e.message)
@@ -114,21 +121,41 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 	 *
 	 * @param messageBody FCM message body received.
 	 */
-	private fun sendNotification(messageBody: String, title: String?) {
+	private fun sendNotification(messageBody: String, title: String?, iconUri: String?, notifID: Int) {
 		val intent = Intent(this, HomeActivity::class.java)
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 		intent.putExtra(HomeActivity.EXTRA_OPENING_TAB, HomeActivity.OPENING_TAB_NOTIFICATION)
 		val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
 				PendingIntent.FLAG_ONE_SHOT)
 
+		val icon = try {
+			val url = URL(iconUri)
+			val input = url.openStream()
+			IconCompat.createWithBitmap(BitmapFactory.decodeStream(input))
+		} catch (e: IOException) {
+			null
+		}
+
+		val style: NotificationCompat.MessagingStyle =
+				restoreMessagingStyle(this, notifID)
+						?: run {
+							val user: Person = Person.Builder().setIcon(icon).setName(title).build()
+							NotificationCompat.MessagingStyle(user)
+						}
+
+		style
+				.addMessage(messageBody, System.currentTimeMillis(), style.user)
+				.isGroupConversation = false
+
 		val channelId = "fuckin_channel_id_45"
 		val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 		val notificationBuilder = NotificationCompat.Builder(this, channelId)
 				.setContentText(messageBody)
-				.setSmallIcon(R.mipmap.ic_launcher)
+				.setSmallIcon(R.mipmap.ic_notification)
 				.setAutoCancel(true)
 				.setSound(defaultSoundUri)
 				.setContentIntent(pendingIntent)
+				.setStyle(style)
 		if (!title.isNullOrEmpty()) {
 			notificationBuilder.setContentTitle(title)
 		}
@@ -143,7 +170,20 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 			notificationManager.createNotificationChannel(channel)
 		}
 
-		notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+		notificationManager.notify(notifID /* ID of notification */, notificationBuilder.build())
+	}
+
+
+	private fun restoreMessagingStyle(context: Context, notificationId: Int): NotificationCompat.MessagingStyle? {
+		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			(context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+					.activeNotifications
+					.find { it.id == notificationId }
+					?.notification
+					?.let { NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(it) }
+		} else {
+			return null
+		}
 	}
 
 	companion object {

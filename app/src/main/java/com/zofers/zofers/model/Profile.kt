@@ -21,10 +21,6 @@ class Profile {
 	var connections = mutableListOf<String>()
 	var deviceToken: String? = null
 
-//	Private
-//	Private Photos
-//	contacts
-
 }
 
 

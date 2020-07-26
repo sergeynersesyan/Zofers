@@ -87,8 +87,11 @@ class MessengerActivity : BaseActivity() {
 			}
 
 		})
-		viewModel.messages.observe(this, Observer {
-			adapter.setAll(it)
+		viewModel.messages.observe(this, Observer { messages ->
+			if (!messages.isNullOrEmpty()) {
+				adapter.setAll(messages)
+				viewModel.updateLastSeenMessage()
+			}
 		})
 		viewModel.updateViewEvent.observe(this, Observer {
 			updateRespondLayout()

@@ -2,14 +2,12 @@ package com.zofers.zofers.model
 
 import java.util.Date
 
-
-
 class Message {
 
-    lateinit var id: String
+    var id: String? = null
 
-    lateinit var conversationId: String
-    lateinit var userId: String
+    var conversationId: String? = null
+    var userId: String? = null
     var date: Date? = null
     var text: String = ""
     var type: Int = 0 //default 0 or service 1;

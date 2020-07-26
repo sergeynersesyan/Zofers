@@ -34,6 +34,7 @@ public class Offer implements Parcelable {
 
     private String id;
     private String country; //req 1
+    private String countryCode; //req 1
     private String city; //req 1
     private String name; //req 2
     private String description; //req 2
@@ -135,6 +136,14 @@ public class Offer implements Parcelable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public void setCity(String city) {
@@ -259,6 +268,19 @@ public class Offer implements Parcelable {
         } else {
             approvedUsers = null;
         }
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Offer) {
+            return ((Offer) obj).id.equals(id);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
     @Override

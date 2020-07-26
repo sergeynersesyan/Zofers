@@ -102,7 +102,7 @@ class FirebaseService {
 	}
 
 	private fun generateConversationName(fromId: String, toId: String): String {
-		return if (fromId.compareTo(toId) < 0) fromId + toId else toId + fromId
+		return if (fromId < toId) fromId + toId else toId + fromId
 	}
 
 	fun getProfile(id: String, l: ((Profile?) -> Unit)) {

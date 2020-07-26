@@ -62,6 +62,10 @@ class ProfileViewModel : AppViewModel() {
 		}
 	}
 
+	fun refreshProfile () {
+		profile.postValue(currentUser)
+	}
+
 	fun onNewProfileImage(context: Context, uri: Uri) {
 		profile.value?.let { user ->
 			state.value = States.LOADING
@@ -70,6 +74,7 @@ class ProfileViewModel : AppViewModel() {
 					state.value = if (task.isSuccessful) {
 						user.avatarUrl = url.toString()
 						currentUser = user
+						profile.value = user
 						States.NONE
 					} else {
 						States.ERROR

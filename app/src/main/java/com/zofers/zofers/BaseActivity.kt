@@ -14,6 +14,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.zofers.zofers.callback.PermissionRequestCallback
+import com.zofers.zofers.ui.notifications.messenger.MessengerActivity
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -21,16 +22,17 @@ open class BaseActivity : AppCompatActivity() {
 		private const val WRITE_STORAGE_PERMISSION_REQUEST_CODE = 1234
 	}
 
-	internal var permissionCallback: PermissionRequestCallback? = null
+	private var permissionCallback: PermissionRequestCallback? = null
+
+	val app: App
+	get() = application as App
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		app.isMessengerActive = this is MessengerActivity
 	}
 
-	protected fun getApp(): App {
-		return application as App
-	}
 
 	fun isNetworkAvailable(): Boolean {
 		val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

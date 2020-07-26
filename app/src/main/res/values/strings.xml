@@ -131,5 +131,8 @@
 	<string name="name">Name</string>
 	<string name="action_create">create</string>
 	<string name="no_messages_yet">No messages yet</string>
+	<string name="messenger_sent">sent</string>
+	<string name="messenger_seen">seen</string>
+	<string name="no_description">No info about this user</string>
 
 </resources>

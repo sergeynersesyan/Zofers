@@ -20,10 +20,12 @@
 
 				<TextView
 					android:id="@+id/user_name"
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_margin="@dimen/activity_horizontal_margin"
+					android:paddingEnd="132dp"
 					android:textSize="24sp"
+					app:layout_constraintHorizontal_bias="0"
 					app:layout_constraintBottom_toBottomOf="@+id/avatar"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="@+id/avatar"
@@ -31,11 +33,12 @@
 
 				<TextView
 					android:id="@+id/public_about"
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginStart="@dimen/activity_horizontal_margin"
-					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					android:paddingStart="@dimen/activity_horizontal_margin"
+					android:paddingEnd="@dimen/activity_horizontal_margin"
 					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintTop_toBottomOf="@id/avatar"
 					tools:text="type something about you" />
 
@@ -76,6 +79,7 @@
 					android:orientation="vertical"
 					android:layout_marginTop="@dimen/activity_vertical_margin"
 					android:layout_marginBottom="@dimen/activity_vertical_margin"
+					android:visibility="gone"
 					app:layout_constraintLeft_toLeftOf="parent"
 					app:layout_constraintRight_toRightOf="parent"
 					app:layout_constraintTop_toBottomOf="@id/offers_text">

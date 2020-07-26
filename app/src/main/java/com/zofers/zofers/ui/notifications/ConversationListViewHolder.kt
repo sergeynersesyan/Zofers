@@ -45,7 +45,7 @@ class ConversationListViewHolder private constructor(itemView: View, private val
             fallback(R.drawable.ic_avatar)
             transformations(CircleCropTransformation())
         }
-        lastMessageTextView.text = conversation.lastMessage.text
+        lastMessageTextView.text = conversation.lastMessage?.text
         //        dateTextView.setText(DateTimeUtils.getSmartDate(conversation.getLastActionDate(), true));
 
         // last message logic

@@ -150,7 +150,7 @@ public class ConversationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         void onItemConversationClick(Conversation conversation);
     }
 
-    public Conversation getConversation(int position) {
+    private Conversation getConversation(int position) {
         if (hasConvRequest()) {
             if (position == 0) {
                 return convRequest;

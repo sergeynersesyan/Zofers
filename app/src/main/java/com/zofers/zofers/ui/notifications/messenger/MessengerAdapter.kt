@@ -214,7 +214,7 @@ class MessengerAdapter(
 					}
 				}
 			}
-			selectedItemId = message.id
+			selectedItemId = message.id.orEmpty()
 			notifyItemChanged(position, PAYLOAD_OPEN_INFO)
 		}
 	}
@@ -266,12 +266,12 @@ class MessengerAdapter(
 		}
 
 		override fun seenTextDefaultVisibility(message: Message): Int {
-			val participants = conversation!!.getParticipantsExcept(profileID)
-			return if (participants.size > 0 && message.id == participants.get(0).getLastSeenMessageId()) {
-				View.VISIBLE
-			} else {
-				View.GONE
-			}
+//			val participants = conversation!!.getParticipantsExcept(profileID)
+//			return if (participants.size > 0 && message.id == participants.get(0).getLastSeenMessageId()) {
+//				View.VISIBLE
+//			} else {
+				return View.GONE
+//			}
 		}
 	}
 
@@ -286,9 +286,9 @@ class MessengerAdapter(
 
 		fun bind(message: Message, messageType: Int, showTime: Boolean) {
 			super.bind(message, messageType, showTime, conversation, profileID)
-			if (conversation != null) {
-				val user = conversation!!.getUser(message.userId)
-				avatar.load(user.avatarUrl) {
+			conversation?.let {
+				val user = it.getUser(message.userId.orEmpty())
+				avatar.load(user?.avatarUrl) {
 					placeholder(R.drawable.ic_avatar)
 					fallback(R.drawable.ic_avatar)
 					transformations(CircleCropTransformation())

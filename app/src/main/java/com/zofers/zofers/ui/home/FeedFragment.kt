@@ -1,15 +1,19 @@
 package com.zofers.zofers.ui.home
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zofers.zofers.R
@@ -43,6 +47,7 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 
 		setupViewModel()
 
+
 		val root = inflater.inflate(R.layout.fragment_feed, container, false)
 		binding = DataBindingUtil.bind(root)!!
 
@@ -57,13 +62,13 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 				startActivity(intent)
 			}
 
-			override fun onLoadMore() {
+			override fun loadMore() {
 				viewModel.loadMore()
 			}
 		})
 
 		binding.swipeRefresh.setOnRefreshListener {
-			viewModel.loadFirebase()
+			viewModel.loadFeed()
 		}
 		binding.fab.setOnClickListener(this)
 
@@ -71,8 +76,9 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 	}
 
 	private fun setupViewModel() {
-		viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
-		viewModel.loadFirebase()
+		val tm = activity?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+		viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
+		viewModel.init(tm.networkCountryIso)
 		viewModel.offersList.observe(viewLifecycleOwner, Observer<List<Offer>> { offers ->
 			adapter.setItems(offers)
 		})
@@ -117,7 +123,7 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 
 
 	override fun onQueryTextSubmit(s: String?): Boolean {
-		viewModel.loadFirebase(s)
+		viewModel.search(s)
 		return false
 	}
 

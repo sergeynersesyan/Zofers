@@ -2,16 +2,14 @@ package com.zofers.zofers.ui.profile
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.facebook.login.LoginManager
@@ -30,6 +28,7 @@ import com.zofers.zofers.ui.edit_profile.EditProfileActivity
 import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
+
 class ProfileFragment : BaseFragment(), BackClickHandler {
 
 	lateinit var binding: FragmentProfileBinding
@@ -44,6 +43,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 
 		private const val REQ_CODE_GALLERY_AVATAR = 1001
 		private const val REQ_CODE_GALLERY_PRIVATE = 1002
+		private const val REQ_CODE_EDIT_PROFILE = 1003
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,11 +75,13 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 			R.id.log_out -> {
 				profileViewModel.logout()
 				LoginManager.getInstance().logOut() // faceBook account
-				startActivity(Intent(context, LoginActivity::class.java))
+				val intent =Intent(context, LoginActivity::class.java)
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+				startActivity(intent)
 				activity?.finish()
 			}
 			R.id.action_settings -> {
-				context?.let { EditProfileActivity.start(it) }
+				EditProfileActivity.startForResult(this, REQ_CODE_EDIT_PROFILE)
 			}
 			R.id.edit_password -> {
 				context?.let { EditPasswordActivity.start(it) }
@@ -180,7 +182,12 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 	private fun updateUserDependingView(user: Profile) {
 		activity?.title = user.name
 		binding.userName.text = user.name
-		binding.publicAbout.text = if (user.description.isNullOrEmpty()) "No info about you" else user.description
+		if (user.description.isNullOrEmpty()) {
+			binding.publicAbout.text = context?.getString(R.string.no_description)
+			binding.publicAbout.setTextColor(context?.resources?.getColor(R.color.gray_transparent) ?: 0)
+		} else {
+			binding.publicAbout.text = user.description
+		}
 		binding.avatar.load(user.avatarUrl) {
 			placeholder(R.drawable.ic_avatar)
 			fallback(R.drawable.ic_avatar)
@@ -196,11 +203,11 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 	}
 
 	private fun setupViewModel() {
-		profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
+		profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 		profileViewModel.init(arguments?.getString(ARG_USER_ID)
 				?: profileViewModel.currentUser?.id.orEmpty())
 		profileViewModel.offersList.observe(viewLifecycleOwner, Observer { offers ->
-			binding.emptyOffersContainer.visibility = if (offers.isNullOrEmpty()) View.VISIBLE else View.GONE
+			binding.emptyOffersContainer.visibility = if (offers.isNullOrEmpty() && profileViewModel.isCurrentUser) View.VISIBLE else View.GONE
 			offersAdapter.setItems(offers)
 		})
 		profileViewModel.state.observe(viewLifecycleOwner, Observer { state ->
@@ -233,6 +240,9 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 						profileViewModel.onNewPrivateImage(context.applicationContext, it)
 					}
 
+				}
+				if (requestCode == REQ_CODE_EDIT_PROFILE) {
+					profileViewModel.refreshProfile()
 				}
 			}
 		}

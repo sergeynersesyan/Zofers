@@ -1,11 +1,13 @@
 package com.zofers.zofers.ui.edit_profile
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.zofers.zofers.R
@@ -24,6 +26,11 @@ class EditProfileActivity : AppCompatActivity() {
         fun start(context: Context) {
             val intent = Intent(context, EditProfileActivity::class.java)
             context.startActivity(intent)
+        }
+
+        fun startForResult(fragment: Fragment, requestCode: Int) {
+            val intent = Intent(fragment.activity, EditProfileActivity::class.java)
+            fragment.startActivityForResult(intent, requestCode)
         }
     }
 
@@ -59,13 +66,17 @@ class EditProfileActivity : AppCompatActivity() {
             when (it) {
                 States.LOADING -> {
                     loadingDialog = LoadingDialog().apply {
+                        isCancelable = true
                         show(supportFragmentManager, null)
                     }
                 }
                 States.NONE -> {
                     loadingDialog?.dismiss()
                 }
-                States.FINISH -> finish()
+                States.FINISH -> {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
                 States.ERROR -> {
                     loadingDialog?.dismiss()
                     MessageHelper.showErrorToast(this)

@@ -15,6 +15,7 @@ import com.zofers.zofers.staff.UserManager
 class App : Application() {
 	lateinit var preferenceService: PreferenceService
 	lateinit var userManager: UserManager
+	var isMessengerActive = false
 
 	override fun onCreate() {
 		super.onCreate()

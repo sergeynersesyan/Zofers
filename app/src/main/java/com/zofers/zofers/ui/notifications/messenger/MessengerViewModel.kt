@@ -22,9 +22,10 @@ class MessengerViewModel : AppViewModel() {
 	var conversation: MutableLiveData<Conversation?> = MutableLiveData()
 	var updateViewEvent: MutableLiveData<Boolean?> = MutableLiveData()
 	val opponent
-		get() = conversation.value?.getParticipantsExcept(currentUser?.id)?.get(0)
+		get() = conversation.value?.getParticipantsExcept(currentUser?.id.orEmpty())?.get(0)
 	val isMyConnection
 		get() = currentUser?.connections?.contains(opponent?.id) == true
+
 
 	companion object {
 		private const val LIMIT = 20
@@ -55,14 +56,33 @@ class MessengerViewModel : AppViewModel() {
 		loadMessages()
 	}
 
+	fun updateLastSeenMessage() {
+		currentUser?.id?.let { userID ->
+			val conver = conversation.value
+			val mess = messages.value
+			if (conver != null && !mess.isNullOrEmpty() && conver.getParticipant(userID)?.lastSeenMessageId != mess.first().id) {
+				conver.getParticipant(userID)?.lastSeenMessageId = mess.first().id
+				firebaseService.updateDocument(
+						collectionName = "conversation",
+						document = conversationID,
+						field = "participants",
+						value = conver.participants.orEmpty()
+				) {}
+			}
+
+		}
+	}
+
 	private fun getConversation() {
 		FirebaseFirestore.getInstance()
 				.collection(Conversation.DOC_NAME)
 				.document(conversationID)
-				.get()
-				.addOnSuccessListener {
-					if (!it.exists()) return@addOnSuccessListener
-					conversation.value = it.toObject(Conversation::class.java)
+				.addSnapshotListener { snapshot, e ->
+					if (snapshot?.exists() == true) {
+						val firstOpen = conversation.value == null
+						conversation.value = snapshot.toObject(Conversation::class.java)
+						if (firstOpen) updateLastSeenMessage()
+					}
 				}
 	}
 
@@ -148,6 +168,6 @@ class MessengerViewModel : AppViewModel() {
 	}
 
 	fun sendMessage(message: String) {
-		firebaseService.sendMessage(currentUser!!.id, opponent!!.id, message) {}
+		firebaseService.sendMessage(currentUser!!.id, opponent!!.id!!, message) {}
 	}
 }

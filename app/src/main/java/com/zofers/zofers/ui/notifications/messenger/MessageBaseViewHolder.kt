@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zofers.zofers.R
 import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.model.Message
+import com.zofers.zofers.model.ObjectId
+import com.zofers.zofers.model.Participant
 import com.zofers.zofers.staff.DateTimeUtils
 import java.util.*
 
@@ -24,17 +26,17 @@ abstract class MessageBaseViewHolder(itemView: View) : RecyclerView.ViewHolder(i
 		messageTextView.text = message.text
 		makeMessageBaloonForm(messageType, showTime)
 		//        //seen logic
-//        List<Participant> participants = conversation.getParticipantsExcept(profileID);
-//        if (participants.size() > 0) {
-//            String lastSeenId = participants.get(0).getLastSeenMessageId();
-//            if (profileID == message.getUserId() && (lastSeenId == null || new ObjectId(message.getId()).compareTo(new ObjectId(lastSeenId)) == 1)) {
-//                seenTextView.setText(seenTextView.getContext().getString(R.string.messenger_sent));
-//            } else {
-//                seenTextView.setText(seenTextView.getContext().getString(R.string.messenger_seen));
-//            }
-//        }
+//		val participants = conversation?.getParticipantsExcept(profileID);
+//		if (!participants.isNullOrEmpty()) {
+//			val lastSeenId = participants[0].lastSeenMessageId;
+//			if (profileID == message.userId && ObjectId(message.id).compareTo(ObjectId(lastSeenId)) == 1) {
+//				seenTextView.text = seenTextView.context.getString(R.string.messenger_sent);
+//			} else {
+//				seenTextView.text = seenTextView.context.getString(R.string.messenger_seen);
+//			}
+//		}
 //
-//        seenTextView.setVisibility(seenTextDefaultVisibility(message));
+//		seenTextView.visibility = seenTextDefaultVisibility(message);
 //        //end seen logic
 		if (message.date != null) {
 			timeTextView.text = DateTimeUtils.getSmartDate(message.date, false)
