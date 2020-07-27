@@ -17,9 +17,9 @@ import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.notifications.messenger.MessengerActivity
 
-class NotificationsFragment : BaseFragment() {
+class ConversationsFragment : BaseFragment() {
 
-	private lateinit var messagesViewModel: NotificationsViewModel
+	private lateinit var messagesViewModel: ConversationsViewModel
 	private lateinit var binding: FragmentNotificationListBinding
 	private lateinit var conversationListAdapter: ConversationListAdapter
 
@@ -63,7 +63,7 @@ class NotificationsFragment : BaseFragment() {
 	}
 
 	private fun initViewModel() {
-		messagesViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
+		messagesViewModel = ViewModelProvider(this).get(ConversationsViewModel::class.java)
 		messagesViewModel.requestMessages()
 
 		messagesViewModel.conversations.observe(viewLifecycleOwner, Observer { conversationList ->

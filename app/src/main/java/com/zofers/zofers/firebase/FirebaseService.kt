@@ -1,5 +1,6 @@
 package com.zofers.zofers.firebase
 
+import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.api.AuthProvider
 import com.google.firebase.auth.*
@@ -189,4 +190,51 @@ class FirebaseService {
 		}
 	}
 
+	fun updateAvatarInConversations(uri: Uri, userID: String) {
+		val db = FirebaseFirestore.getInstance()
+		db
+				.collection(Conversation.DOC_NAME)
+				.whereArrayContains("participantIDs", userID)
+				.get()
+				.addOnCompleteListener { task ->
+					if (task.isSuccessful) {
+						if (task.result != null && task.result?.isEmpty == false) {
+							db.runBatch { batch ->
+								for (conv in task.result!!) {
+									val conversation = conv.toObject(Conversation::class.java)
+									conversation.getParticipant(userID)?.avatarUrl = uri.toString()
+									batch.update(conv.reference, "participants", conversation.participants)
+								}
+							}.addOnCompleteListener {
+
+							}
+						}
+					}
+				}
+
+
+	}
+
+	fun updateNameInConversations(userName: String, userID: String) {
+		val db = FirebaseFirestore.getInstance()
+		db
+				.collection(Conversation.DOC_NAME)
+				.whereArrayContains("participantIDs", userID)
+				.get()
+				.addOnCompleteListener { task ->
+					if (task.isSuccessful) {
+						if (task.result != null && task.result?.isEmpty == false) {
+							db.runBatch { batch ->
+								for (conv in task.result!!) {
+									val conversation = conv.toObject(Conversation::class.java)
+									conversation.getParticipant(userID)?.name = userName
+									batch.update(conv.reference, "participants", conversation.participants)
+								}
+							}.addOnCompleteListener {
+
+							}
+						}
+					}
+				}
+	}
 }

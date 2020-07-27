@@ -28,6 +28,9 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 	private lateinit var root: View
 	private var imageUri: Uri? = null
 
+	override val progress: Int
+		get() = 66
+
 	companion object {
 		const val REQUEST_SELECT_PICTURE = 1000
 	}
@@ -55,10 +58,6 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		}
 	}
 
-	override fun getProgress(): Int {
-		return 66
-	}
-
 	override fun validFilled(): Boolean {
 		var validFilled = true
 		if (binding.titleEditText.text.toString().trim().isEmpty()) {
@@ -69,12 +68,12 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 			binding.descriptionTIL.error = " "
 			validFilled = false
 		}
-		if (imageUri == null) {
+		if (viewModel?.isEditMode == false && imageUri == null) {
 			Snackbar.make(root, "Please select image", Snackbar.LENGTH_SHORT).show()
 			validFilled = false
 		}
 
-		if (validFilled) {
+		if (validFilled && imageUri != null) {
 			val binaryImage = FileHelper.getImageBinary(context, imageUri)
 			if (binaryImage == null) {
 				validFilled = false
@@ -89,9 +88,20 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		return CreateOfferThirdFragment()
 	}
 
+	override fun fillFields(offer: Offer) {
+		binding.titleEditText.setText(offer.name)
+		binding.descriptionEditText.setText(offer.description)
+
+		binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
+		binding.image.load(offer.imageUrl) {
+			transformations(RoundedCornersTransformation(4f))
+		}
+	}
+
 	override fun fillOffer(offer: Offer): Offer {
 		offer.name = binding.titleEditText.text.toString().trim()
 		offer.description = binding.descriptionEditText.text.toString().trim()
+
 		return offer
 	}
 

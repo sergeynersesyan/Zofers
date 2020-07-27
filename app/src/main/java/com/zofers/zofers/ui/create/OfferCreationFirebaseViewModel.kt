@@ -11,22 +11,37 @@ import java.util.*
 class OfferCreationFirebaseViewModel : AppViewModel() {
 
 	var offer: Offer = Offer()
+	var isEditMode: Boolean = false
 
-	fun createOffer(context: Context, image: Uri, callback: ServiceCallback<Offer>) {
+	fun init(offer: Offer?) {
+		if (offer != null) {
+			isEditMode = true
+			this.offer = offer
+		}
+	}
+
+	fun createOffer(context: Context, image: Uri?, callback: ServiceCallback<Offer>) {
 		offer.userID = currentUser?.id
 		offer.creationDate = Date()
 
-		uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
-			offer.imageUrl = uri.toString()
-			FirebaseFirestore.getInstance().collection("offer")
-					.document(offer.id)
-					.set(offer)
-					.addOnSuccessListener {
-						callback.onSuccess(null) // todo change null
-					}
-					.addOnFailureListener {
-						callback.onFailure()
-					}
-		}
+		image?.let {
+			uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
+				offer.imageUrl = uri.toString()
+				writeOffer(callback)
+			}
+		} ?: writeOffer(callback)
+
+	}
+
+	private fun writeOffer(callback: ServiceCallback<Offer>) {
+		FirebaseFirestore.getInstance().collection("offer")
+				.document(offer.id)
+				.set(offer)
+				.addOnSuccessListener {
+					callback.onSuccess(offer)
+				}
+				.addOnFailureListener {
+					callback.onFailure()
+				}
 	}
 }

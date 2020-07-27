@@ -75,6 +75,11 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 		return root
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		viewModel.destroy()
+	}
+
 	private fun setupViewModel() {
 		val tm = activity?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 		viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)

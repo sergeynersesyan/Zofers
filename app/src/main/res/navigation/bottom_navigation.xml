@@ -12,7 +12,7 @@
 
 	<fragment
 		android:id="@+id/navigation_notifications"
-		android:name="com.zofers.zofers.ui.notifications.NotificationsFragment"
+		android:name="com.zofers.zofers.ui.notifications.ConversationsFragment"
 		android:label="@string/title_notifications"
 		tools:layout="@layout/fragment_notifications" >
 		<action

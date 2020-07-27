@@ -30,7 +30,7 @@ public class FileUtils {
 
     private FileUtils() {} //private constructor to enforce Singleton pattern
 
-    
+
 
     /** TAG for log messages. */
 
@@ -434,7 +434,7 @@ public class FileUtils {
 
      * represents a local file.
 
-     * 
+     *
 
      * @param context The context.
 
@@ -460,10 +460,9 @@ public class FileUtils {
                             ", Segments: " + uri.getPathSegments().toString()
                     );
 
-        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
         // DocumentProvider
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+        if (DocumentsContract.isDocumentUri(context, uri)) {
             // LocalStorageProvider
             if (isLocalStorageDocument(uri)) {
                 // The path is the id

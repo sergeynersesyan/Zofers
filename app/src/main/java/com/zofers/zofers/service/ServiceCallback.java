@@ -5,8 +5,4 @@ public interface ServiceCallback<T> {
         void onSuccess(T response);
 
         void onFailure();
-
-         default void onIs () {
-
-         }
 }

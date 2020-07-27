@@ -7,8 +7,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.zofers.zofers.AppViewModel
+import com.zofers.zofers.event.OfferDeleteEvent
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.staff.States
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import java.util.*
 
 class FeedViewModel : AppViewModel() {
@@ -30,6 +33,7 @@ class FeedViewModel : AppViewModel() {
 	fun init(countryCode: String?) {
 		this.countryCode = countryCode
 		loadFeed()
+		EventBus.getDefault().register(this)
 	}
 
 	private fun QuerySnapshot.toOfferList(): ArrayList<Offer> {
@@ -59,7 +63,6 @@ class FeedViewModel : AppViewModel() {
 		)
 	}
 
-
 	fun search(query: String?) {
 		lastQuery = query
 		filteredReachedToEnd = false
@@ -73,16 +76,23 @@ class FeedViewModel : AppViewModel() {
 	}
 
 	fun loadMore() {
-		state.value = States.LOADING
 		if (lastQuery == null) {
 			getAllOffers()
 		} else {
-			getFilteredOffers(lastQuery!!, true)
+			getFilteredOffers(lastQuery!!)
 		}
 	}
 
-	private fun getFilteredOffers(query: String, loadMore: Boolean = false) {
+	@Subscribe
+	fun onOfferDelete (offerDeleteEvent: OfferDeleteEvent) {
+		val offers = offersList.value
+		offers?.remove(offerDeleteEvent.offer)
+		offersList.value = offers
+	}
+
+	private fun getFilteredOffers(query: String) {
 		if (filteredReachedToEnd) return
+		state.value = States.LOADING
 		FirebaseFirestore.getInstance().collection("offer")
 				.whereEqualTo("city", query.toLowerCase(Locale.getDefault()))
 //				.orderBy("viewCount")
@@ -122,12 +132,11 @@ class FeedViewModel : AppViewModel() {
 			loadCurrentCountryOffers()
 		} else if (!otherCountriesReachedToEnd) {
 			loadOtherCountriesOffers()
-		} else {
-			state.value = States.NONE
 		}
 	}
 
 	private fun loadCurrentCountryOffers() {
+		state.value = States.LOADING
 		var query = FirebaseFirestore.getInstance()
 				.collection("offer")
 				.whereIn(
@@ -175,6 +184,9 @@ class FeedViewModel : AppViewModel() {
 	}
 
 	private fun loadOtherCountriesOffers() {
+		if (state.value != States.LOADING) {
+			state.value = States.LOADING
+		}
 		var query = FirebaseFirestore.getInstance()
 				.collection("offer")
 				.orderBy("creationDate", Query.Direction.DESCENDING)
@@ -205,5 +217,9 @@ class FeedViewModel : AppViewModel() {
 						state.value = States.FAIL
 					}
 				}
+	}
+
+	fun destroy() {
+		EventBus.getDefault().unregister(this)
 	}
 }

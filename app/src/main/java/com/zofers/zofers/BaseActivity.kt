@@ -13,7 +13,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.zofers.zofers.callback.PermissionRequestCallback
 import com.zofers.zofers.ui.notifications.messenger.MessengerActivity
 
 open class BaseActivity : AppCompatActivity() {
@@ -30,7 +29,6 @@ open class BaseActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		app.isMessengerActive = this is MessengerActivity
 	}
 
 
@@ -81,30 +79,36 @@ open class BaseActivity : AppCompatActivity() {
 	}
 
 	fun openGallery(root: View, requestCode: Int, fragment: BaseFragment? = null) {
-		promptExternalStoragePermissions(PermissionRequestCallback { granted ->
-			if (granted) {
-				val intent = Intent()
-				intent.type = "image/*"
-				intent.action = Intent.ACTION_GET_CONTENT
-				intent.addCategory(Intent.CATEGORY_OPENABLE)
-				if (fragment == null) {
-					startActivityForResult(Intent.createChooser(intent, "Select picture"), requestCode)
-				} else {
-					fragment.startActivityForResult(Intent.createChooser(intent, "Select picture"), requestCode)
-				}
-			} else {
-				val snackbar = Snackbar.make(root, R.string.image_permission_denied, Snackbar.LENGTH_LONG)
-
-				snackbar.setAction("Open settings") {
+		promptExternalStoragePermissions(object : PermissionRequestCallback {
+			override fun onResponse(granted: Boolean) {
+				if (granted) {
 					val intent = Intent()
-					intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-					val uri = Uri.fromParts("package", getPackageName(), null)
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-					intent.setData(uri)
-					startActivity(intent)
+					intent.type = "image/*"
+					intent.action = Intent.ACTION_GET_CONTENT
+					intent.addCategory(Intent.CATEGORY_OPENABLE)
+					if (fragment == null) {
+						startActivityForResult(Intent.createChooser(intent, "Select picture"), requestCode)
+					} else {
+						fragment.startActivityForResult(Intent.createChooser(intent, "Select picture"), requestCode)
+					}
+				} else {
+					val snackbar = Snackbar.make(root, R.string.image_permission_denied, Snackbar.LENGTH_LONG)
+
+					snackbar.setAction("Open settings") {
+						val intent = Intent()
+						intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+						val uri = Uri.fromParts("package", getPackageName(), null)
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+						intent.setData(uri)
+						startActivity(intent)
+					}
+					snackbar.show()
 				}
-				snackbar.show()
 			}
 		})
 	}
+}
+
+interface PermissionRequestCallback {
+	fun onResponse(granted: Boolean)
 }

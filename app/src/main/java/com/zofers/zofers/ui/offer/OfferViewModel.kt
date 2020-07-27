@@ -4,9 +4,13 @@ package com.zofers.zofers.ui.offer
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
+import com.zofers.zofers.event.OfferDeleteEvent
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
+import io.opencensus.trace.MessageEvent
+import org.greenrobot.eventbus.EventBus
+
 
 class OfferViewModel : AppViewModel() {
 
@@ -42,9 +46,11 @@ class OfferViewModel : AppViewModel() {
 	}
 
 	fun delete() {
+		state.value = States.LOADING
 		firebaseService.deleteDocument("offer", offer.value!!.id) { task ->
 			if (task.isSuccessful) {
 				state.value = States.FINISH
+				EventBus.getDefault().post(OfferDeleteEvent(offer.value))
 			} else {
 				state.value = States.ERROR
 			}

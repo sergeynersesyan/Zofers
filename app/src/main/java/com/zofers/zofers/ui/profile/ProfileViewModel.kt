@@ -6,10 +6,14 @@ import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
+import com.zofers.zofers.event.OfferCreateEvent
+import com.zofers.zofers.event.OfferDeleteEvent
+import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
-import java.net.URI
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import java.util.*
 
 class ProfileViewModel : AppViewModel() {
@@ -60,10 +64,25 @@ class ProfileViewModel : AppViewModel() {
 						}
 					}
 		}
+		EventBus.getDefault().register(this)
 	}
 
-	fun refreshProfile () {
+	fun refreshProfile() {
 		profile.postValue(currentUser)
+	}
+
+	@Subscribe
+	fun onOfferDelete(offerDeleteEvent: OfferDeleteEvent) {
+		offersList.value = offersList.value?.filter { it.id != offerDeleteEvent.offer?.id }
+	}
+
+	@Subscribe
+	fun onOfferCreate(offerCreateEvent: OfferCreateEvent) {
+		offerCreateEvent.offer?.let {
+			val offers: MutableList<Offer> = offersList.value?.toMutableList() ?: mutableListOf()
+			offers.add(it)
+			offersList.value = offers
+		}
 	}
 
 	fun onNewProfileImage(context: Context, uri: Uri) {
@@ -75,6 +94,7 @@ class ProfileViewModel : AppViewModel() {
 						user.avatarUrl = url.toString()
 						currentUser = user
 						profile.value = user
+						firebaseService.updateAvatarInConversations(url, currentUser!!.id)
 						States.NONE
 					} else {
 						States.ERROR
@@ -134,11 +154,15 @@ class ProfileViewModel : AppViewModel() {
 
 	}
 
-	private fun getRandomString(length: Int) : String {
+	private fun getRandomString(length: Int): String {
 		val allowedChars = ('A'..'Z') + ('a'..'z')
 		return (1..length)
 				.map { allowedChars.random() }
 				.joinToString("")
+	}
+
+	fun destroy() {
+		EventBus.getDefault().unregister(this)
 	}
 
 }

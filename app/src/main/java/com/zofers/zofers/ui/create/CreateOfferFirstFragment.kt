@@ -27,9 +27,8 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 	private var countryUnderline: View? = null
 	private lateinit var root: View
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
+	override val progress: Int
+		get() = 33
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		root = inflater.inflate(R.layout.fragment_create_offer_first, container, false)
@@ -53,10 +52,6 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 			}
 		})
 		return root
-	}
-
-	override fun getProgress(): Int {
-		return 33
 	}
 
 	override fun validFilled(): Boolean {
@@ -86,6 +81,20 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 
 	override fun nextFragment(): CreateOfferBaseFragment {
 		return CreateOfferSecoundFragment()
+	}
+
+	override fun fillFields(offer: Offer) {
+		countrySpinner?.setSelection(countryList().indexOf(offer.country))
+		cityEdittext?.setText(offer.city)
+		radioGroup?.check(
+				when (offer.costMode) {
+					Offer.COST_MODE_BOTH -> R.id.expensesBoth
+					Offer.COST_MODE_GUEST -> R.id.expensesGuest
+					else -> R.id.expensesMe
+				}
+		)
+		costEdittext?.setText(offer.cost.toString())
+		currencyEdittext?.setText(offer.currency)
 	}
 
 	override fun fillOffer(offer: Offer): Offer {

@@ -70,6 +70,11 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		}
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		profileViewModel.destroy()
+	}
+
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		when (item.itemId) {
 			R.id.log_out -> {
@@ -143,14 +148,14 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 
 	private fun createBigImage(url: String?) {
 		activity?.let { activity ->
-			val vg = activity?.window?.decorView?.rootView as? ViewGroup
+			val vg = activity.window?.decorView?.rootView as? ViewGroup
 			bigImage = ImageView(activity)
 			vg?.addView(bigImage, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 			bigImage?.load(url)
 			bigImage?.setOnClickListener {
 				destroyBigImage()
 			}
-			bigImage?.setBackgroundColor(activity?.resources?.getColor(R.color.gray_transparent) ?: 0)
+			bigImage?.setBackgroundColor(activity.resources?.getColor(R.color.gray_transparent) ?: 0)
 		}
 
 //		activity?.let {activity ->
@@ -198,7 +203,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		val privateVisibility = if (profileViewModel.isCurrentUser || profileViewModel.isConnected) View.VISIBLE else View.GONE
 
 		binding.privateTitle.visibility = privateVisibility
-		binding.divider.visibility = privateVisibility
+		binding.dividerPrivate.visibility = privateVisibility
 		binding.galleryRecyclerView.visibility = privateVisibility
 	}
 

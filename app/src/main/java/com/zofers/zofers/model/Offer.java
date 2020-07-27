@@ -101,10 +101,11 @@ public class Offer implements Parcelable {
         return peopleCount;
     }
 
+    @Nullable
     public String getRequirements() {
         return requirements;
     }
-
+    @Nullable
     public String getAvailability() {
         return availability;
     }

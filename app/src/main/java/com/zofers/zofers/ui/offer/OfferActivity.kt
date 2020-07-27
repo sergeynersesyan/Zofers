@@ -1,16 +1,17 @@
 package com.zofers.zofers.ui.offer
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.appbar.AppBarLayout
@@ -22,9 +23,11 @@ import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.staff.disable
+import com.zofers.zofers.ui.create.CreateOfferActivity
 import com.zofers.zofers.ui.profile.ProfileActivity
 import com.zofers.zofers.view.AppBarStateChangeListener
 import com.zofers.zofers.view.LoadingDialog
+import kotlinx.android.synthetic.main.activity_offer.*
 
 class OfferActivity : BaseActivity() {
 
@@ -33,6 +36,7 @@ class OfferActivity : BaseActivity() {
 	private var binding: ActivityOfferBinding? = null
 	private var favoriteMenuDrawable: Drawable? = null
 	private var deleteMenuDrawable: Drawable? = null
+	private var editMenuDrawable: Drawable? = null
 
 	companion object {
 		const val EXTRA_OFFER = "key_offer"
@@ -43,8 +47,8 @@ class OfferActivity : BaseActivity() {
 		setContentView(R.layout.activity_offer)
 
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_offer)
-		val toolbar = findViewById<Toolbar>(R.id.toolbar)
-		setSupportActionBar(toolbar)
+		setSupportActionBar(binding?.toolbar)
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		title = ""
 
 		val offer: Offer = intent.getParcelableExtra(EXTRA_OFFER)
@@ -61,7 +65,11 @@ class OfferActivity : BaseActivity() {
 		if (viewModel?.isCurrentUserOffer() == true) {
 			val deleteItem = menu.findItem(R.id.action_delete)
 			deleteMenuDrawable = deleteItem.icon
-			deleteItem.isVisible = viewModel?.isCurrentUserOffer() == true
+			deleteItem.isVisible = true
+
+			val editItem = menu.findItem(R.id.action_edit)
+			editMenuDrawable = editItem.icon
+			editItem.isVisible = true
 		}
 		updateMenuItemColors(AppBarStateChangeListener.State.EXPANDED)
 		return super.onCreateOptionsMenu(menu)
@@ -69,7 +77,19 @@ class OfferActivity : BaseActivity() {
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		when (item?.itemId) {
-			R.id.action_delete -> viewModel!!.delete()
+			R.id.action_delete -> AlertDialog.Builder(this)
+						.setMessage("Do you want to delete this offer?")
+						.setPositiveButton(android.R.string.yes) { _, _ -> viewModel?.delete() }
+						.setNegativeButton(android.R.string.no) { _, _ -> }
+						.show()
+			R.id.action_edit -> {
+				viewModel?.offer?.value?.let {
+					val intent = Intent(this, CreateOfferActivity::class.java)
+					intent.putExtra(CreateOfferActivity.KEY_OFFER, it)
+					startActivity(intent)
+				}
+			}
+
 		}
 		return super.onOptionsItemSelected(item)
 	}
@@ -164,14 +184,20 @@ class OfferActivity : BaseActivity() {
 	}
 
 	private fun updateMenuItemColors(state: AppBarStateChangeListener.State) {
+
 		when (state) {
 			AppBarStateChangeListener.State.EXPANDED -> {
-				favoriteMenuDrawable?.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-				deleteMenuDrawable?.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+				val white = resources.getColor(R.color.white)
+				favoriteMenuDrawable?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
+				deleteMenuDrawable?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
+				editMenuDrawable?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
+				binding?.toolbar?.navigationIcon?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
 			}
 			AppBarStateChangeListener.State.COLLAPSED -> {
 				favoriteMenuDrawable?.clearColorFilter()
 				deleteMenuDrawable?.clearColorFilter()
+				editMenuDrawable?.clearColorFilter()
+				binding?.toolbar?.navigationIcon?.setColorFilter(resources.getColor(R.color.gray), PorterDuff.Mode.SRC_ATOP)
 			}
 		}
 	}

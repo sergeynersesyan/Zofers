@@ -1,5 +1,7 @@
 package com.zofers.zofers.ui.notifications.messenger
 
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -32,6 +34,16 @@ class MessengerActivity : BaseActivity() {
 		initViewModel()
 		initView()
 		title = ""
+	}
+
+	override fun onResume() {
+		super.onResume()
+		app.isMessengerActive = true
+	}
+
+	override fun onPause() {
+		super.onPause()
+		app.isMessengerActive = false
 	}
 
 

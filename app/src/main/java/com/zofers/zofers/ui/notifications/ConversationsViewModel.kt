@@ -9,7 +9,7 @@ import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.staff.States
 
-class NotificationsViewModel : AppViewModel() {
+class ConversationsViewModel : AppViewModel() {
 
 	val conversations = MutableLiveData<MutableList<Conversation>>()
 
