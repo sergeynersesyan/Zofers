@@ -63,15 +63,26 @@
 				android:layout_height="match_parent">
 
 				<TextView
+					android:id="@+id/location_editText"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingHorizontal="@dimen/text_margin"
+					android:paddingTop="@dimen/text_margin"
+					android:text="@{offer.city + `, ` + offer.country}"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:text="yerevan, armenia" />
+
+				<TextView
 					android:id="@+id/title_textView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:padding="@dimen/text_margin"
+					android:paddingHorizontal="@dimen/text_margin"
 					android:text="@{offer.name}"
 					android:textSize="@dimen/text_size_title"
 					android:textStyle="bold"
 					app:layout_constraintLeft_toLeftOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/location_editText"
 					app:layout_constraintRight_toRightOf="parent"
 					tools:text="Title is not so short because of some ui verifications" />
 
@@ -87,15 +98,34 @@
 					app:layout_constraintTop_toBottomOf="@id/title_textView"
 					tools:text="free" />
 
+				<View
+					android:id="@+id/divider1"
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:layout_marginVertical="@dimen/double_horizontal_margin"
+					android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+					android:background="@color/black_divider"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/cost_textView" />
 
+				<View
+					android:id="@+id/divider2"
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:layout_marginVertical="@dimen/double_horizontal_margin"
+					android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+					android:background="@color/black_divider"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/for_text_container" />
 
 				<ImageView
 					android:id="@+id/avatar"
 					android:layout_width="52dp"
 					android:layout_height="52dp"
-					android:layout_margin="@dimen/activity_horizontal_margin"
+					android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+					android:layout_marginVertical="@dimen/double_horizontal_margin"
 					app:layout_constraintRight_toRightOf="parent"
-					app:layout_constraintTop_toBottomOf="@id/for_text_container" />
+					app:layout_constraintTop_toBottomOf="@id/divider2" />
 
 				<TextView
 					android:id="@+id/user_name"
@@ -112,13 +142,13 @@
 					android:id="@+id/description_editText"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/text_margin"
 					android:text="@{offer.description}"
 					android:textSize="@dimen/text_size_long"
-					android:paddingBottom="20dp"
+					android:paddingHorizontal="@dimen/text_margin"
+					android:paddingVertical="@dimen/double_horizontal_margin"
 					app:layout_constraintLeft_toLeftOf="parent"
 					app:layout_constraintRight_toRightOf="parent"
-					app:layout_constraintTop_toBottomOf="@id/cost_textView"
+					app:layout_constraintTop_toBottomOf="@id/divider1"
 					tools:text="description" />
 
 				<LinearLayout
@@ -134,7 +164,6 @@
 						android:id="@+id/for_textView"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="@dimen/text_margin"
 						android:text="@string/this_offer_is_for"
 						android:textStyle="bold"
 						android:textSize="@dimen/text_size_info"
@@ -145,10 +174,8 @@
 						android:id="@+id/for_textView_data"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="@dimen/text_margin"
 						android:textSize="@dimen/text_size_long"
 						tools:text="18 years old girls, only not working hours"
-						android:paddingBottom="20dp"
 						app:layout_constraintEnd_toEndOf="parent"
 						app:layout_constraintStart_toStartOf="parent"
 						app:layout_constraintTop_toBottomOf="@id/for_textView" />

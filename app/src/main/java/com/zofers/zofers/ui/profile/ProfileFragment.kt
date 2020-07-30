@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
@@ -25,6 +26,7 @@ import com.zofers.zofers.ui.BackClickHandler
 import com.zofers.zofers.ui.create.CreateOfferActivity
 import com.zofers.zofers.ui.edit_password.EditPasswordActivity
 import com.zofers.zofers.ui.edit_profile.EditProfileActivity
+import com.zofers.zofers.ui.home.HomeActivity
 import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
@@ -80,7 +82,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 			R.id.log_out -> {
 				profileViewModel.logout()
 				LoginManager.getInstance().logOut() // faceBook account
-				val intent =Intent(context, LoginActivity::class.java)
+				val intent = Intent(context, LoginActivity::class.java)
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 				startActivity(intent)
 				activity?.finish()
@@ -140,7 +142,6 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 			showAddButton = profileViewModel.isCurrentUser
 		}
 		binding.galleryRecyclerView.adapter = galleryAdapter
-//		binding.bigImage.setOnClickListener { binding.bigImage.visibility = View.GONE }
 		binding.createButton.setOnClickListener {
 			startActivity(Intent(activity, CreateOfferActivity::class.java))
 		}
@@ -158,22 +159,6 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 			bigImage?.setBackgroundColor(activity.resources?.getColor(R.color.gray_transparent) ?: 0)
 		}
 
-//		activity?.let {activity ->
-//			val vg = activity.window.decorView.rootView as? ViewGroup
-//			zoomedImageLayout = LayoutInflater.from(activity).inflate(R.layout.layout_image_zoom, vg, false) as ViewGroup
-//			val image = zoomedImageLayout?.findViewById<ImageView>(R.id.image)
-//			val closeButton = zoomedImageLayout?.findViewById<ImageView>(R.id.close_button)
-//			val deleteButton = zoomedImageLayout?.findViewById<ImageView>(R.id.delete_button)
-//			image?.load(url)
-//			closeButton?.setOnClickListener {
-//				destroyBigImage()
-//			}
-//			deleteButton?.setOnClickListener {
-//				Toast.makeText(activity, "Shit, I can't delete yet", Toast.LENGTH_SHORT).show()
-//			}
-//			vg?.addView(zoomedImageLayout)
-//		}
-
 	}
 
 	private fun destroyBigImage() {
@@ -185,8 +170,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 
 
 	private fun updateUserDependingView(user: Profile) {
-		activity?.title = user.name
-		binding.userName.text = user.name
+		(activity as? HomeActivity)?.supportActionBar?.title = user.name
 		if (user.description.isNullOrEmpty()) {
 			binding.publicAbout.text = context?.getString(R.string.no_description)
 			binding.publicAbout.setTextColor(context?.resources?.getColor(R.color.gray_transparent) ?: 0)
@@ -200,7 +184,17 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		}
 		galleryAdapter.items = user.privateImages
 
-		val privateVisibility = if (profileViewModel.isCurrentUser || profileViewModel.isConnected) View.VISIBLE else View.GONE
+		setupPrivateSection()
+	}
+
+	private fun setupPrivateSection () {
+		val privateVisibility = if (
+				profileViewModel.isOffersLoaded
+				&& (profileViewModel.isCurrentUser || profileViewModel.isConnected)
+		)
+			View.VISIBLE
+		else
+			View.GONE
 
 		binding.privateTitle.visibility = privateVisibility
 		binding.dividerPrivate.visibility = privateVisibility
@@ -214,6 +208,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		profileViewModel.offersList.observe(viewLifecycleOwner, Observer { offers ->
 			binding.emptyOffersContainer.visibility = if (offers.isNullOrEmpty() && profileViewModel.isCurrentUser) View.VISIBLE else View.GONE
 			offersAdapter.setItems(offers)
+			setupPrivateSection()
 		})
 		profileViewModel.state.observe(viewLifecycleOwner, Observer { state ->
 			progressDialog?.dismiss()

@@ -66,8 +66,8 @@ class OfferViewModel : AppViewModel() {
 		return when {
 			isCurrentUserOffer() -> OfferState.MY
 			offer.interestedUsers.isNullOrEmpty() || !offer.interestedUsers.contains(currentUser?.id) -> OfferState.DEFAULT
-			offer.approvedUsers.isNullOrEmpty() || !offer.approvedUsers.contains(currentUser?.id) -> OfferState.PENDING
-			else -> OfferState.APPROVED
+//			offer.approvedUsers.isNullOrEmpty() || !offer.approvedUsers.contains(currentUser?.id) -> OfferState.PENDING
+			else -> OfferState.PENDING
 		}
 	}
 
@@ -119,7 +119,7 @@ class OfferViewModel : AppViewModel() {
 					}
 				}
 			} else {
-				firebaseService.deleteConversation(profile.id, offer.userID)
+				firebaseService.deleteConversationIfOneMessage(profile.id, offer.userID)
 			}
 
 		}

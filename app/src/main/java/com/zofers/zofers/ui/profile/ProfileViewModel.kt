@@ -22,6 +22,7 @@ class ProfileViewModel : AppViewModel() {
 	var isCurrentUser = false
 	val isConnected
 		get() = profile.value?.connections?.contains(currentUser?.id) == true
+	var isOffersLoaded = false
 
 	fun logout() {
 		currentUser = null
@@ -34,6 +35,7 @@ class ProfileViewModel : AppViewModel() {
 				.whereEqualTo("userID", userID)
 				.get()
 				.addOnCompleteListener { task ->
+					isOffersLoaded = true
 					if (task.isSuccessful) {
 						val offers = ArrayList<Offer>()
 						for (document in task.result!!) {

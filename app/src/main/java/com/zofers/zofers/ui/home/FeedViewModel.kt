@@ -94,7 +94,7 @@ class FeedViewModel : AppViewModel() {
 		if (filteredReachedToEnd) return
 		state.value = States.LOADING
 		FirebaseFirestore.getInstance().collection("offer")
-				.whereEqualTo("city", query.toLowerCase(Locale.getDefault()))
+				.whereArrayContains("keyWords", query.toLowerCase(Locale.getDefault()))
 //				.orderBy("viewCount")
 				.limit(LIMIT + 1L)
 //				.whereEqualTo("name", query)

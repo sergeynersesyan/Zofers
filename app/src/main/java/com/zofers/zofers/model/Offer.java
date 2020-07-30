@@ -54,6 +54,7 @@ public class Offer implements Parcelable {
     private int rateCount;
     private int viewCount;
     private Date creationDate;
+    private List<String> keyWords;
     private List<String> interestedUsers;
     private List<String> approvedUsers;
 
@@ -221,6 +222,14 @@ public class Offer implements Parcelable {
 
     public void setApprovedUsers(List<String> approvedUsers) {
         this.approvedUsers = approvedUsers;
+    }
+
+    public List<String> getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(List<String> keyWords) {
+        this.keyWords = keyWords;
     }
 
     public String getCostText(Context context) {

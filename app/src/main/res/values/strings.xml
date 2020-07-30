@@ -15,6 +15,7 @@
 	<string name="prompt_email">Email</string>
 	<string name="prompt_password">Password</string>
 	<string name="prompt_confirm_password">Confirm Password</string>
+	<string name="prompt_new_password">New Password</string>
 	<string name="action_sign_in">Sign in</string>
 	<string name="sign_in_google">Sign in with google</string>
 	<string name="sign_in_facebook">Sign in with facebook</string>
@@ -52,7 +53,7 @@
 
 	<!-- offer page-->
 	<string name="interested">Interested</string>
-	<string name="pending_approval">pending approval</string>
+	<string name="pending_approval">Request Sent</string>
 	<string name="approved">approved</string>
 	<string name="for_someone">for %s</string>
 

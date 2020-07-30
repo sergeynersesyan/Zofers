@@ -36,6 +36,7 @@
                         android:hint="@string/name"
                         android:inputType="textCapWords"
                         android:textSize="14sp"
+                        android:maxLength="50"
                         tools:text="Mkhitar Heratsi" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -53,6 +54,7 @@
                         android:imeOptions="flagNoExtractUi"
                         android:hint="@string/description"
                         android:textSize="14sp"
+                        android:maxLength="500"
                         tools:text="Mkhitar Heratsi" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -73,6 +75,7 @@
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="textEmailAddress"
                         android:textSize="14sp"
+                        android:maxLength="500"
                         tools:text="s@s.com" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/action_save"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/alternativeAccent" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </ScrollView>

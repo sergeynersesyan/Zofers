@@ -74,9 +74,7 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 		private val peopleImage: ImageView = itemView.findViewById(R.id.people_imageView)
 
 		fun bind(offer: Offer) {
-			image.load(offer.imageUrl) {
-				transformations(RoundedCornersTransformation(image.context.resources.getDimension(R.dimen.default_radius)))
-			}
+			image.load(offer.imageUrl)
 			city.text = offer.city
 			title.text = offer.name
 			costs.text = offer.getCostText(costs.context)

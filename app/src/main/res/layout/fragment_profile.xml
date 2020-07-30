@@ -19,28 +19,27 @@
 				tools:context=".ui.profile.ProfileActivity">
 
 				<TextView
-					android:id="@+id/user_name"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/activity_horizontal_margin"
-					android:paddingEnd="132dp"
-					android:textSize="24sp"
-					app:layout_constraintHorizontal_bias="0"
-					app:layout_constraintBottom_toBottomOf="@+id/avatar"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="@+id/avatar"
-					tools:text="User Name" />
-
-				<TextView
 					android:id="@+id/public_about"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:paddingStart="@dimen/activity_horizontal_margin"
-					android:paddingEnd="@dimen/activity_horizontal_margin"
+					android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+					android:paddingEnd="128dp"
+					android:textColor="@color/gray_transparent"
+					app:layout_constraintHorizontal_bias="0"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toBottomOf="@id/avatar"
-					tools:text="type something about you" />
+					app:layout_constraintTop_toTopOf="@+id/avatar"
+					tools:text="Type something about you" />
+
+				<!--				<TextView-->
+				<!--					android:id="@+id/public_about"-->
+				<!--					android:layout_width="match_parent"-->
+				<!--					android:layout_height="wrap_content"-->
+				<!--					android:paddingStart="@dimen/activity_horizontal_margin"-->
+				<!--					android:paddingEnd="@dimen/activity_horizontal_margin"-->
+				<!--					app:layout_constraintStart_toStartOf="parent"-->
+				<!--					app:layout_constraintEnd_toEndOf="parent"-->
+				<!--					app:layout_constraintTop_toBottomOf="@id/avatar"-->
+				<!--					tools:text="type something about you" />-->
 
 				<TextView
 					android:id="@+id/offers_text"
@@ -52,14 +51,14 @@
 					android:text="@string/profile_offers_section_title"
 					android:textSize="20sp"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toBottomOf="@id/public_about" />
+					app:layout_constraintTop_toBottomOf="@id/barrier" />
 
 				<View
 					android:id="@+id/divider_offers"
 					android:layout_width="match_parent"
 					android:layout_height="1dp"
-					android:layout_marginVertical="8dp"
 					android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+					android:layout_marginVertical="8dp"
 					android:background="@color/black_divider"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@id/offers_text" />
@@ -71,35 +70,34 @@
 					android:layout_height="wrap_content"
 					android:layout_marginVertical="@dimen/activity_vertical_margin"
 					android:clipToPadding="false"
-					android:orientation="horizontal"
 					android:minHeight="100dp"
+					android:orientation="horizontal"
 					android:paddingLeft="@dimen/activity_horizontal_margin"
 					android:paddingRight="@dimen/activity_horizontal_margin"
 					app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 					app:layout_constraintLeft_toLeftOf="parent"
 					app:layout_constraintRight_toRightOf="parent"
 					app:layout_constraintTop_toBottomOf="@id/divider_offers"
-					tools:listitem="@layout/item_offer_small"
-					/>
+					tools:listitem="@layout/item_offer_small" />
 
 				<LinearLayout
 					android:id="@+id/empty_offers_container"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:orientation="vertical"
-					android:layout_marginTop="@dimen/activity_vertical_margin"
+					android:layout_marginTop="42dp"
 					android:layout_marginBottom="@dimen/activity_vertical_margin"
+					android:orientation="vertical"
 					android:visibility="gone"
 					app:layout_constraintLeft_toLeftOf="parent"
 					app:layout_constraintRight_toRightOf="parent"
 					app:layout_constraintTop_toBottomOf="@id/offers_text">
 
 					<TextView
-						android:textSize="16sp"
 						android:id="@+id/empty_offers_text"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="You don't have any offers yet" />
+						android:text="You don't have any offers yet"
+						android:textSize="16sp" />
 
 					<Button
 						android:id="@+id/create_button"
@@ -127,8 +125,8 @@
 					android:id="@+id/divider_private"
 					android:layout_width="match_parent"
 					android:layout_height="1dp"
-					android:layout_marginVertical="8dp"
 					android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+					android:layout_marginVertical="8dp"
 					android:background="@color/black_divider"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@id/private_title" />
@@ -139,7 +137,9 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_margin="@dimen/activity_horizontal_margin"
+					android:clipToPadding="false"
 					android:nestedScrollingEnabled="false"
+					android:paddingBottom="40dp"
 					app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 					app:layout_constraintLeft_toLeftOf="parent"
 					app:layout_constraintRight_toRightOf="parent"
@@ -164,6 +164,14 @@
 					app:layout_constraintStart_toStartOf="@+id/avatar"
 					app:layout_constraintTop_toTopOf="@+id/avatar"
 					app:srcCompat="@drawable/ic_add_circle_outline_black_24dp" />
+
+				<androidx.constraintlayout.widget.Barrier
+					android:id="@+id/barrier"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					app:barrierDirection="bottom"
+					app:constraint_referenced_ids="avatar,public_about"
+					tools:layout_editor_absoluteY="735dp" />
 
 			</androidx.constraintlayout.widget.ConstraintLayout>
 		</ScrollView>

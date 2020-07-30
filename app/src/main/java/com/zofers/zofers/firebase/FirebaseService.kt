@@ -160,9 +160,21 @@ class FirebaseService {
 				?.addOnCompleteListener(onCompletionListener)
 	}
 
-	fun deleteConversation(fromId: String, toId: String) {
+	fun deleteConversationIfOneMessage(fromId: String, toId: String) {
 		val convID = generateConversationName(fromId, toId)
-		deleteConversation(convID)
+		val db = FirebaseFirestore.getInstance()
+		db
+				.collection("${Conversation.DOC_NAME}/${convID}/${Message.DOC_NAME}")
+				.limit(2)
+				.get()
+				.addOnSuccessListener { snapshot ->
+					if (snapshot.size() == 1) {
+						val convRef = db.document("${Conversation.DOC_NAME}/${convID}")
+						val messageRef = db.document("${Conversation.DOC_NAME}/${convID}/${Message.DOC_NAME}/${snapshot.documents[0].id}")
+						convRef.delete()
+						messageRef.delete()
+					}
+				}
 	}
 
 	fun deleteConversation(convID: String) {

@@ -24,6 +24,21 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 		offer.userID = currentUser?.id
 		offer.creationDate = Date()
 
+		//create keywords
+		val regex = Regex("\\W+")
+		val nameParts = offer.name.toLowerCase(Locale.ROOT).split(regex)
+		val keyWords = offer.city.toLowerCase(Locale.ROOT).split(regex).toMutableList()
+		if (keyWords.size > 1) {
+			keyWords.add(offer.city)
+		}
+		keyWords.addAll(nameParts)
+		if (nameParts.size > 1) {
+			keyWords.add(offer.name)
+		}
+		keyWords.addAll(offer.country.toLowerCase(Locale.ROOT).split(regex))
+		keyWords.addAll(offer.description.toLowerCase(Locale.ROOT).split(regex))
+		offer.keyWords = keyWords
+
 		image?.let {
 			uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
 				offer.imageUrl = uri.toString()
