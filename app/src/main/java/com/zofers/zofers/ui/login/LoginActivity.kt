@@ -1,5 +1,7 @@
 package com.zofers.zofers.ui.login
 
+import android.R.attr.left
+import android.R.attr.right
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
@@ -8,10 +10,15 @@ import android.text.TextUtils
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
@@ -50,6 +57,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
 		binding.googleSignInButton.setOnClickListener(this)
 		binding.emailSignInButton.setOnClickListener(this)
 		binding.toggleButton.setOnClickListener(this)
+		binding.forgotPasswordButton.setOnClickListener(this)
 		viewSetup()
 	}
 
@@ -83,6 +91,9 @@ class LoginActivity : BaseActivity(), OnClickListener {
 					openApp()
 				}
 			}
+		})
+		viewModel.messageEvent.observe(this, Observer { message ->
+			Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
 		})
 		viewModel.init(this)
 	}
@@ -179,6 +190,22 @@ class LoginActivity : BaseActivity(), OnClickListener {
 			}
 			R.id.email_sign_in_button -> attemptLogin()
 			R.id.google_sign_in_button -> viewModel.onGoogleSignIn(this)
+			R.id.forgot_password_button -> {
+				val editText = EditText(this)
+				editText.hint = getString(R.string.enter_email_hint)
+				val container = FrameLayout(this)
+				container.setPadding(resources.getDimension(R.dimen.activity_horizontal_margin).toInt())
+				container.addView(editText)
+
+				AlertDialog.Builder(this)
+						.setTitle(getString(R.string.reset_password))
+						.setPositiveButton(R.string.send_email) { _, _ ->
+							viewModel.sendForgotPasswordEmail(editText.text.trim().toString())
+						}
+						.setNegativeButton(android.R.string.cancel) { _, _ -> }
+						.setView(container)
+						.show()
+			}
 		}
 	}
 

@@ -17,7 +17,7 @@
 	<string name="prompt_confirm_password">Confirm Password</string>
 	<string name="prompt_new_password">New Password</string>
 	<string name="action_sign_in">Sign in</string>
-	<string name="sign_in_google">Sign in with google</string>
+	<string name="sign_in_google">Continue with Google</string>
 	<string name="sign_in_facebook">Sign in with facebook</string>
 	<string name="action_register">Register</string>
 	<string name="action_sign_in_short">Sign in</string>
@@ -137,5 +137,8 @@
 	<string name="messenger_sent">sent</string>
 	<string name="messenger_seen">seen</string>
 	<string name="no_description">No info about this user</string>
+	<string name="reset_password">Reset Password</string>
+	<string name="send_email">Send Email</string>
+	<string name="enter_email_hint">Enter your email</string>
 
 </resources>

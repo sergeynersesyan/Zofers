@@ -3,6 +3,7 @@ package com.zofers.zofers.ui.login
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -18,12 +19,12 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.BaseActivity
-import com.zofers.zofers.R
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
 
@@ -40,6 +41,7 @@ class LoginViewModel : AppViewModel() {
 	private val callbackManager = CallbackManager.Factory.create()
 	private lateinit var googleSignInClient: GoogleSignInClient
 
+	val messageEvent = MutableLiveData<String>()
 
 	companion object {
 		private const val RC_GOOGLE_SIGN_IN = 1000
@@ -179,6 +181,18 @@ class LoginViewModel : AppViewModel() {
 						state.value = States.FINISH
 					} else {
 						state.value = States.ERROR
+					}
+				}
+	}
+
+	fun sendForgotPasswordEmail(email: String) {
+		if (email.isEmpty()) return
+		FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+				.addOnCompleteListener { task ->
+					if (task.isSuccessful) {
+						messageEvent.value = "Password reset email sent"
+					} else {
+						messageEvent.value = "Email sending failed"
 					}
 				}
 	}
