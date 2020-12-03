@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 
 import com.zofers.zofers.R;
 
@@ -38,7 +37,7 @@ public class Offer implements Parcelable {
     private String city; //req 1
     private String name; //req 2
     private String description; //req 2
-    private String imageUrl; //req 2
+    private String imageURL; //req 2
     private int costMode; //req 1
     private int cost; //req 1 // 0 if paymentMode == PAYMENT_MODE_CREATOR
     @Nullable
@@ -86,8 +85,8 @@ public class Offer implements Parcelable {
         return description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageURL() {
+        return imageURL;
     }
 
     public int getCostMode() {
@@ -160,8 +159,8 @@ public class Offer implements Parcelable {
         this.description = description;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public void setCurrency(@Nullable String currency) {
@@ -253,7 +252,7 @@ public class Offer implements Parcelable {
         city = in.readString();
         name = in.readString();
         description = in.readString();
-        imageUrl = in.readString();
+        imageURL = in.readString();
         costMode = in.readInt();
         cost = in.readInt();
         currency = in.readString();
@@ -305,7 +304,7 @@ public class Offer implements Parcelable {
         dest.writeString(city);
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeString(imageUrl);
+        dest.writeString(imageURL);
         dest.writeInt(costMode);
         dest.writeInt(cost);
         dest.writeString(currency);

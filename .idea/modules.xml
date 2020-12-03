@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/StudioProjects-Zofers.iml" filepath="$PROJECT_DIR$/StudioProjects-Zofers.iml" group="Zofers" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/Zofers.iml" filepath="$PROJECT_DIR$/.idea/Zofers.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/Zofers-app.iml" filepath="$PROJECT_DIR$/app/Zofers-app.iml" group="Zofers/app" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/projects-Zofers.iml" filepath="$PROJECT_DIR$/projects-Zofers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/StudioProjects.Zofers.iml" filepath="$PROJECT_DIR$/.idea/modules/StudioProjects.Zofers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Zofers.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Zofers.app.iml" />
     </modules>
   </component>
 </project>

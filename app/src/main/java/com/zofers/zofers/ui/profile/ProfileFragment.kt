@@ -8,12 +8,12 @@ import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.facebook.login.LoginManager
+import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.BaseFragment
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
@@ -26,7 +26,6 @@ import com.zofers.zofers.ui.BackClickHandler
 import com.zofers.zofers.ui.create.CreateOfferActivity
 import com.zofers.zofers.ui.edit_password.EditPasswordActivity
 import com.zofers.zofers.ui.edit_profile.EditProfileActivity
-import com.zofers.zofers.ui.home.HomeActivity
 import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
@@ -81,7 +80,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		when (item.itemId) {
 			R.id.log_out -> {
 				profileViewModel.logout()
-				LoginManager.getInstance().logOut() // faceBook account
+				LoginManager.getInstance().logOut() // facebook account
 				val intent = Intent(context, LoginActivity::class.java)
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 				startActivity(intent)
@@ -170,14 +169,14 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 
 
 	private fun updateUserDependingView(user: Profile) {
-		(activity as? HomeActivity)?.supportActionBar?.title = user.name
+		(activity as? BaseActivity)?.supportActionBar?.title = user.name
 		if (user.description.isNullOrEmpty()) {
 			binding.publicAbout.text = context?.getString(R.string.no_description)
 			binding.publicAbout.setTextColor(context?.resources?.getColor(R.color.gray_transparent) ?: 0)
 		} else {
 			binding.publicAbout.text = user.description
 		}
-		binding.avatar.load(user.avatarUrl) {
+		binding.avatar.load(user.avatarURL) {
 			placeholder(R.drawable.ic_avatar)
 			fallback(R.drawable.ic_avatar)
 			transformations(CircleCropTransformation())
@@ -199,6 +198,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		binding.privateTitle.visibility = privateVisibility
 		binding.dividerPrivate.visibility = privateVisibility
 		binding.galleryRecyclerView.visibility = privateVisibility
+		binding.galleryEmptyText.visibility = if (galleryAdapter.items.isEmpty() && !profileViewModel.isCurrentUser) privateVisibility else View.GONE
 	}
 
 	private fun setupViewModel() {

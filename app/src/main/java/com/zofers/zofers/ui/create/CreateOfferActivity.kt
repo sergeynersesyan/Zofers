@@ -1,5 +1,6 @@
 package com.zofers.zofers.ui.create
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -14,6 +15,7 @@ import com.zofers.zofers.model.Offer
 import com.zofers.zofers.service.ServiceCallback
 import com.zofers.zofers.staff.MessageHelper.showNoConnectionToast
 import com.zofers.zofers.ui.create.CreateOfferActivity
+import com.zofers.zofers.ui.offer.OfferActivity
 import com.zofers.zofers.view.LoadingDialog
 import org.greenrobot.eventbus.EventBus
 
@@ -75,6 +77,10 @@ class CreateOfferActivity : BaseActivity(), View.OnClickListener {
 							if (viewModel?.isEditMode != true) {
 								EventBus.getDefault().post(OfferCreateEvent(response))
 							}
+							val intent = Intent(this@CreateOfferActivity, OfferActivity::class.java)
+							intent.putExtra(OfferActivity.EXTRA_OFFER, response)
+							startActivity(intent)
+
 							finish()
 						}
 

@@ -8,8 +8,12 @@ import com.zofers.zofers.model.Profile
 
 class UserManager(private val preferences: PreferenceService) {
 	private val KEY_AUTH_TOKEN = "k_a_tok"
+	private val KEY_INTERESTED_ALERT = "k_i_alert"
 	private val KEY_PROFILE = "k_prof"
 	private var authToken: String? = null
+	var showInterestedRequestAlert: Boolean
+	get() = preferences.getBoolean(KEY_INTERESTED_ALERT, true)
+	set(value) = preferences.setBoolean(KEY_INTERESTED_ALERT, value)
 
 	var userProfile: Profile?
 		get() {

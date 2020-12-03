@@ -6,8 +6,8 @@ class Message {
 
     var id: String? = null
 
-    var conversationId: String? = null
-    var userId: String? = null
+    var conversationID: String? = null
+    var userID: String? = null
     var date: Date? = null
     var text: String = ""
     var type: Int = 0 //default 0 or service 1;

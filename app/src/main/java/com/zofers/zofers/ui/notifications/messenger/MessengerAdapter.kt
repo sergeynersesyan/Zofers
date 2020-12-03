@@ -138,10 +138,10 @@ class MessengerAdapter(
 	private fun getMessageType(index: Int): Int {
 		var hasTop = false
 		var hasBottom = false
-		if (index < items.size - 1 && items[index].userId == items[index + 1].userId && !showTime(index) && items[index + 1].type == Message.TYPE_DEFAULT) {
+		if (index < items.size - 1 && items[index].userID == items[index + 1].userID && !showTime(index) && items[index + 1].type == Message.TYPE_DEFAULT) {
 			hasTop = true
 		}
-		if (index > 0 && items[index].userId == items[index - 1].userId && !showTime(index - 1) && items[index - 1].type == Message.TYPE_DEFAULT) {
+		if (index > 0 && items[index].userID == items[index - 1].userID && !showTime(index - 1) && items[index - 1].type == Message.TYPE_DEFAULT) {
 			// in case of group conversation check that received message users
 			hasBottom = true
 		}
@@ -177,7 +177,7 @@ class MessengerAdapter(
 			if (message.type == Message.TYPE_SERVICE) {
 				return TYPE_MESSAGE_SERVICE
 			}
-			return if (message.userId == profileID) {
+			return if (message.userID == profileID) {
 				TYPE_MESSAGE_BY_ME
 			} else TYPE_MESSAGE_TO_ME
 		}
@@ -287,8 +287,8 @@ class MessengerAdapter(
 		fun bind(message: Message, messageType: Int, showTime: Boolean) {
 			super.bind(message, messageType, showTime, conversation, profileID)
 			conversation?.let {
-				val user = it.getUser(message.userId.orEmpty())
-				avatar.load(user?.avatarUrl) {
+				val user = it.getUser(message.userID.orEmpty())
+				avatar.load(user?.avatarURL) {
 					placeholder(R.drawable.ic_avatar)
 					fallback(R.drawable.ic_avatar)
 					transformations(CircleCropTransformation())
@@ -352,7 +352,7 @@ class MessengerAdapter(
 		val peopleImage: ImageView = view.findViewById(R.id.people_imageView)
 
 
-		image.load(offer.imageUrl) {
+		image.load(offer.imageURL) {
 			transformations(RoundedCornersTransformation(image.context.resources.getDimension(R.dimen.default_radius)))
 		}
 		city.text = offer.city

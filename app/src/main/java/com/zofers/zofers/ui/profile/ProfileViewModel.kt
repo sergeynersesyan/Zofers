@@ -2,13 +2,11 @@ package com.zofers.zofers.ui.profile
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.event.OfferCreateEvent
 import com.zofers.zofers.event.OfferDeleteEvent
-import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
@@ -91,9 +89,9 @@ class ProfileViewModel : AppViewModel() {
 		profile.value?.let { user ->
 			state.value = States.LOADING
 			uploadImage(context, uri, "images/user/${user.id}/profile") { url ->
-				firebaseService.updateDocument("profile", user.id, "avatarUrl", url.toString()) { task ->
+				firebaseService.updateDocument("profile", user.id, "avatarURL", url.toString()) { task ->
 					state.value = if (task.isSuccessful) {
-						user.avatarUrl = url.toString()
+						user.avatarURL = url.toString()
 						currentUser = user
 						profile.value = user
 						firebaseService.updateAvatarInConversations(url, currentUser!!.id)

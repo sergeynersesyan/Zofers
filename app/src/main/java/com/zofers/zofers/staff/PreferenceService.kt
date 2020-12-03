@@ -15,4 +15,12 @@ class PreferenceService(val context: Context) {
 	fun getString(key: String, defValue: String?): String? {
 		return preferences.getString(key, defValue)
 	}
+
+	fun setBoolean(key: String, value: Boolean) {
+		preferences.edit().putBoolean(key, value).apply()
+	}
+
+	fun getBoolean(key: String, defValue: Boolean): Boolean {
+		return preferences.getBoolean(key, defValue)
+	}
 }

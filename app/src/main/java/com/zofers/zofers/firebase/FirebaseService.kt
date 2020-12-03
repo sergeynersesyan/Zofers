@@ -2,7 +2,6 @@ package com.zofers.zofers.firebase
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
-import com.google.api.AuthProvider
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.model.*
@@ -34,8 +33,8 @@ class FirebaseService {
 		val convId = generateConversationName(fromId, toId)
 		val now = Date()
 		val message = Message().apply {
-			conversationId = convId
-			userId = fromId
+			conversationID = convId
+			userID = fromId
 			date = now
 			this.text = text
 			type = if (isService) 1 else 0
@@ -67,13 +66,13 @@ class FirebaseService {
 									participants = listOf(
 											Participant().apply {
 												id = fromId
-												avatarUrl = userFrom?.avatarUrl
+												avatarURL = userFrom?.avatarURL
 												name = userFrom?.name
-												lastSeenMessageId = messageId
+												lastSeenMessageID = messageId
 											},
 											Participant().apply {
 												id = toId
-												avatarUrl = userTo?.avatarUrl
+												avatarURL = userTo?.avatarURL
 												name = userTo?.name
 											}
 									)
@@ -214,7 +213,7 @@ class FirebaseService {
 							db.runBatch { batch ->
 								for (conv in task.result!!) {
 									val conversation = conv.toObject(Conversation::class.java)
-									conversation.getParticipant(userID)?.avatarUrl = uri.toString()
+									conversation.getParticipant(userID)?.avatarURL = uri.toString()
 									batch.update(conv.reference, "participants", conversation.participants)
 								}
 							}.addOnCompleteListener {

@@ -8,7 +8,6 @@ import com.zofers.zofers.event.OfferDeleteEvent
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
-import io.opencensus.trace.MessageEvent
 import org.greenrobot.eventbus.EventBus
 
 
@@ -16,6 +15,8 @@ class OfferViewModel : AppViewModel() {
 
 	val offer = MutableLiveData<Offer>()
 	val user = MutableLiveData<Profile>()
+	val showDialogEvent = MutableLiveData<Boolean>(false)
+	val showMessageEvent = MutableLiveData<Boolean>(false)
 
 	fun init(offer: Offer) {
 		this.offer.value = offer
@@ -61,7 +62,7 @@ class OfferViewModel : AppViewModel() {
 		return offer.value?.userID == currentUser?.id
 	}
 
-	fun getState(): OfferState {
+	fun getOfferState(): OfferState {
 		val offer = offer.value!!
 		return when {
 			isCurrentUserOffer() -> OfferState.MY
@@ -72,11 +73,28 @@ class OfferViewModel : AppViewModel() {
 	}
 
 	fun onInterestedClicked() {
+		when (getOfferState()) {
+			OfferState.DEFAULT -> {
+				onInterested()
+			}
+			OfferState.PENDING -> {
+				onCancelled()
+			}
+			OfferState.MY,
+			OfferState.APPROVED -> {
+				//ignore
+			}
+		}
+
+
+	}
+
+	private fun onInterested() {
 		changeConnection(true)
 		changeInterestedUser(true)
 	}
 
-	fun onInterestedCancelled() {
+	private fun onCancelled() {
 		changeInterestedUser(false)
 		changeConnection(false)
 	}
@@ -114,14 +132,21 @@ class OfferViewModel : AppViewModel() {
 						toId = offer.userID,
 						offerID = offer.id
 				) { task ->
-					if (!task.isSuccessful) {
+					if (task.isSuccessful) {
+						showDialogEvent.value = userManager.showInterestedRequestAlert
+					} else {
 						state.value = States.ERROR
 					}
 				}
 			} else {
+				showMessageEvent.value = true
 				firebaseService.deleteConversationIfOneMessage(profile.id, offer.userID)
 			}
 
 		}
+	}
+
+	fun onAlertOkClicked(doNotShowChecked: Boolean) {
+		userManager.showInterestedRequestAlert = !doNotShowChecked
 	}
 }

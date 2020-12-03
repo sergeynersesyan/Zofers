@@ -1,6 +1,8 @@
 package com.zofers.zofers.ui.edit_profile
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States
@@ -32,16 +34,32 @@ class EditProfileViewModel : AppViewModel() {
 			return
 		}
 
+		var somethingChanged = false
 		state.value = States.LOADING
 		val editFieldsMap = mutableMapOf<String, String>()
 
+		val onCompleteListener: (Task<Void>) -> Unit = { task ->
+			when {
+				task.isSuccessful -> {
+					state.value = States.FINISH
+				}
+				(task.exception as FirebaseAuthRecentLoginRequiredException).errorCode == "ERROR_REQUIRES_RECENT_LOGIN" -> {
+					state.value = States.UNAUTHORIZED
+				}
+				else -> {
+					state.value = States.ERROR
+				}
+			}
+		}
+
 		if (email != auth.currentUser?.email) {
-			firebaseService.updateEmail(email) {}
+			somethingChanged = true
+			firebaseService.updateEmail(email, onCompleteListener)
 			//todo await
 		}
 		if (userName != currentUser?.name) {
 			editFieldsMap["name"] = userName
-			firebaseService.updateUserName(userName) {}
+			firebaseService.updateUserName(userName, onCompleteListener)
 			firebaseService.updateNameInConversations(userName, currentUser!!.id)
 
 			//todo await
@@ -51,6 +69,7 @@ class EditProfileViewModel : AppViewModel() {
 		}
 
 		if (editFieldsMap.isNotEmpty()) {
+			somethingChanged = true
 			firebaseService.updateDocument("profile", currentUser!!.id, editFieldsMap) { task ->
 				if (!task.isSuccessful) {
 					state.value = States.ERROR
@@ -61,9 +80,9 @@ class EditProfileViewModel : AppViewModel() {
 					state.value = States.FINISH
 				}
 			}
-		} else {
-            state.value = States.FINISH
-        }
-
+		}
+		if (!somethingChanged) {
+			state.value = States.FINISH
+		}
 	}
 }

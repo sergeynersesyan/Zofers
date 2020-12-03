@@ -6,7 +6,7 @@ class Profile {
 	}
 	var id: String = ""
 	var name: String? = null
-	var avatarUrl: String? = null
+	var avatarURL: String? = null
 	var description: String? = null
 	var publicImages: List<String>? = null
 	var privateImages = mutableListOf<String>()

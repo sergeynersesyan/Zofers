@@ -9,6 +9,7 @@ import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.model.Message
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
+import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 
 class MessengerViewModel : AppViewModel() {
@@ -38,8 +39,14 @@ class MessengerViewModel : AppViewModel() {
 		observeMessages()
 	}
 
-	fun deleteConversation() {
-		firebaseService.deleteConversation(conversationID)
+	fun rejectConversation() {
+		firebaseService.updateDocument(Conversation.DOC_NAME, conversationID, "status", Conversation.STATUS_REJECTED) {task ->
+			if (task.isSuccessful) {
+				conversation.value?.status = Conversation.STATUS_REJECTED
+			} else {
+				state.value = States.ERROR
+			}
+		}
 	}
 
 	fun getOffer(id: String, listener: ((Offer?) -> Unit)) {
@@ -60,8 +67,8 @@ class MessengerViewModel : AppViewModel() {
 		currentUser?.id?.let { userID ->
 			val conver = conversation.value
 			val mess = messages.value
-			if (conver != null && !mess.isNullOrEmpty() && conver.getParticipant(userID)?.lastSeenMessageId != mess.first().id) {
-				conver.getParticipant(userID)?.lastSeenMessageId = mess.first().id
+			if (conver != null && !mess.isNullOrEmpty() && conver.getParticipant(userID)?.lastSeenMessageID != mess.first().id) {
+				conver.getParticipant(userID)?.lastSeenMessageID = mess.first().id
 				firebaseService.updateDocument(
 						collectionName = "conversation",
 						document = conversationID,
@@ -155,12 +162,21 @@ class MessengerViewModel : AppViewModel() {
 		currentUser?.let { profile ->
 			opponent?.id?.let { participantID ->
 				profile.connections.add(participantID)
+
 				firebaseService.updateDocument(Profile.DOC_NAME, profile.id, "connections", profile.connections) { task ->
 					if (task.isSuccessful) {
 						currentUser = profile
-						updateViewEvent.postValue(true)
+						firebaseService.updateDocument(Conversation.DOC_NAME, conversationID, "status", Conversation.STATUS_ACCEPTED) {task ->
+							if (task.isSuccessful) {
+								conversation.value?.status = Conversation.STATUS_ACCEPTED
+								updateViewEvent.postValue(true)
+							} else {
+								state.value = States.ERROR
+							}
+						}
 					} else {
 						profile.connections.remove(participantID)
+						state.value = States.ERROR
 					}
 				}
 			}

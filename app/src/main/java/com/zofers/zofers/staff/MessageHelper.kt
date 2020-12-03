@@ -12,6 +12,10 @@ object MessageHelper {
         Toast.makeText(context, "something went wrong $text", duration).show()
     }
 
+    fun showToastMessage(context: Context?, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(context, text, duration).show()
+    }
+
     fun showNoConnectionToast(context: Context?) {
         showErrorToast(context, "no connection")
     }

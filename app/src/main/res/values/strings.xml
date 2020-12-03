@@ -1,5 +1,5 @@
 <resources>
-	<string name="app_name">Zofers</string>
+<!--	<string name="app_name">Zofers</string>-->
 
 	<!--actions-->
 	<string name="action_next">NEXT</string>
@@ -8,6 +8,8 @@
 	<string name="action_edit">Edit</string>
 	<string name="action_favorite">Favorite</string>
 	<string name="action_delete">Delete</string>
+	<string name="action_ok">OK</string>
+	<string name="action_create">create</string>
 
 
 	<!-- Strings related to login -->
@@ -130,15 +132,20 @@
     <string name="country">Country</string>
     <string name="edit_password">Edit Password</string>
     <string name="edit_profile">Edit Profile</string>
-	<string name="description">Description</string>
+	<string name="description">Bio</string>
 	<string name="name">Name</string>
-	<string name="action_create">create</string>
 	<string name="no_messages_yet">No messages yet</string>
 	<string name="messenger_sent">sent</string>
 	<string name="messenger_seen">seen</string>
-	<string name="no_description">No info about this user</string>
+	<string name="no_description">No bio for this user</string>
 	<string name="reset_password">Reset Password</string>
 	<string name="send_email">Send Email</string>
 	<string name="enter_email_hint">Enter your email</string>
+	<string name="no_private_images">No private images</string>
+	<string name="interested_alert">The offer owner received your request.\n After approvement you can chat and meet</string>
+	<string name="do_not_show_again">Do not show again</string>
+	<string name="happy_nice_cool_awesome">Awesome!</string>
+	<string name="request_canceled">Request Canceled</string>
+
 
 </resources>

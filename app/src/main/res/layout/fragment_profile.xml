@@ -30,17 +30,6 @@
 					app:layout_constraintTop_toTopOf="@+id/avatar"
 					tools:text="Type something about you" />
 
-				<!--				<TextView-->
-				<!--					android:id="@+id/public_about"-->
-				<!--					android:layout_width="match_parent"-->
-				<!--					android:layout_height="wrap_content"-->
-				<!--					android:paddingStart="@dimen/activity_horizontal_margin"-->
-				<!--					android:paddingEnd="@dimen/activity_horizontal_margin"-->
-				<!--					app:layout_constraintStart_toStartOf="parent"-->
-				<!--					app:layout_constraintEnd_toEndOf="parent"-->
-				<!--					app:layout_constraintTop_toBottomOf="@id/avatar"-->
-				<!--					tools:text="type something about you" />-->
-
 				<TextView
 					android:id="@+id/offers_text"
 					android:layout_width="wrap_content"
@@ -145,6 +134,20 @@
 					app:layout_constraintRight_toRightOf="parent"
 					app:layout_constraintTop_toBottomOf="@id/divider_private"
 					app:spanCount="3" />
+
+				<TextView
+						android:id="@+id/gallery_empty_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_margin="@dimen/activity_horizontal_margin"
+						android:clipToPadding="false"
+						android:visibility="gone"
+						android:layout_marginTop="@dimen/activity_vertical_margin"
+						android:text="@string/no_private_images"
+						app:layout_constraintLeft_toLeftOf="parent"
+						app:layout_constraintRight_toRightOf="parent"
+						app:layout_constraintTop_toBottomOf="@id/divider_private"
+						/>
 
 				<ImageView
 					android:id="@+id/avatar"

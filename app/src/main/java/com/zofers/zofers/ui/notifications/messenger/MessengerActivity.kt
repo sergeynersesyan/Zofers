@@ -1,19 +1,18 @@
 package com.zofers.zofers.ui.notifications.messenger
 
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.R
 import com.zofers.zofers.databinding.ActivityMessengerBinding
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Participant
+import com.zofers.zofers.staff.MessageHelper
+import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.offer.OfferActivity
 import com.zofers.zofers.ui.profile.ProfileActivity
 
@@ -82,8 +81,8 @@ class MessengerActivity : BaseActivity() {
 				binding.messengerInputText.setText("")
 			}
 		}
-		binding.deleteRequestButton.setOnClickListener {
-			viewModel.deleteConversation()
+		binding.rejectRequestButton.setOnClickListener {
+			viewModel.rejectConversation()
 			finish()
 		}
 
@@ -111,6 +110,12 @@ class MessengerActivity : BaseActivity() {
 		viewModel.reachedToEnd.observe(this, Observer { hasReachedEnd ->
 			if (hasReachedEnd) {
 				adapter.hasReachedEnd = true
+			}
+		})
+
+		viewModel.state.observe(this, Observer {state ->
+			when (state) {
+				States.ERROR -> MessageHelper.showErrorToast(this)
 			}
 		})
 	}

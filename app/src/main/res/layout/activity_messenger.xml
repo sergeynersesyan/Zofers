@@ -76,7 +76,7 @@
             android:visibility="gone">
 
             <Button
-                android:id="@+id/delete_request_button"
+                android:id="@+id/reject_request_button"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

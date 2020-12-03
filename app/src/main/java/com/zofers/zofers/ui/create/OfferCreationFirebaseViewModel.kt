@@ -41,7 +41,7 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 
 		image?.let {
 			uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
-				offer.imageUrl = uri.toString()
+				offer.imageURL = uri.toString()
 				writeOffer(callback)
 			}
 		} ?: writeOffer(callback)

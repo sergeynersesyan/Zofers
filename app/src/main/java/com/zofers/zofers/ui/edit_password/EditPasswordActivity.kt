@@ -1,6 +1,5 @@
 package com.zofers.zofers.ui.edit_password
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +12,6 @@ import com.zofers.zofers.R
 import com.zofers.zofers.databinding.ActivityEditPasswordBinding
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
-import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.view.LoadingDialog
 
 class EditPasswordActivity : BaseActivity() {
@@ -33,6 +31,7 @@ class EditPasswordActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_password)
+        setTitle(R.string.edit_password)
         setupViewModel()
         setupView()
     }

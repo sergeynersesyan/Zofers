@@ -47,4 +47,7 @@
         <item name="android:textColor">@color/alternativeAccent</item>
     </style>
 
+    <style name="AlertDialogHappyTheme" parent="AlertDialogTheme">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
 </resources>

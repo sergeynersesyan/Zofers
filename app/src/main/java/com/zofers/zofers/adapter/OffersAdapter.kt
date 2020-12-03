@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import coil.transform.RoundedCornersTransformation
 import com.zofers.zofers.R
 import com.zofers.zofers.model.Offer
 
@@ -74,7 +73,7 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 		private val peopleImage: ImageView = itemView.findViewById(R.id.people_imageView)
 
 		fun bind(offer: Offer) {
-			image.load(offer.imageUrl)
+			image.load(offer.imageURL)
 			city.text = offer.city
 			title.text = offer.name
 			costs.text = offer.getCostText(costs.context)

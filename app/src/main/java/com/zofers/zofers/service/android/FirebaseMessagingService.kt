@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
@@ -57,11 +58,11 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 			try {
 				val notificationMessage = remoteMessage.data["message"]
 				val title = remoteMessage.data["title"]
-				val imageUrl = remoteMessage.data["imageUrl"]
+				val imageURL = remoteMessage.data["imageURL"]
 				val data = remoteMessage.data["data"]
 //				val message = Gson().fromJson(data, Message::class.java) // date syntax error
 				if (!(application as App).isMessengerActive) {
-					sendNotification(notificationMessage.orEmpty(), title, imageUrl, imageUrl.hashCode() + title.hashCode())
+					sendNotification(notificationMessage.orEmpty(), title, imageURL, imageURL.hashCode() + title.hashCode())
 				}
 
 			} catch (e: NullPointerException) {
@@ -148,12 +149,12 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 				.isGroupConversation = false
 
 		val channelId = "fuckin_channel_id_45"
-		val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+//		val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 		val notificationBuilder = NotificationCompat.Builder(this, channelId)
 				.setContentText(messageBody)
 				.setSmallIcon(R.mipmap.ic_notification)
 				.setAutoCancel(true)
-				.setSound(defaultSoundUri)
+				.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
 				.setContentIntent(pendingIntent)
 				.setStyle(style)
 		if (!title.isNullOrEmpty()) {

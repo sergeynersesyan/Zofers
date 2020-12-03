@@ -3,6 +3,7 @@ package com.zofers.zofers.model
 import java.util.*
 
 class Conversation {
+
 	var id: String? = null
 	var name: String? = null
 	var creationDate: Date? = null
@@ -10,6 +11,7 @@ class Conversation {
 	var participantIDs: List<String>? = null
 	var participants: List<Participant>? = null
 	var lastMessage: Message? = null
+	var status: Int? = 0 // requested - 0, approved - 1, rejected - 2
 
 	//_____________________________________________________________________
 	fun getUser(id: String): Participant? {
@@ -54,13 +56,17 @@ class Conversation {
 	fun isUnread(userId: String): Boolean {
 		val participant = getParticipant(userId) ?: return false
 		return if (lastMessage != null) {
-			userId != lastMessage!!.userId && lastMessage!!.id != participant.lastSeenMessageId
+			userId != lastMessage!!.userID && lastMessage!!.id != participant.lastSeenMessageID
 		} else {
-			participant.lastSeenMessageId == null
+			participant.lastSeenMessageID == null
 		}
 	}
 
 	companion object {
 		const val DOC_NAME = "conversation"
+
+		const val STATUS_REQUESTED = 0
+		const val STATUS_ACCEPTED = 1
+		const val STATUS_REJECTED = 2
 	}
 }

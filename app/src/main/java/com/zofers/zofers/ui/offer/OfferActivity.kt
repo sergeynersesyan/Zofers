@@ -4,11 +4,12 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +28,6 @@ import com.zofers.zofers.ui.create.CreateOfferActivity
 import com.zofers.zofers.ui.profile.ProfileActivity
 import com.zofers.zofers.view.AppBarStateChangeListener
 import com.zofers.zofers.view.LoadingDialog
-import kotlinx.android.synthetic.main.activity_offer.*
 
 class OfferActivity : BaseActivity() {
 
@@ -102,7 +102,7 @@ class OfferActivity : BaseActivity() {
 		})
 		viewModel?.user?.observe(this, Observer<Profile> { user ->
 			binding?.userName?.text = user.name
-			binding?.avatar?.load(user.avatarUrl) {
+			binding?.avatar?.load(user.avatarURL) {
 				placeholder(R.drawable.ic_avatar)
 				fallback(R.drawable.ic_avatar)
 				transformations(CircleCropTransformation())
@@ -119,6 +119,26 @@ class OfferActivity : BaseActivity() {
 				}
 			}
 		})
+		viewModel?.showDialogEvent?.observe(this, Observer {show ->
+			if (show) {
+				val view = LayoutInflater.from(this).inflate(R.layout.dialog_checkbox, null)
+				AlertDialog.Builder(this, R.style.AlertDialogHappyTheme)
+						.setTitle(R.string.happy_nice_cool_awesome)
+						.setMessage(getString(R.string.interested_alert))
+						.setPositiveButton(R.string.action_ok) { _, _ ->
+							viewModel?.onAlertOkClicked(view.findViewById<CheckBox>(R.id.checkbox).isChecked)
+						}
+						.setView(view)
+						.show()
+			}
+		})
+		viewModel?.showMessageEvent?.observe(this, Observer {show ->
+			if (show) {
+				binding?.let {
+					MessageHelper.showSnackBar(it.root, getString(R.string.request_canceled))
+				}
+			}
+		})
 	}
 
 	private fun setupView(offer: Offer) {
@@ -128,18 +148,7 @@ class OfferActivity : BaseActivity() {
 			}
 		})
 		binding?.interestedButton?.setOnClickListener {
-			when (viewModel?.getState()) {
-				OfferState.DEFAULT -> {
-					viewModel?.onInterestedClicked()
-				}
-				OfferState.PENDING -> {
-					viewModel?.onInterestedCancelled()
-				}
-				OfferState.MY,
-				OfferState.APPROVED -> {
-					//ignore
-				}
-			}
+			viewModel?.onInterestedClicked()
 		}
 
 		val forText = StringBuilder()
@@ -164,7 +173,7 @@ class OfferActivity : BaseActivity() {
 
 	private fun updateView(offer: Offer) {
 		val button = binding?.interestedButton
-		when (viewModel?.getState()) {
+		when (viewModel?.getOfferState()) {
 			OfferState.MY ->
 				button?.visibility = View.GONE
 			OfferState.DEFAULT -> {
@@ -180,7 +189,7 @@ class OfferActivity : BaseActivity() {
 		}
 
 		binding?.offer = offer
-		binding?.coverImage?.load(offer.imageUrl)
+		binding?.coverImage?.load(offer.imageURL)
 	}
 
 	private fun updateMenuItemColors(state: AppBarStateChangeListener.State) {
