@@ -36,16 +36,6 @@ class FeedViewModel : AppViewModel() {
 		EventBus.getDefault().register(this)
 	}
 
-	private fun QuerySnapshot.toOfferList(): ArrayList<Offer> {
-		val offers = ArrayList<Offer>()
-		for (docSnapshot in this) {
-			val offer = docSnapshot.toObject(Offer::class.java)
-			offer.id = docSnapshot.id
-			offers.add(offer)
-		}
-		return offers
-	}
-
 	fun loadFeed() {
 		currentCountryReachedToEnd = false
 		otherCountriesReachedToEnd = false
@@ -222,4 +212,14 @@ class FeedViewModel : AppViewModel() {
 	fun destroy() {
 		EventBus.getDefault().unregister(this)
 	}
+}
+
+private fun QuerySnapshot.toOfferList(): ArrayList<Offer> {
+	val offers = ArrayList<Offer>()
+	for (docSnapshot in this) {
+		val offer = docSnapshot.toObject(Offer::class.java)
+		offer.id = docSnapshot.id
+		offers.add(offer)
+	}
+	return offers
 }

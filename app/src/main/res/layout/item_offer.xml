@@ -1,80 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:layout_margin="8dp">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="?attr/selectableItemBackground"
-		android:orientation="vertical">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:orientation="vertical">
 
-		<ImageView
-			android:id="@+id/image"
-			android:layout_width="match_parent"
-			android:layout_height="300dp"
-			android:scaleType="centerCrop" />
+        <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop" />
 
-		<TextView
-			android:id="@+id/city_textView"
-			android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-			android:layout_marginTop="4dp"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			tools:text="Yerevan" />
+        <TextView
+                android:id="@+id/city_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textColor="@color/colorAccent"
+                tools:text="Yerevan" />
 
-		<TextView
-			android:id="@+id/title_textView"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:ellipsize="end"
-			android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-			android:maxLines="2"
-			android:paddingTop="4dp"
-			android:paddingBottom="12dp"
-			android:textSize="24sp"
-			android:textStyle="bold"
-			tools:text="NICE PARTY in one of the best restaurants in Yerevan" />
+        <TextView
+                android:id="@+id/title_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingTop="8dp"
+                android:paddingBottom="12dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="NICE PARTY in one of the best restaurants in Yerevan" />
 
-		<RelativeLayout
-			android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-			android:layout_marginBottom="@dimen/activity_horizontal_margin"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
-			<TextView
-				android:id="@+id/costs_textView"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:background="@drawable/costs_background"
-				android:textColor="@color/colorAccent"
-				tools:text="Free for you" />
+            <TextView
+                    android:id="@+id/costs_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/costs_background"
+                    android:textColor="@color/colorAccent"
+                    android:visibility="gone"
+                    tools:text="Free for you" />
 
-			<TextView
-				android:id="@+id/people_textView"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentEnd="true"
-				android:layout_centerVertical="true"
-				android:gravity="end"
-				tools:text="for 1 man" />
+            <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true" />
 
-			<androidx.appcompat.widget.AppCompatImageView
-				android:id="@+id/people_imageView"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_toStartOf="@id/people_textView"
-				android:layout_toLeftOf="@id/people_textView"
-				android:padding="4dp"
-				android:src="@drawable/ic_people"
-				android:tint="@color/gray" />
+            <TextView
+                    android:id="@+id/owner_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="user name"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toStartOf="@id/people_imageView"
+                    android:layout_toEndOf="@id/avatar"
+                    android:textStyle="bold" />
 
-		</RelativeLayout>
+            <TextView
+                    android:id="@+id/people_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    tools:text="for 1 man" />
 
-	</LinearLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/people_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/people_textView"
+                    android:layout_centerVertical="true"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_people"
+                    android:tint="@color/gray" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

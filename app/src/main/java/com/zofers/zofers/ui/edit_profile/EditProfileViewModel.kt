@@ -61,7 +61,7 @@ class EditProfileViewModel : AppViewModel() {
 			editFieldsMap["name"] = userName
 			firebaseService.updateUserName(userName, onCompleteListener)
 			firebaseService.updateNameInConversations(userName, currentUser!!.id)
-
+			firebaseService.updateNameInOffers(userName, currentUser!!.id)
 			//todo await
 		}
 		if (description != currentUser?.description) {

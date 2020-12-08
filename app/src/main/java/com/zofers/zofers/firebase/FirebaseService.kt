@@ -201,6 +201,13 @@ class FirebaseService {
 		}
 	}
 
+	fun deleteDeviceToken() {
+		val user = FirebaseAuth.getInstance().currentUser
+		user?.let {
+			updateDocument("profile", FirebaseAuth.getInstance().currentUser!!.uid, "deviceToken", "") {}
+		}
+	}
+
 	fun updateAvatarInConversations(uri: Uri, userID: String) {
 		val db = FirebaseFirestore.getInstance()
 		db
@@ -226,7 +233,7 @@ class FirebaseService {
 
 	}
 
-	fun updateNameInConversations(userName: String, userID: String) {
+	fun updateNameInConversations(newUserName: String, userID: String) {
 		val db = FirebaseFirestore.getInstance()
 		db
 				.collection(Conversation.DOC_NAME)
@@ -238,12 +245,30 @@ class FirebaseService {
 							db.runBatch { batch ->
 								for (conv in task.result!!) {
 									val conversation = conv.toObject(Conversation::class.java)
-									conversation.getParticipant(userID)?.name = userName
+									conversation.getParticipant(userID)?.name = newUserName
 									batch.update(conv.reference, "participants", conversation.participants)
 								}
 							}.addOnCompleteListener {
 
 							}
+						}
+					}
+				}
+	}
+
+	fun updateNameInOffers(newUserName: String, userID: String) {
+		val db = FirebaseFirestore.getInstance()
+		db.collection(Offer.DOC_NAME)
+				.whereEqualTo("owner.id", userID)
+				.get()
+				.addOnCompleteListener { task ->
+					if (task.isSuccessful) {
+						if (task.result != null && task.result?.isEmpty == false) {
+							db.runBatch { batch ->
+								for (offer in task.result!!) {
+									batch.update(offer.reference, "owner.name", newUserName)
+								}
+							}.addOnCompleteListener {}
 						}
 					}
 				}

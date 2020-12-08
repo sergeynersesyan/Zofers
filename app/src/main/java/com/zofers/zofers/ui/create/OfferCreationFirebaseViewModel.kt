@@ -5,6 +5,7 @@ import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Offer
+import com.zofers.zofers.model.Owner
 import com.zofers.zofers.service.ServiceCallback
 import java.util.*
 
@@ -22,6 +23,11 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 
 	fun createOffer(context: Context, image: Uri?, callback: ServiceCallback<Offer>) {
 		offer.userID = currentUser?.id
+		offer.owner = Owner().apply {
+			id = currentUser?.id
+			avatarURL = currentUser?.avatarURL
+			name = currentUser?.name
+		}
 		offer.creationDate = Date()
 
 		//create keywords

@@ -24,6 +24,7 @@ class ProfileViewModel : AppViewModel() {
 
 	fun logout() {
 		currentUser = null
+		firebaseService.deleteDeviceToken()
 		auth.signOut()
 	}
 

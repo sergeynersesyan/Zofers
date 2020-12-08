@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.zofers.zofers.R
 import com.zofers.zofers.model.Offer
 
@@ -71,12 +72,23 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 		private val costs: TextView = itemView.findViewById(R.id.costs_textView)
 		private val people: TextView = itemView.findViewById(R.id.people_textView)
 		private val peopleImage: ImageView = itemView.findViewById(R.id.people_imageView)
+		private val ownerAvatar: ImageView? = itemView.findViewById(R.id.avatar)
+		private val ownerName: TextView? = itemView.findViewById(R.id.owner_name)
 
 		fun bind(offer: Offer) {
 			image.load(offer.imageURL)
 			city.text = offer.city
 			title.text = offer.name
 			costs.text = offer.getCostText(costs.context)
+			offer.owner?.let {
+				ownerName?.text = it.name
+				ownerAvatar?.load(it.avatarURL) {
+					placeholder(R.drawable.ic_avatar)
+					fallback(R.drawable.ic_avatar)
+					transformations(CircleCropTransformation())
+				}
+			}
+
 
 			val peopleCount = offer.peopleCount
 			if (peopleCount > 0) {

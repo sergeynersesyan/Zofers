@@ -48,6 +48,8 @@ public class Offer implements Parcelable {
     private String availability; // opt 3
 
     private String userID;
+    @Nullable
+    private Owner owner;
     private int bookCount;
     private float rating; //don't need yet
     private int rateCount;
@@ -63,6 +65,15 @@ public class Offer implements Parcelable {
 
     public String getId() {
         return id;
+    }
+
+    @Nullable
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(@Nullable Owner owner) {
+        this.owner = owner;
     }
 
     public void setId(String id) {
