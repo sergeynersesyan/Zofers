@@ -4,6 +4,8 @@ import android.R.attr.left
 import android.R.attr.right
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -28,19 +30,41 @@ import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.home.HomeActivity
 
 
-class LoginActivity : BaseActivity(), OnClickListener {
+open class LoginActivity : BaseActivity(), OnClickListener {
 
 	private var isRegisterMode = true
 	private lateinit var binding: ActivityLoginBinding
 	private lateinit var viewModel: LoginViewModel
 
+	companion object {
+		const val REQUEST_CODE_LAZY_LOGIN: Int = 1973
+		fun start(context: Context) {
+			context.startActivity(
+					Intent(
+							context,
+							LoginActivity::class.java
+					)
+			)
+		}
+
+		fun startForResult(activity: Activity) {
+			activity.startActivityForResult(
+					Intent(
+							activity,
+							LoginActivity::class.java
+					),
+					REQUEST_CODE_LAZY_LOGIN
+			)
+		}
+	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 		initViewModel()
-		if (viewModel.currentUser != null && FirebaseAuth.getInstance().currentUser != null) {
-			openApp()
-		}
+//		if (viewModel.currentUser != null && FirebaseAuth.getInstance().currentUser != null) {
+//			openApp()
+//		}
 		initView()
 	}
 
@@ -88,7 +112,12 @@ class LoginActivity : BaseActivity(), OnClickListener {
 				}
 				States.FINISH -> {
 					showProgress(false)
-					openApp()
+					if (callingActivity == null) {
+						openApp()
+					} else {
+						setResult(Activity.RESULT_OK)
+						finish()
+					}
 				}
 			}
 		})

@@ -1,5 +1,6 @@
 package com.zofers.zofers.ui.offer
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -25,6 +26,8 @@ import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.staff.disable
 import com.zofers.zofers.ui.create.CreateOfferActivity
+import com.zofers.zofers.ui.login.LoginActivity
+import com.zofers.zofers.ui.login.LoginPopupActivity
 import com.zofers.zofers.ui.profile.ProfileActivity
 import com.zofers.zofers.view.AppBarStateChangeListener
 import com.zofers.zofers.view.LoadingDialog
@@ -51,10 +54,12 @@ class OfferActivity : BaseActivity() {
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		title = ""
 
-		val offer: Offer = intent.getParcelableExtra(EXTRA_OFFER)
+		val offer: Offer? = intent.getParcelableExtra(EXTRA_OFFER)
 
-		initViewModel(offer)
-		setupView(offer)
+		offer?.let {
+			initViewModel(offer)
+			setupView(offer)
+		}
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,13 +80,13 @@ class OfferActivity : BaseActivity() {
 		return super.onCreateOptionsMenu(menu)
 	}
 
-	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-		when (item?.itemId) {
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		when (item.itemId) {
 			R.id.action_delete -> AlertDialog.Builder(this)
-						.setMessage("Do you want to delete this offer?")
-						.setPositiveButton(android.R.string.yes) { _, _ -> viewModel?.delete() }
-						.setNegativeButton(android.R.string.no) { _, _ -> }
-						.show()
+					.setMessage("Do you want to delete this offer?")
+					.setPositiveButton(android.R.string.yes) { _, _ -> viewModel?.delete() }
+					.setNegativeButton(android.R.string.no) { _, _ -> }
+					.show()
 			R.id.action_edit -> {
 				viewModel?.offer?.value?.let {
 					val intent = Intent(this, CreateOfferActivity::class.java)
@@ -109,7 +114,7 @@ class OfferActivity : BaseActivity() {
 			}
 		})
 
-		viewModel?.state?.observe(this, Observer {state ->
+		viewModel?.state?.observe(this, Observer { state ->
 			loadingDialog?.dismiss()
 			when (state) {
 				States.FINISH -> finish()
@@ -119,7 +124,7 @@ class OfferActivity : BaseActivity() {
 				}
 			}
 		})
-		viewModel?.showDialogEvent?.observe(this, Observer {show ->
+		viewModel?.showDialogEvent?.observe(this, Observer { show ->
 			if (show) {
 				val view = LayoutInflater.from(this).inflate(R.layout.dialog_checkbox, null)
 				AlertDialog.Builder(this, R.style.AlertDialogHappyTheme)
@@ -132,11 +137,22 @@ class OfferActivity : BaseActivity() {
 						.show()
 			}
 		})
-		viewModel?.showMessageEvent?.observe(this, Observer {show ->
+		viewModel?.showMessageEvent?.observe(this, Observer { show ->
 			if (show) {
 				binding?.let {
 					MessageHelper.showSnackBar(it.root, getString(R.string.request_canceled))
 				}
+			}
+		})
+		viewModel?.startLoginActivityEvent?.observe(this, Observer { show ->
+			if (show) {
+				LoginActivity.startForResult(this)
+			}
+		})
+		viewModel?.updateViewEvent?.observe(this, Observer { show ->
+			if (show) {
+				updateView(offer)
+				invalidateOptionsMenu()
 			}
 		})
 	}
@@ -155,11 +171,11 @@ class OfferActivity : BaseActivity() {
 		if (offer.peopleCount > 0) {
 			forText.append(resources.getQuantityString(offer.peopleTextResource, offer.peopleCount, offer.peopleCount))
 		}
-		if(!offer.requirements.isNullOrEmpty()) {
+		if (!offer.requirements.isNullOrEmpty()) {
 			forText.append(", ")
 			forText.append(offer.requirements)
 		}
-		if(!offer.availability.isNullOrEmpty()) {
+		if (!offer.availability.isNullOrEmpty()) {
 			forText.append(", ")
 			forText.append(offer.availability)
 		}
@@ -209,5 +225,12 @@ class OfferActivity : BaseActivity() {
 				binding?.toolbar?.navigationIcon?.setColorFilter(resources.getColor(R.color.gray), PorterDuff.Mode.SRC_ATOP)
 			}
 		}
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		if (requestCode == LoginActivity.REQUEST_CODE_LAZY_LOGIN && resultCode == Activity.RESULT_OK) {
+			viewModel?.onLoggedIn()
+		}
+		super.onActivityResult(requestCode, resultCode, data)
 	}
 }

@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.media.RingtoneManager
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
@@ -16,11 +15,12 @@ import androidx.core.graphics.drawable.IconCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
-import com.zofers.zofers.R
 import com.zofers.zofers.App
+import com.zofers.zofers.R
 import com.zofers.zofers.firebase.FirebaseService
 import com.zofers.zofers.model.Message
-import com.zofers.zofers.ui.home.HomeActivity
+import com.zofers.zofers.ui.notifications.messenger.MessengerActivity
+import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 
@@ -28,6 +28,7 @@ import java.net.URL
 class FirebaseMessagingService : FirebaseMessagingService() {
 
 	private val firebaseService = FirebaseService()
+
 	/**
 	 * Called when message is received.
 	 *
@@ -58,17 +59,21 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 			try {
 				val notificationMessage = remoteMessage.data["message"]
 				val title = remoteMessage.data["title"]
-				val imageURL = remoteMessage.data["imageURL"]
+				val imageURL = remoteMessage.data["imageURL"] ?: remoteMessage.data["imageUrl"]
+				val conversationID = remoteMessage.data["conversationID"]
 				val data = remoteMessage.data["data"]
+				Log.d("notification", data.orEmpty())
+//				val jsonObject = JSONObject(data.orEmpty())
+//				jsonObject.remove("date")
 //				val message = Gson().fromJson(data, Message::class.java) // date syntax error
+//				val message = Gson().fromJson(jsonObject.toString(), Message::class.java)
 				if (!(application as App).isMessengerActive) {
-					sendNotification(notificationMessage.orEmpty(), title, imageURL, imageURL.hashCode() + title.hashCode())
+					sendNotification(notificationMessage.orEmpty(), title, imageURL, imageURL.hashCode() + title.hashCode(), conversationID)
 				}
 
 			} catch (e: NullPointerException) {
 				Log.e(TAG, "onMessageReceived: NullPointerException: " + e.message)
 			}
-			// Handle message within 10 seconds
 		}
 
 
@@ -122,11 +127,11 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 	 *
 	 * @param messageBody FCM message body received.
 	 */
-	private fun sendNotification(messageBody: String, title: String?, iconUri: String?, notifID: Int) {
-		val intent = Intent(this, HomeActivity::class.java)
+	private fun sendNotification(messageBody: String, title: String?, iconUri: String?, notifID: Int, conversationID: String?) {
+		val intent = Intent(applicationContext, MessengerActivity::class.java)
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-		intent.putExtra(HomeActivity.EXTRA_OPENING_TAB, HomeActivity.OPENING_TAB_NOTIFICATION)
-		val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+		intent.putExtra(MessengerActivity.ARG_CONVERSATION_ID, conversationID)
+		val pendingIntent = PendingIntent.getActivity(this, Math.random().toInt() /* Request code */, intent,
 				PendingIntent.FLAG_ONE_SHOT)
 
 		val icon = try {
@@ -134,6 +139,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 			val input = url.openStream()
 			IconCompat.createWithBitmap(BitmapFactory.decodeStream(input))
 		} catch (e: IOException) {
+			Log.d(TAG, "error on icon loading")
 			null
 		}
 
@@ -181,7 +187,10 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 					.activeNotifications
 					.find { it.id == notificationId }
 					?.notification
-					?.let { NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(it) }
+					?.let {
+						Log.d(TAG, "notification style restored")
+						NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(it)
+					}
 		} else {
 			return null
 		}

@@ -55,4 +55,8 @@ open class AppViewModel : ViewModel() {
 		val imagesRef = storageRef.child(pathString)
 		imagesRef.delete().addOnCompleteListener(onSuccess)
 	}
+
+	fun isLoggedOut(): Boolean {
+		return currentUser == null || FirebaseAuth.getInstance().currentUser == null
+	}
 }

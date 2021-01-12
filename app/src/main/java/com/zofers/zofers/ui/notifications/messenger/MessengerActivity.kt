@@ -1,5 +1,6 @@
 package com.zofers.zofers.ui.notifications.messenger
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -20,6 +21,12 @@ class MessengerActivity : BaseActivity() {
 
 	companion object {
 		const val ARG_CONVERSATION_ID = "arg conv id"
+
+		fun start(context: Context, conversationID: String?) {
+			val intent = Intent(context, MessengerActivity::class.java)
+			intent.putExtra(ARG_CONVERSATION_ID, conversationID)
+			context.startActivity(intent)
+		}
 	}
 
 	lateinit var binding: ActivityMessengerBinding

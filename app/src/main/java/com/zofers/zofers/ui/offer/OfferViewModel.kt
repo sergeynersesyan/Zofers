@@ -17,6 +17,8 @@ class OfferViewModel : AppViewModel() {
 	val user = MutableLiveData<Profile>()
 	val showDialogEvent = MutableLiveData<Boolean>(false)
 	val showMessageEvent = MutableLiveData<Boolean>(false)
+	val startLoginActivityEvent = MutableLiveData<Boolean>(false)
+	val updateViewEvent = MutableLiveData<Boolean>(false)
 
 	fun init(offer: Offer) {
 		this.offer.value = offer
@@ -73,6 +75,11 @@ class OfferViewModel : AppViewModel() {
 	}
 
 	fun onInterestedClicked() {
+		if (isLoggedOut()) {
+			startLoginActivityEvent.value = true
+			return
+		}
+
 		when (getOfferState()) {
 			OfferState.DEFAULT -> {
 				onInterested()
@@ -148,5 +155,9 @@ class OfferViewModel : AppViewModel() {
 
 	fun onAlertOkClicked(doNotShowChecked: Boolean) {
 		userManager.showInterestedRequestAlert = !doNotShowChecked
+	}
+
+	fun onLoggedIn() {
+		updateViewEvent.value = true
 	}
 }
