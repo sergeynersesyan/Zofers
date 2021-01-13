@@ -90,7 +90,6 @@ class MessengerActivity : BaseActivity() {
 		}
 		binding.rejectRequestButton.setOnClickListener {
 			viewModel.rejectConversation()
-			finish()
 		}
 
 		binding.acceptRequestButton.setOnClickListener {
@@ -123,6 +122,7 @@ class MessengerActivity : BaseActivity() {
 		viewModel.state.observe(this, Observer {state ->
 			when (state) {
 				States.ERROR -> MessageHelper.showErrorToast(this)
+				States.FINISH -> finish()
 			}
 		})
 	}

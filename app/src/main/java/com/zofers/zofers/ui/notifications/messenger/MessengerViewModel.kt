@@ -9,7 +9,6 @@ import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.model.Message
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
-import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 
 class MessengerViewModel : AppViewModel() {
@@ -40,9 +39,16 @@ class MessengerViewModel : AppViewModel() {
 	}
 
 	fun rejectConversation() {
-		firebaseService.updateDocument(Conversation.DOC_NAME, conversationID, "status", Conversation.STATUS_REJECTED) {task ->
-			if (task.isSuccessful) {
-				conversation.value?.status = Conversation.STATUS_REJECTED
+//		firebaseService.updateDocument(Conversation.DOC_NAME, conversationID, "status", Conversation.STATUS_REJECTED) {task ->
+//			if (task.isSuccessful) {
+//				conversation.value?.status = Conversation.STATUS_REJECTED
+//			} else {
+//				state.value = States.ERROR
+//			}
+//		}
+		firebaseService.updateDocument(Conversation.DOC_NAME, conversationID, "participantIDs", listOf(opponent?.id)) {
+			if (it.isSuccessful) {
+				state.value = States.FINISH
 			} else {
 				state.value = States.ERROR
 			}
@@ -184,6 +190,10 @@ class MessengerViewModel : AppViewModel() {
 	}
 
 	fun sendMessage(message: String) {
-		firebaseService.sendMessage(currentUser!!.id, opponent!!.id!!, message) {}
+		firebaseService.sendMessage(
+				fromId = currentUser!!.id,
+				toId = opponent!!.id!!,
+				text = message
+		) {}
 	}
 }

@@ -28,7 +28,15 @@ class FirebaseService {
 				.addOnCompleteListener(onCompletionListener)
 	}
 
-	fun sendMessage(fromId: String, toId: String, text: String, isService: Boolean = false, offerID: String? = null, onCompletionListener: ((Task<Void>) -> Unit)) {
+	fun sendMessage(
+			fromId: String,
+			toId: String,
+			text: String,
+			isService: Boolean = false,
+			isRequest: Boolean = false,
+			offerID: String? = null,
+			onCompletionListener: ((Task<Void>) -> Unit)
+	) {
 		val messageId = ObjectId.get().toString()
 		val convId = generateConversationName(fromId, toId)
 		val now = Date()
@@ -48,7 +56,14 @@ class FirebaseService {
 		convRef.get()
 				.addOnSuccessListener { docSnapshot ->
 					if (docSnapshot.exists()) {
-						convRef.update("lastActionDate", now, "lastMessage", message)
+						val updatingFields = mutableMapOf(
+								"lastActionDate" to now,
+								"lastMessage" to message
+						)
+						if (isRequest && docSnapshot.toObject(Conversation::class.java)?.participantIDs?.contains(toId) == false) {
+							updatingFields["participantIDs"] = listOf(fromId, toId)
+						}
+						convRef.update(updatingFields)
 					} else {
 						var userFrom: Profile?
 						var userTo: Profile?
@@ -96,6 +111,7 @@ class FirebaseService {
 				fromId = fromId,
 				toId = toId,
 				text = "Hi, I am interested in this offer",
+				isRequest = true,
 				offerID = offerID,
 				onCompletionListener = onCompletionListener
 		)
@@ -176,7 +192,8 @@ class FirebaseService {
 				}
 	}
 
-	fun deleteConversation(convID: String) {
+	fun removeParticipantFromConversation(convID: String, id: String) {
+
 		val convRef = FirebaseFirestore
 				.getInstance()
 				.document("${Conversation.DOC_NAME}/${convID}")
