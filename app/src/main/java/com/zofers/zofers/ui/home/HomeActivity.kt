@@ -1,6 +1,5 @@
 package com.zofers.zofers.ui.home
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider

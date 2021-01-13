@@ -20,6 +20,7 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 	private var radioGroup: RadioGroup? = null
 	//    private RadioButton expensesMeRB;
 	private var costEdittext: EditText? = null
+	private var costLayout: ViewGroup? = null
 	private var currencyEdittext: EditText? = null
 	private var cityTIL: TextInputLayout? = null
 	private var costTIL: TextInputLayout? = null
@@ -37,20 +38,22 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 		countrySpinner?.adapter = adapter
 		cityEdittext = root.findViewById(R.id.city_editText)
 		costEdittext = root.findViewById(R.id.cost_editText)
+		costLayout = root.findViewById(R.id.cost_layout)
 		currencyEdittext = root.findViewById(R.id.currency_editText)
 		cityTIL = root.findViewById(R.id.city_TIL)
 		costTIL = root.findViewById(R.id.cost_TIL)
 		currencyTIL = root.findViewById(R.id.currency_TIL)
 		countryUnderline = root.findViewById(R.id.country_underline_view)
 		radioGroup = root.findViewById(R.id.radioGroup)
-		radioGroup?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+		radioGroup?.setOnCheckedChangeListener { _, checkedId ->
 			val freeForGuest = checkedId == R.id.expensesMe
-			costEdittext?.setEnabled(!freeForGuest)
-			currencyEdittext?.setEnabled(!freeForGuest)
+			costEdittext?.isEnabled = !freeForGuest
+			currencyEdittext?.isEnabled = !freeForGuest
+			costLayout?.visibility = if (freeForGuest) View.GONE else View.VISIBLE
 			if (freeForGuest) {
 				costEdittext?.setText("")
 			}
-		})
+		}
 		return root
 	}
 

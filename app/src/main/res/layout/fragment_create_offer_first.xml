@@ -1,142 +1,145 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:theme="@style/CardView.Light"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp"
-    app:cardUseCompatPadding="true"
-    tools:context=".ui.create.CreateOfferFirstFragment">
-
-    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:theme="@style/CardView.Light"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        tools:context=".ui.create.CreateOfferFirstFragment">
 
-        <TextView
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:paddingLeft="4dp"
-            android:text="@string/country"
-            android:textSize="12sp" />
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:paddingLeft="4dp"
+                android:text="@string/country"
+                android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/country_spinner"
-            style="@style/Widget.AppCompat.Spinner"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:paddingLeft="4dp" />
+                android:id="@+id/country_spinner"
+                style="@style/Widget.AppCompat.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:paddingLeft="4dp" />
 
         <View
-            android:id="@+id/country_underline_view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/gray" />
+                android:id="@+id/country_underline_view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/gray" />
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/city_TIL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:hint="@string/create_offer_city"
-            app:errorEnabled="true"
-            app:hintEnabled="true">
+                android:id="@+id/city_TIL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:hint="@string/create_offer_city"
+                app:errorEnabled="true"
+                app:hintEnabled="true">
 
             <EditText
-                android:id="@+id/city_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/city_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:text="who will pay expenses for this offer?"
-            android:textSize="18sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:text="who will pay expenses for this offer?"
+                android:textSize="18sp" />
 
         <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin">
-
-            <RadioButton
-                android:id="@+id/expensesMe"
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="me"
-                android:textSize="16sp" />
+                android:layout_margin="@dimen/activity_horizontal_margin">
 
             <RadioButton
-                android:id="@+id/expensesBoth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="both"
-                android:textSize="16sp" />
+                    android:id="@+id/expensesMe"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/me"
+                    android:textSize="16sp" />
 
             <RadioButton
-                android:id="@+id/expensesGuest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="guest"
-                android:textSize="16sp" />
+                    android:id="@+id/expensesBoth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/both"
+                    android:textSize="16sp" />
+
+            <RadioButton
+                    android:id="@+id/expensesGuest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/guest"
+                    android:textSize="16sp" />
         </RadioGroup>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:orientation="horizontal">
+                android:id="@+id/cost_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:visibility="gone"
+                android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/cost_TIL"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="How much the guest pays"
-                app:errorEnabled="true"
-                app:hintEnabled="true">
+                    android:id="@+id/cost_TIL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/how_much_the_guest_pays"
+                    app:errorEnabled="true"
+                    app:hintEnabled="true">
 
                 <EditText
-                    android:id="@+id/cost_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="20" />
+                        android:id="@+id/cost_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="20" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/currency_TIL"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:hint="Currency"
-                app:errorEnabled="true"
-                app:hintEnabled="true">
+                    android:id="@+id/currency_TIL"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/currency"
+                    app:errorEnabled="true"
+                    app:hintEnabled="true">
 
                 <EditText
-                    android:id="@+id/currency_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:inputType="textShortMessage"
-                    android:maxLength="10"
-                    android:text="$" />
+                        android:id="@+id/currency_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:inputType="textShortMessage"
+                        android:maxLength="10"
+                        android:text="$" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

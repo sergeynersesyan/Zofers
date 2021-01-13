@@ -23,6 +23,7 @@ import com.zofers.zofers.model.Offer
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.create.CreateOfferActivity
+import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
 /**
@@ -144,8 +145,18 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 	override fun onClick(v: View) {
 		when (v.id) {
 			R.id.fab -> {
-				val intent1 = Intent(activity, CreateOfferActivity::class.java)
-				startActivity(intent1)
+				if (viewModel.isLoggedOut()) {
+					activity?.let {
+						LoginActivity.start(it)
+					}
+				} else {
+					startActivity(
+							Intent(
+									activity,
+									CreateOfferActivity::class.java
+							)
+					)
+				}
 			}
 			androidx.appcompat.R.id.search_close_btn -> {
 				searchView.setQuery("", false)
