@@ -12,12 +12,12 @@ class EditProfileViewModel : AppViewModel() {
 	val emptyUserNameError = MutableLiveData<Boolean>()
 	val emptyEmailError = MutableLiveData<Boolean>()
 	val invalidEmailError = MutableLiveData<Boolean>()
-	val profile = MutableLiveData<Profile>()
+//	val profile = MutableLiveData<Profile>()
 
 	fun init() {
-		firebaseService.getProfile(currentUser!!.id) {
-			profile.value = it
-		}
+//		firebaseService.getProfile(currentUser!!.id) {
+//			profile.value = it
+//		}
 	}
 
 	fun save(userName: String, email: String, description: String) {
@@ -25,7 +25,7 @@ class EditProfileViewModel : AppViewModel() {
 			emptyUserNameError.value = true
 			return
 		}
-		if (email.isEmpty()) {
+		if (email.isEmpty() && !auth.currentUser?.email.isNullOrEmpty()) {
 			emptyEmailError.value = true
 			return
 		}

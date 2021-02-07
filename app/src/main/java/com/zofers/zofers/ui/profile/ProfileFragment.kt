@@ -213,7 +213,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		profileViewModel.state.observe(viewLifecycleOwner, Observer { state ->
 			progressDialog?.dismiss()
 			when (state) {
-				States.LOADING -> progressDialog = ProgressDialog.show(context, "Wait a secund", "Uploading your image")
+				States.LOADING -> progressDialog = ProgressDialog.show(context, "Wait a second", "Uploading your image")
 				States.NONE -> {
 				}
 				States.DONE -> MessageHelper.showSnackBar(binding.root, "successfully deleted")

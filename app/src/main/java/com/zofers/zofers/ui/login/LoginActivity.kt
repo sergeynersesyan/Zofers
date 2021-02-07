@@ -28,6 +28,7 @@ import com.zofers.zofers.databinding.ActivityLoginBinding
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.home.HomeActivity
+import java.util.*
 
 
 open class LoginActivity : BaseActivity(), OnClickListener {
@@ -82,6 +83,7 @@ open class LoginActivity : BaseActivity(), OnClickListener {
 		binding.emailSignInButton.setOnClickListener(this)
 		binding.toggleButton.setOnClickListener(this)
 		binding.forgotPasswordButton.setOnClickListener(this)
+		binding.facebookSignInButton.setPermissions(listOf("email"));
 		viewSetup()
 	}
 

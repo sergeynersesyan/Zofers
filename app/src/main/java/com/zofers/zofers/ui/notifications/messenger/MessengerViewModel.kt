@@ -137,7 +137,7 @@ class MessengerViewModel : AppViewModel() {
 				.collection(Conversation.DOC_NAME)
 				.document(conversationID)
 				.collection(Message.DOC_NAME).orderBy("date", Query.Direction.DESCENDING)
-				.limit(LIMIT.toLong())
+				.limit(10)
 
 		docRef.addSnapshotListener { snapshot, e ->
 			if (e != null) {

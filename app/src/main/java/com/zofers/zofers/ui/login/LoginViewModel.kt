@@ -69,18 +69,6 @@ class LoginViewModel : AppViewModel() {
 				state.value = States.ERROR
 			}
 		})
-		FirebaseInstanceId.getInstance().instanceId
-				.addOnCompleteListener(OnCompleteListener { task ->
-					if (!task.isSuccessful) {
-						return@OnCompleteListener
-					}
-
-					// Get new Instance ID token
-					val token = task.result?.token
-					firebaseService.saveDeviceToken(token)
-
-				})
-
 
 	}
 
@@ -156,6 +144,7 @@ class LoginViewModel : AppViewModel() {
 				.addOnSuccessListener {
 					if (it.exists() && it.toObject(Profile::class.java)!!.id == auth.currentUser!!.uid) {
 						userManager.userProfile = it.toObject(Profile::class.java)
+						getAndSaveDeviceToken()
 						state.value = States.FINISH
 					} else {
 						createProfile()
@@ -178,6 +167,7 @@ class LoginViewModel : AppViewModel() {
 				.addOnCompleteListener { task ->
 					if (task.isSuccessful) {
 						userManager.userProfile = profile
+						getAndSaveDeviceToken()
 						state.value = States.FINISH
 					} else {
 						state.value = States.ERROR
@@ -195,5 +185,18 @@ class LoginViewModel : AppViewModel() {
 						messageEvent.value = "Email sending failed"
 					}
 				}
+	}
+
+	private fun getAndSaveDeviceToken() {
+		FirebaseInstanceId.getInstance().instanceId
+				.addOnCompleteListener(OnCompleteListener { task ->
+					if (!task.isSuccessful) {
+						return@OnCompleteListener
+					}
+
+					// Get new Instance ID token
+					val token = task.result?.token
+					firebaseService.saveDeviceToken(token)
+				})
 	}
 }
