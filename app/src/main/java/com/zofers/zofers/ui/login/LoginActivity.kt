@@ -17,6 +17,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.setPadding
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -84,6 +85,18 @@ open class LoginActivity : BaseActivity(), OnClickListener {
 		binding.toggleButton.setOnClickListener(this)
 		binding.forgotPasswordButton.setOnClickListener(this)
 		binding.facebookSignInButton.setPermissions(listOf("email"));
+		binding.confirmPassword.doOnTextChanged { text, start, count, after ->
+			binding.confirmPasswordInputLayout.error = null
+		}
+		binding.email.doOnTextChanged { text, start, count, after ->
+			binding.emailInputLayout.error = null
+		}
+		binding.password.doOnTextChanged { text, start, count, after ->
+			binding.passwordInputLayout.error = null
+		}
+		binding.name.doOnTextChanged { text, start, count, after ->
+			binding.nameInputLayout.error = null
+		}
 		viewSetup()
 	}
 

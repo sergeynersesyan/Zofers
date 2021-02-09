@@ -1,75 +1,78 @@
 <layout>
 
-	<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:theme="@style/CardView.Light"
-		app:cardCornerRadius="4dp"
-		app:cardElevation="4dp"
-		app:cardUseCompatPadding="true"
-		tools:context=".ui.create.CreateOfferFirstFragment">
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/CardView.Light"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            tools:context=".ui.create.CreateOfferFirstFragment">
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:padding="@dimen/activity_horizontal_margin">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_horizontal_margin">
 
-			<ImageView
-				android:id="@+id/image"
-				android:layout_width="match_parent"
-				android:layout_height="200dp"
-				android:layout_gravity="center_horizontal"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:background="@drawable/gray_background_rounded"
-				android:scaleType="centerInside"/>
+            <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/gray_background_rounded"
+                    android:scaleType="centerInside" />
 
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/title_TIL"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/activity_vertical_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:hint="Offer Name"
-				app:counterEnabled="true"
-				app:counterMaxLength="100"
-				app:errorEnabled="true">
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/title_TIL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:hint="Offer Name"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="100"
+                    app:errorEnabled="true">
 
-				<EditText
-					android:id="@+id/title_editText"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="text"
-					android:maxLength="100" />
-			</com.google.android.material.textfield.TextInputLayout>
-
-
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/description_TIL"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="@dimen/activity_horizontal_margin"
-				android:layout_marginRight="@dimen/activity_horizontal_margin"
-				android:hint="Describe offer details"
-				app:counterEnabled="true"
-				app:counterMaxLength="1000"
-				app:errorEnabled="true">
-
-				<EditText
-					android:id="@+id/description_editText"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="textMultiLine"
-					android:maxLength="1000"
-					android:minLines="3" />
-			</com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                        android:id="@+id/title_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLength="100" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-		</LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/description_TIL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:hint="Describe offer details"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="1000"
+                    app:errorEnabled="true">
 
-	</androidx.cardview.widget.CardView>
+                <EditText
+                        android:id="@+id/description_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:maxLength="1000"
+                        android:maxLines="10"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>

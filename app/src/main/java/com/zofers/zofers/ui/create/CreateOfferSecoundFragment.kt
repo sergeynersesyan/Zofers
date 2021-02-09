@@ -1,14 +1,17 @@
 package com.zofers.zofers.ui.create
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import coil.api.load
@@ -34,11 +37,25 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		const val REQUEST_SELECT_PICTURE = 1000
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		root = inflater.inflate(R.layout.fragment_create_offer_secound, container, false)
 		binding = DataBindingUtil.bind(root)!!
 		binding.image.setOnClickListener(this)
 		binding.image.load(R.drawable.ic_image)
+		binding.titleEditText.doOnTextChanged { _, _, _, _ ->
+			binding.titleTIL.error = null
+		}
+		binding.descriptionEditText.doOnTextChanged { _, _, _, _ ->
+			binding.descriptionTIL.error = null
+		}
+		binding.descriptionEditText.setOnTouchListener { view, event ->
+			view.parent.requestDisallowInterceptTouchEvent(true)
+			if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+				view.parent.requestDisallowInterceptTouchEvent(false)
+			}
+			return@setOnTouchListener false
+		}
 		return root
 	}
 

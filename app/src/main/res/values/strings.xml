@@ -132,7 +132,7 @@
     <string name="country">Country</string>
     <string name="edit_password">Edit Password</string>
     <string name="edit_profile">Edit Profile</string>
-	<string name="description">Bio</string>
+	<string name="description">About You</string>
 	<string name="name">Name</string>
 	<string name="no_messages_yet">No messages yet</string>
 	<string name="messenger_sent">sent</string>

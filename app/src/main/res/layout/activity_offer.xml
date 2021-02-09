@@ -184,13 +184,14 @@
 		</androidx.core.widget.NestedScrollView>
 
 
-		<Button
-			android:id="@+id/interested_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="bottom"
-			android:padding="16dp"
-			android:text="@string/interested" />
+        <Button
+                android:id="@+id/interested_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:minHeight="52dp"
+                android:padding="16dp"
+                android:text="@string/interested" />
 
 
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>

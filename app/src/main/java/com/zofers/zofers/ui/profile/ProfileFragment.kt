@@ -115,6 +115,9 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 		binding.offersRecyclerView.adapter = offersAdapter
 		if (profileViewModel.isCurrentUser) {
 			binding.avatar.setOnClickListener { openGallery(binding.root, REQ_CODE_GALLERY_AVATAR) }
+			binding.publicAboutInfo.setOnClickListener {
+				EditProfileActivity.startForResult(this, REQ_CODE_EDIT_PROFILE)
+			}
 		} else {
 			binding.addAvatar.visibility = View.GONE
 		}
@@ -168,13 +171,13 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 	}
 
 
-	private fun updateUserDependingView(user: Profile) {
+	private fun updateProfileDependingView(user: Profile) {
 		(activity as? BaseActivity)?.supportActionBar?.title = user.name
 		if (user.description.isNullOrEmpty()) {
-			binding.publicAbout.text = context?.getString(R.string.no_description)
-			binding.publicAbout.setTextColor(context?.resources?.getColor(R.color.gray_transparent) ?: 0)
+			binding.publicAboutInfo.text = context?.getString(R.string.no_description)
+			binding.publicAboutInfo.setTextColor(context?.resources?.getColor(R.color.gray_transparent) ?: 0)
 		} else {
-			binding.publicAbout.text = user.description
+			binding.publicAboutInfo.text = user.description
 		}
 		binding.avatar.load(user.avatarURL) {
 			placeholder(R.drawable.ic_avatar)
@@ -182,7 +185,6 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 			transformations(CircleCropTransformation())
 		}
 		galleryAdapter.items = user.privateImages
-
 		setupPrivateSection()
 	}
 
@@ -221,7 +223,7 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 			}
 		})
 		profileViewModel.profile.observe(viewLifecycleOwner, Observer {
-			updateUserDependingView(it)
+			updateProfileDependingView(it)
 		})
 	}
 

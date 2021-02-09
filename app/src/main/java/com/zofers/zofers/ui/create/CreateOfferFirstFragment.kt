@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.Spinner
+import android.widget.*
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.zofers.zofers.R
@@ -16,6 +14,7 @@ import java.util.*
 
 class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 	private var countrySpinner: Spinner? = null
+	private var countryText: TextView? = null
 	private var cityEdittext: EditText? = null
 	private var radioGroup: RadioGroup? = null
 	//    private RadioButton expensesMeRB;
@@ -34,6 +33,7 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		root = inflater.inflate(R.layout.fragment_create_offer_first, container, false)
 		countrySpinner = root.findViewById(R.id.country_spinner)
+		countryText = root.findViewById(R.id.country_text)
 		val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, countryList())
 		countrySpinner?.adapter = adapter
 		cityEdittext = root.findViewById(R.id.city_editText)
@@ -54,6 +54,23 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 				costEdittext?.setText("")
 			}
 		}
+		cityEdittext?.doOnTextChanged { _, _, _, _ ->
+			cityTIL?.error = null
+		}
+		costEdittext?.doOnTextChanged { _, _, _, _ ->
+			 costTIL?.error = null
+		}
+		currencyEdittext?.doOnTextChanged { _, _, _, _ ->
+			currencyTIL?.error = null
+		}
+		countrySpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+			override fun onNothingSelected(parent: AdapterView<*>?) {}
+			override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+				countryUnderline?.setBackgroundColor(context!!.resources.getColor(R.color.gray_transparent))
+				countryText?.setTextColor(context!!.resources.getColor(R.color.gray_transparent))
+			}
+
+		}
 		return root
 	}
 
@@ -61,6 +78,7 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 		var validFilled = true
 		if (countrySpinner?.selectedItemPosition == 0) { //            Snackbar.make(view,"Please select country", Snackbar.LENGTH_SHORT).show();
 			countryUnderline?.setBackgroundColor(context!!.resources.getColor(R.color.error_color))
+			countryText?.setTextColor(context!!.resources.getColor(R.color.error_color))
 			validFilled = false
 		}
 		if (cityEdittext?.text.toString().trim { it <= ' ' }.isEmpty()) {
