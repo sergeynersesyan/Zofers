@@ -29,8 +29,11 @@ class FeedViewModel : AppViewModel() {
 	private var currentCountryReachedToEnd = false
 	private var otherCountriesReachedToEnd = false
 	private var filteredReachedToEnd = false
+	private var isCreated = false
 
 	fun init(countryCode: String?) {
+		if (isCreated) return
+		isCreated = true
 		this.countryCode = countryCode
 		loadFeed()
 		EventBus.getDefault().register(this)

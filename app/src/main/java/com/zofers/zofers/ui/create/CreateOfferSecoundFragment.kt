@@ -64,13 +64,17 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == REQUEST_SELECT_PICTURE) {
 				if (data != null) {
-					binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
-					binding.image.load(data.data) {
-						transformations(RoundedCornersTransformation(4f))
-					}
 					imageUri = data.data
+					loadImage(imageUri)
 				}
 			}
+		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+		if (imageUri != null) {
+			loadImage(imageUri)
 		}
 	}
 
@@ -110,6 +114,13 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 
 		binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
 		binding.image.load(offer.imageURL) {
+			transformations(RoundedCornersTransformation(4f))
+		}
+	}
+
+	private fun loadImage(imageUri: Uri?) {
+		binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
+		binding.image.load(imageUri) {
 			transformations(RoundedCornersTransformation(4f))
 		}
 	}
