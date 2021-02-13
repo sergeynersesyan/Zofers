@@ -55,6 +55,9 @@ class HomeActivity : BaseActivity() {
 				true
 			}
 		}
+		binding.navView.setOnNavigationItemReselectedListener {
+			(currentFragment as? FeedFragment)?.scrollToTop()
+		}
 		if (intent.extras?.containsKey(EXTRA_CONV_ID) == true) {
 			MessengerActivity.start(this, intent.getStringExtra(EXTRA_CONV_ID))
 		} else if (intent.extras?.containsKey(EXTRA_OPENING_TAB) == true) {

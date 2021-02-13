@@ -165,4 +165,8 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 		}
 	}
 
+	fun scrollToTop(){
+		binding.offersRecyclerView.scrollToPosition(0)
+	}
+
 }
