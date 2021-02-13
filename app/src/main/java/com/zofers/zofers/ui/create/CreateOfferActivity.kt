@@ -14,7 +14,6 @@ import com.zofers.zofers.event.OfferCreateEvent
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.service.ServiceCallback
 import com.zofers.zofers.staff.MessageHelper.showNoConnectionToast
-import com.zofers.zofers.ui.create.CreateOfferActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 import com.zofers.zofers.view.LoadingDialog
 import org.greenrobot.eventbus.EventBus
@@ -29,7 +28,8 @@ class CreateOfferActivity : BaseActivity(), View.OnClickListener {
 
 	companion object {
 		const val KEY_OFFER = "ext_k_off"
-		const val EXTRA_IMAGE_URI = "ext_im_uri"
+		const val EXTRA_IMAGE_URI = "ext_image_uri"
+		const val EXTRA_IMAGE_BYTES = "ext_image_drawable"
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,11 +45,6 @@ class CreateOfferActivity : BaseActivity(), View.OnClickListener {
 		viewModel?.init(intent.getParcelableExtra(KEY_OFFER))
 		setTitle(if (viewModel?.isEditMode == true) R.string.title_edit_offer else R.string.title_activity_create_offer)
 		openFragment(false)
-	}
-
-	override fun onStart() {
-		super.onStart()
-
 	}
 
 	private fun openFragment(addToBackStack: Boolean) {
@@ -70,25 +65,30 @@ class CreateOfferActivity : BaseActivity(), View.OnClickListener {
 				val offer = fragment?.fillOffer(viewModel!!.offer)
 				if (fragment?.nextFragment() == null) {
 					val fileUri = intent.getParcelableExtra<Uri>(EXTRA_IMAGE_URI)
+					val imageBytes = intent.getByteArrayExtra(EXTRA_IMAGE_BYTES)
 					loadingDialog.show(supportFragmentManager, null)
-					viewModel!!.createOffer(this, fileUri, object : ServiceCallback<Offer> {
-						override fun onSuccess(response: Offer) {
-							loadingDialog.dismiss()
-							if (viewModel?.isEditMode != true) {
-								EventBus.getDefault().post(OfferCreateEvent(response))
-							}
-							val intent = Intent(this@CreateOfferActivity, OfferActivity::class.java)
-							intent.putExtra(OfferActivity.EXTRA_OFFER, response)
-							startActivity(intent)
+					viewModel!!.createOffer(
+							context = this,
+							imageUri = fileUri,
+							imageBytes = imageBytes,
+							callback = object : ServiceCallback<Offer> {
+								override fun onSuccess(response: Offer) {
+									loadingDialog.dismiss()
+									if (viewModel?.isEditMode != true) {
+										EventBus.getDefault().post(OfferCreateEvent(response))
+									}
+									val intent = Intent(this@CreateOfferActivity, OfferActivity::class.java)
+									intent.putExtra(OfferActivity.EXTRA_OFFER, response)
+									startActivity(intent)
 
-							finish()
-						}
+									finish()
+								}
 
-						override fun onFailure() {
-							loadingDialog.dismiss()
-							showNoConnectionToast(this@CreateOfferActivity)
-						}
-					})
+								override fun onFailure() {
+									loadingDialog.dismiss()
+									showNoConnectionToast(this@CreateOfferActivity)
+								}
+							})
 				} else {
 					offer?.let {
 						viewModel?.offer = it

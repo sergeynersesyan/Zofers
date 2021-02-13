@@ -4,6 +4,7 @@ package com.zofers.zofers.ui.create
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,12 +16,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import coil.api.load
+import coil.request.CachePolicy
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.snackbar.Snackbar
 import com.zofers.zofers.R
 import com.zofers.zofers.databinding.FragmentCreateOfferSecoundBinding
 import com.zofers.zofers.model.Offer
-import com.zofers.zofers.staff.FileHelper
+
 
 /**
  * A simple [Fragment] subclass.
@@ -29,6 +31,7 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 	private lateinit var binding: FragmentCreateOfferSecoundBinding
 	private lateinit var root: View
 	private var imageUri: Uri? = null
+	private var imageDrawable: Drawable? = null
 
 	override val progress: Int
 		get() = 66
@@ -42,7 +45,7 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		root = inflater.inflate(R.layout.fragment_create_offer_secound, container, false)
 		binding = DataBindingUtil.bind(root)!!
 		binding.image.setOnClickListener(this)
-		binding.image.load(R.drawable.ic_image)
+//		binding.image.load(R.drawable.ic_image)
 		binding.titleEditText.doOnTextChanged { _, _, _, _ ->
 			binding.titleTIL.error = null
 		}
@@ -56,7 +59,20 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 			}
 			return@setOnTouchListener false
 		}
+//		binding.randomImageMagic.setColorFilter(R.drawable.magic_gradient)
+		binding.randomImageMagic.setOnClickListener {
+			loadImageDrawable()
+		}
 		return root
+	}
+
+	override fun onResume() {
+		super.onResume()
+		if (imageUri != null) {
+			loadImage(imageUri)
+		} else if (imageDrawable != null) {
+			binding.image.setImageDrawable(imageDrawable)
+		}
 	}
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -71,12 +87,7 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		}
 	}
 
-	override fun onResume() {
-		super.onResume()
-		if (imageUri != null) {
-			loadImage(imageUri)
-		}
-	}
+
 
 	override fun validFilled(): Boolean {
 		var validFilled = true
@@ -88,17 +99,20 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 			binding.descriptionTIL.error = " "
 			validFilled = false
 		}
-		if (viewModel?.isEditMode == false && imageUri == null) {
+		if (viewModel?.isEditMode != true && !hasImage()) {
 			Snackbar.make(root, "Please select image", Snackbar.LENGTH_SHORT).show()
 			validFilled = false
 		}
 
-		if (validFilled && imageUri != null) {
-			val binaryImage = FileHelper.getImageBinary(context, imageUri)
-			if (binaryImage == null) {
-				validFilled = false
+		if (validFilled) {
+			if (imageUri == null) {
+				binding.image.drawable?.let {
+					imageDrawable = it // to show on back
+					activity!!.intent.putExtra(CreateOfferActivity.EXTRA_IMAGE_BYTES, it.toByteArray())
+				}
 			} else {
 				activity!!.intent.putExtra(CreateOfferActivity.EXTRA_IMAGE_URI, imageUri)
+
 			}
 		}
 		return validFilled
@@ -112,10 +126,7 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		binding.titleEditText.setText(offer.name)
 		binding.descriptionEditText.setText(offer.description)
 
-		binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
-		binding.image.load(offer.imageURL) {
-			transformations(RoundedCornersTransformation(4f))
-		}
+		offer.imageURL?.let { loadImage(it) }
 	}
 
 	private fun loadImage(imageUri: Uri?) {
@@ -125,9 +136,33 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		}
 	}
 
+	private fun loadImage(url: String) {
+		binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
+		binding.image.load(url) {
+			transformations(RoundedCornersTransformation(4f))
+		}
+	}
+
+	private fun hasImage(): Boolean {
+		return binding.image.drawable != null || imageUri != null
+	}
+
+	private fun loadImageDrawable() {
+		binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
+		binding.image.load("https://source.unsplash.com/1200x900/?${binding.titleEditText.text}") {
+			transformations(RoundedCornersTransformation(4f))
+			memoryCachePolicy(CachePolicy.DISABLED)
+			placeholder(R.drawable.ic_banner_foreground)
+		}
+		imageUri = null
+	}
+
 	override fun fillOffer(offer: Offer): Offer {
 		offer.name = binding.titleEditText.text.toString().trim()
 		offer.description = binding.descriptionEditText.text.toString().trim()
+		if (hasImage()) {
+			offer.imageURL = null
+		}
 
 		return offer
 	}
@@ -138,3 +173,4 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		}
 	}
 }
+

@@ -32,13 +32,21 @@ open class AppViewModel : ViewModel() {
 		userManager = App.instance.userManager
 	}
 
-	fun uploadImage(context: Context, imageUri: Uri, pathString: String, onSuccess: ((Uri) -> Unit)) {
+	fun uploadImage(context: Context, imageUri: Uri, pathString: String, onSuccess: ((Uri) -> Unit)) = uploadImage(
+			context = context,
+			imageBytes = FileHelper.getImageBinary(context, imageUri),
+			pathString = pathString,
+			onSuccess = onSuccess
+	)
+
+
+	fun uploadImage(context: Context, imageBytes: ByteArray, pathString: String, onSuccess: ((Uri) -> Unit)) {
 		// Create a storage reference from our app
 		val storageRef = FirebaseStorage.getInstance().reference
 		// Create a reference to "mountains.jpg"
 		val imagesRef = storageRef.child(pathString)
 
-		val uploadTask = imagesRef.putBytes(FileHelper.getImageBinary(context, imageUri))
+		val uploadTask = imagesRef.putBytes(imageBytes)
 //		val uploadTask = imagesRef.putFile(imageUri)
 		uploadTask
 				.addOnFailureListener {

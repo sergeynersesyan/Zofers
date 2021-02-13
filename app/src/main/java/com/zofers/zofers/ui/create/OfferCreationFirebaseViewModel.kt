@@ -1,13 +1,18 @@
 package com.zofers.zofers.ui.create
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Owner
 import com.zofers.zofers.service.ServiceCallback
+import java.io.ByteArrayOutputStream
 import java.util.*
+
 
 class OfferCreationFirebaseViewModel : AppViewModel() {
 
@@ -21,7 +26,7 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 		}
 	}
 
-	fun createOffer(context: Context, image: Uri?, callback: ServiceCallback<Offer>) {
+	fun createOffer(context: Context, imageUri: Uri?, imageBytes: ByteArray?, callback: ServiceCallback<Offer>) {
 		offer.userID = currentUser?.id
 		offer.owner = Owner().apply {
 			id = currentUser?.id
@@ -45,12 +50,19 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 		keyWords.addAll(offer.description.toLowerCase(Locale.ROOT).split(regex))
 		offer.keyWords = keyWords
 
-		image?.let {
-			uploadImage(context, image, "images/offers/" + image.lastPathSegment!!) { uri ->
+		if (imageBytes != null) {
+			uploadImage(context, imageBytes, "images/offers/" + getRandomString(15)) { uri ->
 				offer.imageURL = uri.toString()
 				writeOffer(callback)
 			}
-		} ?: writeOffer(callback)
+		} else if (imageUri != null) {
+			uploadImage(context, imageUri, "images/offers/" + imageUri.lastPathSegment!!) { uri ->
+				offer.imageURL = uri.toString()
+				writeOffer(callback)
+			}
+		} else {
+			writeOffer(callback)
+		}
 
 	}
 
@@ -65,4 +77,18 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 					callback.onFailure()
 				}
 	}
+
+	private fun getRandomString(length: Int) : String {
+		val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+		return (1..length)
+				.map { allowedChars.random() }
+				.joinToString("")
+	}
+}
+
+fun Drawable.toByteArray(): ByteArray {
+	val bitmap = (this as BitmapDrawable).bitmap
+	val stream = ByteArrayOutputStream()
+	bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+	return stream.toByteArray()
 }

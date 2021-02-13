@@ -2,6 +2,7 @@ package com.zofers.zofers.ui.notifications
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,11 +39,10 @@ class ConversationsFragment : BaseFragment() {
 	}
 
 	private fun initView() {
-		conversationListAdapter = ConversationListAdapter(messagesViewModel.currentUser?.id) {
-			findNavController().navigate(
-					R.id.action_navigation_notifications_to_messengerActivity,
-					Bundle().apply { putString(MessengerActivity.ARG_CONVERSATION_ID, it.id) }
-			)
+		conversationListAdapter = ConversationListAdapter(messagesViewModel.currentUser?.id) {conversation ->
+			activity?.let {
+				MessengerActivity.start(context!!, conversation.id)
+			}
 		}
 		binding.recyclerView.adapter = conversationListAdapter
 		binding.refreshLayout.setOnRefreshListener {

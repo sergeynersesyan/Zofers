@@ -68,7 +68,7 @@ public class FileHelper {
 
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 50, out);
             byte[] binaryImage = out.toByteArray();
             out.close();
             thumbnail.recycle();

@@ -96,6 +96,7 @@ public class Offer implements Parcelable {
         return description;
     }
 
+    @Nullable
     public String getImageURL() {
         return imageURL;
     }
