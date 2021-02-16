@@ -11,18 +11,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.BaseFragment
+import com.zofers.zofers.BottomNavigationFragment
 import com.zofers.zofers.R
 import com.zofers.zofers.databinding.FragmentNotificationListBinding
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.notifications.messenger.MessengerActivity
 
-class ConversationsFragment : BaseFragment() {
+class ConversationsFragment : BottomNavigationFragment() {
 
 	private lateinit var messagesViewModel: ConversationsViewModel
 	private lateinit var binding: FragmentNotificationListBinding
 	private lateinit var conversationListAdapter: ConversationListAdapter
+	override val title: String
+		get() = getString(R.string.messages)
 
 
 	override fun onCreateView(
@@ -34,6 +38,8 @@ class ConversationsFragment : BaseFragment() {
 		val root = inflater.inflate(R.layout.fragment_notification_list, container, false)
 		binding = DataBindingUtil.bind(root)!!
 		initView()
+
+		(activity as? BaseActivity)?.supportActionBar?.title = title
 
 		return root
 	}
@@ -53,6 +59,7 @@ class ConversationsFragment : BaseFragment() {
 	override fun onResume() {
 		super.onResume()
 		app?.isMessengerActive = true
+
 		val notificationManager = activity?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
 		notificationManager?.cancelAll()
 	}

@@ -15,6 +15,7 @@ import coil.transform.CircleCropTransformation
 import com.facebook.login.LoginManager
 import com.zofers.zofers.BaseActivity
 import com.zofers.zofers.BaseFragment
+import com.zofers.zofers.BottomNavigationFragment
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
 import com.zofers.zofers.databinding.FragmentProfileBinding
@@ -30,7 +31,7 @@ import com.zofers.zofers.ui.login.LoginActivity
 import com.zofers.zofers.ui.offer.OfferActivity
 
 
-class ProfileFragment : BaseFragment(), BackClickHandler {
+class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 
 	lateinit var binding: FragmentProfileBinding
 	private lateinit var profileViewModel: ProfileViewModel
@@ -38,6 +39,8 @@ class ProfileFragment : BaseFragment(), BackClickHandler {
 	private lateinit var galleryAdapter: ImageGalleryAdapter
 	private var progressDialog: ProgressDialog? = null
 	private var bigImage: ImageView? = null
+	override val title: String
+		get() = profileViewModel.currentUser?.name.orEmpty()
 
 	companion object {
 		const val ARG_USER_ID = "arg_us_id"

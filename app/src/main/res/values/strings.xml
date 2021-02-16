@@ -19,8 +19,8 @@
 	<string name="prompt_confirm_password">Confirm Password</string>
 	<string name="prompt_new_password">New Password</string>
 	<string name="action_sign_in">Sign in</string>
-	<string name="sign_in_google">Continue with Google</string>
-	<string name="sign_in_facebook">Sign in with facebook</string>
+	<string name="sign_in_google" translatable="false">Continue with Google</string>
+	<string name="sign_in_facebook" translatable="false">Sign in with facebook</string>
 	<string name="action_register">Register</string>
 	<string name="action_sign_in_short">Sign in</string>
 	<string name="error_invalid_email">This email address is invalid</string>
@@ -29,8 +29,8 @@
 	<string name="error_passwords_not_match">Passwords do not match</string>
 	<string name="error_incorrect_credentials">Incorrect email or password</string>
 	<string name="error_field_required">This field is required</string>
-	<string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
-	<string name="image_permission_denied">Permission denied</string>
+	<string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email completions."</string>
+	<string name="image_permission_denied" translatable="false">Permission denied</string>
 	<string name="sign_out">"Sign Out"</string>
 
 
@@ -47,7 +47,7 @@
 	<string name="create_offer_city">City</string>
 
 	<!--home page-->
-	<string name="title_activity_home">HomeActivity</string>
+	<string name="title_activity_home" translatable="false">HomeActivity</string>
 
 	<string name="action_search">Search city</string>
 	<string name="action_profile">Search city</string>
@@ -88,21 +88,21 @@
 		<item>No Matter</item>
 	</string-array>
 
-	<string name="title_activity_offer">OfferActivity</string>
-	<string name="title_activity_scrolling">ScrollingActivity</string>
+	<string name="title_activity_offer" translatable="false">OfferActivity</string>
+	<string name="title_activity_scrolling" translatable="false">ScrollingActivity</string>
 
 	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
-	<string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+	<string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+	<string name="title_activity_bottom_navigation" translatable="false">BottomNavigationActivity</string>
 	<string name="title_home">Home</string>
 	<string name="title_profile">Profile</string>
 	<string name="title_notifications">Messages</string>
 	<string name="date_format_now">now</string>
-	<string name="date_format_day">%1$d/%2$d/%3$d</string>
+	<string name="date_format_day" translatable="false">%1$d/%2$d/%3$d</string>
 	<string name="messenger_write_messaage_hint">Type a message</string>
 	<string name="action_decline">DECLINE</string>
 	<string name="action_accept">ACCEPT</string>
-	<string name="messenger_cannot_respond">You can\'t respond to this conversation</string>
+	<string name="messenger_cannot_respond" translatable="false">You can\'t respond to this conversation</string>
 	<string name="this_offer_is_for">This offer for:</string>
 
 	<plurals name="date_format_relative_minutes">
@@ -126,8 +126,8 @@
 		<item quantity="other">%d days</item>
 	</plurals>
 
-	<string name="facebook_app_id">685025355658566</string>
-	<string name="fb_login_protocol_scheme">fb685025355658566</string>
+	<string name="facebook_app_id" translatable="false">685025355658566</string>
+	<string name="fb_login_protocol_scheme" translatable="false">fb685025355658566</string>
     <string name="action_save">Save</string>
     <string name="country">Country</string>
     <string name="edit_password">Edit Password</string>
@@ -151,6 +151,7 @@
 	<string name="currency">Currency</string>
 	<string name="both">both</string>
 	<string name="me">me</string>
+	<string name="messages">Messages</string>
 
 
 </resources>
