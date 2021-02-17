@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.zofers.zofers.R
 import com.zofers.zofers.databinding.FragmentCreateOfferSecoundBinding
 import com.zofers.zofers.model.Offer
+import com.zofers.zofers.view.GradientTextDrawable
 
 
 /**
@@ -144,7 +145,7 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 	}
 
 	private fun hasImage(): Boolean {
-		return binding.image.drawable != null || imageUri != null
+		return imageDrawable != null || imageUri != null
 	}
 
 	private fun loadImageDrawable() {
@@ -152,8 +153,10 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		binding.image.load("https://source.unsplash.com/1200x900/?${binding.titleEditText.text}") {
 			transformations(RoundedCornersTransformation(4f))
 			memoryCachePolicy(CachePolicy.DISABLED)
-			placeholder(R.drawable.ic_banner_foreground)
+			placeholder(GradientTextDrawable(getString(R.string.loading_random_image)))
 		}
+		//todo update this fuckin hack
+		imageDrawable = binding.image.drawable
 		imageUri = null
 	}
 

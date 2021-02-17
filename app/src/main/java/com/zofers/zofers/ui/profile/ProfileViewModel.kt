@@ -142,7 +142,7 @@ class ProfileViewModel : AppViewModel() {
 						profile.value = user
 						States.DONE
 					} else {
-						user.privateImages.remove(url)
+						user.privateImages.add(url)
 						States.ERROR
 					}
 				}

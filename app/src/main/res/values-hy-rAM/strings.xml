@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_next">Հաջորդը</string>
-    <string name="action_finish">Վերջ</string>
+    <string name="action_finish">Ավարտել</string>
     <string name="action_settings">Կարգավորումներ</string>
     <string name="action_edit">Փոխել</string>
     <string name="action_favorite">Նախընտրած</string>
@@ -34,12 +34,12 @@
     <string name="create_offer_city">Քաղաք</string>
     <string name="action_search">Փնտրեք քաղաքը</string>
     <string name="action_profile">Փնտրեք քաղաքը</string>
-    <string name="filters">Ֆիլտրներ</string>
+    <string name="filters">Ֆիլտրեր</string>
     <string name="interested">Հետաքրքրված եմ</string>
     <string name="pending_approval">Հայտը ուղարկված է</string>
     <string name="approved">Հաստատված է</string>
     <string name="for_someone">%s համար</string>
-    <string name="profile_offers_section_title">առաջարկներ</string>
+    <string name="profile_offers_section_title">Առաջարկներ</string>
     <string name="profinle_private_section_title">Գաղտնի նկարներ</string>
     <string name="title_home" translatable="false">Հիմնական</string>
     <string name="title_profile">Անձնական էջ</string>
@@ -48,7 +48,7 @@
     <string name="messenger_write_messaage_hint">Գրեք տեքստը</string>
     <string name="action_accept">ԸՆԴՈՒՆԵԼ</string>
     <string name="action_decline">ՉԵՂԱՐԿԵԼ</string>
-    <string name="this_offer_is_for">Offer-ը նախատեսված է.</string>
+    <string name="this_offer_is_for">Առաջարկը նախատեսված է՝</string>
     <string name="action_save">Պահպանել</string>
     <string name="country">Երկիր</string>
     <string name="edit_password">Փոխել Հաղտնաբառը</string>
@@ -63,7 +63,7 @@
     <string name="send_email">Ուղարկել էլ. նամակ</string>
     <string name="enter_email_hint">Ձեր էլ. հասցեն</string>
     <string name="no_private_images">Գաղտնի նկարներ չկան</string>
-    <string name="interested_alert">Offer-ի հեղինակը ստացավ ձեր հայտը։ Երբ նա հաստատի այն՝ դուք կարող եք շփվել</string>
+    <string name="interested_alert">Առաջարկի հեղինակը ստացավ ձեր հայտը։ Երբ նա հաստատի այն՝ դուք կարող եք շփվել</string>
     <string name="do_not_show_again">Այլևս ցույց չտալ</string>
     <string name="happy_nice_cool_awesome">Հիանալի է</string>
     <string name="request_canceled">Հայտը չեղարկված է</string>
@@ -73,4 +73,37 @@
     <string name="both">երկուսով</string>
     <string name="me">ես</string>
     <string name="messages">Նամակներ</string>
+    <string name="select_country">Ընտրեք երկիրը</string>
+    <string name="who_will_pay_expenses">ով է հոգալու ծախսերը?</string>
+    <string name="offer_details_hint">Նկարագրեք առաջարկի մանրամասները</string>
+    <string name="offer_name_hint">Առաջարկի անունը</string>
+    <string name="people_count">Հյուրերի քանակ (եթե էական է)</string>
+    <string name="gender_optional">Սեռ (եթե էական է)</string>
+    <string name="requirements_optional">Պահանջներ (եթե էական է)</string>
+    <string name="availability_optional">Հասանելություն/գրաֆիկ (եթե էական է)</string>
+    <string name="loading_random_image">Բեռնվում է պատահական նկար</string>
+    <string name="delete_image_warning_message">Ցանկանում եք ջնջե՞լ այս նկարը</string>
+    <string name="delete_offer_warning_message">Ցանկանում եք ջնջե՞լ այս առաջարկը?</string>
+
+    <plurals name="for_men">
+        <item quantity="one">%d տղամարդու համար</item>
+        <item quantity="other">%d տղամարդու համար</item>
+    </plurals>
+
+    <plurals name="for_woman">
+        <item quantity="one">%d կնոջ համար</item>
+        <item quantity="other">%d կնոջ համար</item>
+    </plurals>
+
+    <plurals name="for_person">
+        <item quantity="one">%d հոգու համար</item>
+        <item quantity="other">%d հոգու համար</item>
+    </plurals>
+
+    <string-array name="gender_list">
+        <item>Էական չէ</item>
+        <item>Տղամարդ</item>
+        <item>Կին</item>
+        <item>Այլ</item>
+    </string-array>
 </resources>

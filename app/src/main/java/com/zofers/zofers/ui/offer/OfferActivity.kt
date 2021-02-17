@@ -83,7 +83,7 @@ class OfferActivity : BaseActivity() {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		when (item.itemId) {
 			R.id.action_delete -> AlertDialog.Builder(this)
-					.setMessage("Do you want to delete this offer?")
+					.setMessage(R.string.delete_offer_warning_message)
 					.setPositiveButton(android.R.string.yes) { _, _ -> viewModel?.delete() }
 					.setNegativeButton(android.R.string.no) { _, _ -> }
 					.show()

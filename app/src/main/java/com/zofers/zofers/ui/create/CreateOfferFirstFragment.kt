@@ -142,7 +142,7 @@ class CreateOfferFirstFragment : CreateOfferBaseFragment() {
 			}
 		}
 		Collections.sort(countries, java.lang.String.CASE_INSENSITIVE_ORDER)
-		countries.add(0, "Select Country")
+		countries.add(0, getString(R.string.select_country))
 		return countries
 	}
 

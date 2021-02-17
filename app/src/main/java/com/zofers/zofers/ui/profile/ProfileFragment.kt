@@ -135,12 +135,14 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 				}
 
 				override fun onImageLongClick(url: String?) {
-					activity?.let { activity ->
-						AlertDialog.Builder(activity)
-								.setMessage("Do you want to delete this image?")
-								.setPositiveButton(android.R.string.yes) { _, _ -> profileViewModel.deleteImage(url) }
-								.setNegativeButton(android.R.string.no) { _, _ -> }
-								.show()
+					if (profileViewModel.isCurrentUser) {
+						activity?.let { activity ->
+							AlertDialog.Builder(activity)
+									.setMessage(R.string.delete_image_warning_message)
+									.setPositiveButton(android.R.string.ok) { _, _ -> profileViewModel.deleteImage(url) }
+									.setNegativeButton(android.R.string.cancel) { _, _ -> }
+									.show()
+						}
 					}
 				}
 			}

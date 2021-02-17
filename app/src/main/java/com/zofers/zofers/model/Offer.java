@@ -29,7 +29,6 @@ public class Offer implements Parcelable {
     public static final int GENDER_FOR_MALE = 1;
     public static final int GENDER_FOR_FEMALE = 2;
     public static final int GENDER_FOR_CUSTOM = 3;
-    public static final int GENDER_NO_MATTER = 4;
 
     private String id;
     private String country; //req 1

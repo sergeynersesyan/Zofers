@@ -85,15 +85,11 @@
 		<item>Male</item>
 		<item>Female</item>
 		<item>Custom</item>
-		<item>No Matter</item>
 	</string-array>
 
 	<string name="title_activity_offer" translatable="false">OfferActivity</string>
 	<string name="title_activity_scrolling" translatable="false">ScrollingActivity</string>
 
-	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-	<string name="title_activity_bottom_navigation" translatable="false">BottomNavigationActivity</string>
 	<string name="title_home">Home</string>
 	<string name="title_profile">Profile</string>
 	<string name="title_notifications">Messages</string>
@@ -152,6 +148,19 @@
 	<string name="both">both</string>
 	<string name="me">me</string>
 	<string name="messages">Messages</string>
+	<string name="select_country">Select Country</string>
+	<string name="who_will_pay_expenses">who will pay expenses for this offer?</string>
+	<string name="offer_details_hint">Describe offer details</string>
+	<string name="offer_name_hint">Offer Name</string>
+	<string name="people_count">People Count (optional)</string>
+	<string name="gender_optional">Gender (optional)</string>
+	<string name="requirements_optional">Requirements (optional)</string>
+	<string name="availability_optional">Availability (optional)</string>
+	<string name="requirements_hint" translatable="false">eg: 20–40 years old</string>
+	<string name="availability_hint" translatable="false">eg: not working hours</string>
+    <string name="loading_random_image">Loading Random Image</string>
+	<string name="delete_image_warning_message">Do you want to delete this image?</string>
+	<string name="delete_offer_warning_message">Do you want to delete this offer?</string>
 
 
 </resources>

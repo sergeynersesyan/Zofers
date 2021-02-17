@@ -67,7 +67,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:text="who will pay expenses for this offer?"
+                android:text="@string/who_will_pay_expenses"
                 android:textSize="18sp" />
 
         <RadioGroup

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import coil.transform.CircleCropTransformation
@@ -80,15 +81,19 @@ class OffersAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 			city.text = offer.city
 			title.text = offer.name
 			costs.text = offer.getCostText(costs.context)
-			offer.owner?.let {
-				ownerName?.text = it.name
-				ownerAvatar?.load(it.avatarURL) {
+			if (offer.owner != null) {
+				ownerAvatar?.isVisible = true
+				ownerName?.isVisible = true
+				ownerName?.text = offer.owner!!.name
+				ownerAvatar?.load(offer.owner!!.avatarURL) {
 					placeholder(R.drawable.ic_avatar)
 					fallback(R.drawable.ic_avatar)
 					transformations(CircleCropTransformation())
 				}
+			} else {
+				ownerAvatar?.isVisible = false
+				ownerName?.isVisible = false
 			}
-
 
 			val peopleCount = offer.peopleCount
 			if (peopleCount > 0) {

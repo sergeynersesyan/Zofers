@@ -2,7 +2,7 @@
 <resources>
     <string name="interested_alert">Владелец предложения получил ваш запрос.  После одобрения вы можете общаться и встречаться</string>
     <string name="action_next">СЛЕДУЮЩИЙ</string>
-    <string name="action_finish">КОНЕЦ</string>
+    <string name="action_finish">ЗАВЕРШИТЬ</string>
     <string name="action_settings">Настройки</string>
     <string name="action_edit">Редактировать</string>
     <string name="action_favorite">Любимый</string>
@@ -70,7 +70,40 @@
     <string name="how_much_the_guest_pays">Сколько платит гость</string>
     <string name="guest">гость</string>
     <string name="currency">Валюта</string>
-    <string name="both">both</string>
+    <string name="both">оба</string>
     <string name="me">я</string>
     <string name="messages">Сообщения</string>
+    <string name="select_country">Выберите страну</string>
+    <string name="who_will_pay_expenses">кто оплатит это предложение?</string>
+    <string name="offer_details_hint">Опишите детали предложения</string>
+    <string name="offer_name_hint">Название предложения</string>
+    <string name="people_count">Число людей (опционально)</string>
+    <string name="gender_optional">Пол (опционально)</string>
+    <string name="requirements_optional">Требования (опционально)</string>
+    <string name="availability_optional">Доступность (опционально)</string>
+    <string name="loading_random_image">Загрузка случайного изображения</string>
+    <string name="delete_image_warning_message">Хотите удалить это изображение?</string>
+    <string name="delete_offer_warning_message">Хотите удалить это предложение?</string>
+
+    <plurals name="for_men">
+        <item quantity="one">%d мужчины</item>
+        <item quantity="other">%d мужчин</item>
+    </plurals>
+
+    <plurals name="for_woman">
+        <item quantity="one">%d женщины</item>
+        <item quantity="other">%d женщин</item>
+    </plurals>
+
+    <plurals name="for_person">
+        <item quantity="one">%d человека</item>
+        <item quantity="other">%d человек</item>
+    </plurals>
+
+    <string-array name="gender_list">
+        <item>Не выбран</item>
+        <item>Мужской</item>
+        <item>Женский</item>
+        <item>Custom</item>
+    </string-array>
 </resources>
