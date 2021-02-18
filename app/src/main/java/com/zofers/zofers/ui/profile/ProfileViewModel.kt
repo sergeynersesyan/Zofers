@@ -2,6 +2,7 @@ package com.zofers.zofers.ui.profile
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
@@ -126,31 +127,22 @@ class ProfileViewModel : AppViewModel() {
 
 	fun deleteImage(url: String?) {
 		url?.let {
-			//			var documentPath = url
-//			val query = url.toUri().query
-//			if (!query.isNullOrEmpty()) {
-//				documentPath = url.substring(0, url.indexOf(query) - 1) + ".jpeg"
-//			}
-
-//			deleteImage(documentPath) { task ->
-//				if (task.isSuccessful) {
-			profile.value?.let { user ->
-				user.privateImages.remove(url)
-				firebaseService.updateDocument("profile", user.id, "privateImages", user.privateImages) { task ->
-					state.value = if (task.isSuccessful) {
-						currentUser = user
-						profile.value = user
-						States.DONE
-					} else {
-						user.privateImages.add(url)
-						States.ERROR
+			deleteImage(it) {
+				profile.value?.let { user ->
+					user.privateImages.remove(url)
+					firebaseService.updateDocument("profile", user.id, "privateImages", user.privateImages) { task ->
+						state.value = if (task.isSuccessful) {
+							currentUser = user
+							profile.value = user
+							States.DONE
+						} else {
+							user.privateImages.add(url)
+							States.ERROR
+						}
 					}
 				}
+				Log.e("firebasestorage", "onSuccess: deleted file")
 			}
-//				} else {
-//					state.value = States.ERROR
-//				}
-//		}
 		}
 
 	}

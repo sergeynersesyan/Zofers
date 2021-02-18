@@ -88,8 +88,6 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		}
 	}
 
-
-
 	override fun validFilled(): Boolean {
 		var validFilled = true
 		if (binding.titleEditText.text.toString().trim().isEmpty()) {
@@ -149,8 +147,9 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 	}
 
 	private fun loadImageDrawable() {
+		val keyWords = extractKeyword(binding.titleEditText.text.toString())
 		binding.image.scaleType = ImageView.ScaleType.CENTER_CROP
-		binding.image.load("https://source.unsplash.com/1200x900/?${binding.titleEditText.text}") {
+		binding.image.load("https://source.unsplash.com/1200x900/?${keyWords}") {
 			transformations(RoundedCornersTransformation(4f))
 			memoryCachePolicy(CachePolicy.DISABLED)
 			placeholder(GradientTextDrawable(getString(R.string.loading_random_image)))
@@ -174,6 +173,24 @@ class CreateOfferSecoundFragment : CreateOfferBaseFragment(), View.OnClickListen
 		when (v.id) {
 			R.id.image -> openGallery(root, REQUEST_SELECT_PICTURE)
 		}
+	}
+
+	private fun extractKeyword(text: String): String {
+		val words = text.trim().split(" ")
+		return words.filter { word ->
+			if (word.length < 3) {
+				false
+			} else {
+				var isEnglish = true
+				word.toCharArray().forEach { char ->
+					if (char !in 'a'..'z' && char !in 'A'..'Z') {
+						isEnglish = false
+						return@forEach
+					}
+				}
+				isEnglish
+			}
+		}.joinToString(separator = ",")
 	}
 }
 

@@ -57,11 +57,9 @@ open class AppViewModel : ViewModel() {
 				}
 	}
 
-	fun deleteImage(pathString: String, onSuccess: ((Task<Void>) -> Unit)) {
-		val storageRef = FirebaseStorage.getInstance().reference
-		// Create a reference to "mountains.jpg"
-		val imagesRef = storageRef.child(pathString)
-		imagesRef.delete().addOnCompleteListener(onSuccess)
+	fun deleteImage(url: String, onComplete: (Task<Void>) -> Unit) {
+		val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url)
+		storageReference.delete().addOnCompleteListener(onComplete)
 	}
 
 	fun isLoggedOut(): Boolean {

@@ -103,7 +103,7 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 
 		val searchItem = menu.findItem(R.id.action_search)
 		searchView = MenuItemCompat.getActionView(searchItem) as SearchView
-		searchView.setMaxWidth(Integer.MAX_VALUE);
+		searchView.maxWidth = Integer.MAX_VALUE;
 		//        EditText searchEditText = searchView.findViewById(R.id.search_src_text);
 		//        searchItem.expandActionView();
 

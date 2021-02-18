@@ -28,7 +28,7 @@
 	<string name="error_short_password">This password is too short</string>
 	<string name="error_passwords_not_match">Passwords do not match</string>
 	<string name="error_incorrect_credentials">Incorrect email or password</string>
-	<string name="error_field_required">This field is required</string>
+	<string name="error_field_required">required</string>
 	<string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email completions."</string>
 	<string name="image_permission_denied" translatable="false">Permission denied</string>
 	<string name="sign_out">"Sign Out"</string>

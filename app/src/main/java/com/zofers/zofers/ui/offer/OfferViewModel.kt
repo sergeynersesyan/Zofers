@@ -50,14 +50,11 @@ class OfferViewModel : AppViewModel() {
 
 	fun delete() {
 		state.value = States.LOADING
-		firebaseService.deleteDocument("offer", offer.value!!.id) { task ->
-			if (task.isSuccessful) {
-				state.value = States.FINISH
-				EventBus.getDefault().post(OfferDeleteEvent(offer.value))
-			} else {
-				state.value = States.ERROR
+		offer.value?.imageURL?.let { url ->
+			deleteImage(url) {
+				deleteOfferDocument()
 			}
-		}
+		} ?: deleteOfferDocument()
 	}
 
 	fun isCurrentUserOffer(): Boolean {
@@ -104,6 +101,17 @@ class OfferViewModel : AppViewModel() {
 	private fun onCancelled() {
 		changeInterestedUser(false)
 		changeConnection(false)
+	}
+
+	private fun deleteOfferDocument() {
+		firebaseService.deleteDocument("offer", offer.value!!.id) { task ->
+			state.value = if (task.isSuccessful) {
+				EventBus.getDefault().post(OfferDeleteEvent(offer.value))
+				States.FINISH
+			} else {
+				States.ERROR
+			}
+		}
 	}
 
 
