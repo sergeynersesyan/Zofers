@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.event.OfferCreateEvent
 import com.zofers.zofers.event.OfferDeleteEvent
+import com.zofers.zofers.firebase.FirebaseService
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
 import com.zofers.zofers.staff.States

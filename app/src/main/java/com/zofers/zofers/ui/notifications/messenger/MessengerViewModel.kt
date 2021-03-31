@@ -164,14 +164,17 @@ class MessengerViewModel : AppViewModel() {
 		}
 	}
 
-	fun accept() {
+	fun accept(message: String) {
 		currentUser?.let { profile ->
 			opponent?.id?.let { participantID ->
 				profile.connections.add(participantID)
 
-				firebaseService.updateDocument(Profile.DOC_NAME, profile.id, "connections", profile.connections) { task ->
-					if (task.isSuccessful) {
+				firebaseService.updateDocument(Profile.DOC_NAME, profile.id, "connections", profile.connections) {
+					if (it.isSuccessful) {
 						currentUser = profile
+
+						sendMessage(message, true)
+
 						firebaseService.updateDocument(Conversation.DOC_NAME, conversationID, "status", Conversation.STATUS_ACCEPTED) {task ->
 							if (task.isSuccessful) {
 								conversation.value?.status = Conversation.STATUS_ACCEPTED
@@ -189,11 +192,12 @@ class MessengerViewModel : AppViewModel() {
 		}
 	}
 
-	fun sendMessage(message: String) {
+	fun sendMessage(message: String, isService: Boolean = false) {
 		firebaseService.sendMessage(
 				fromId = currentUser!!.id,
 				toId = opponent!!.id!!,
-				text = message
+				text = message,
+				isService = isService
 		) {}
 	}
 }

@@ -58,15 +58,15 @@ class ConversationsFragment : BottomNavigationFragment() {
 
 	override fun onResume() {
 		super.onResume()
-		app?.isMessengerActive = true
 
 		val notificationManager = activity?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
 		notificationManager?.cancelAll()
 	}
 
-	override fun onPause() {
-		super.onPause()
-		app?.isMessengerActive = false
+
+	override fun onHiddenChanged(hidden: Boolean) {
+		super.onHiddenChanged(hidden)
+		app?.isMessengerActive = !hidden
 	}
 
 	private fun initViewModel() {
@@ -82,7 +82,7 @@ class ConversationsFragment : BottomNavigationFragment() {
 				States.LOADING -> binding.refreshLayout.isRefreshing = true
 				States.ERROR -> {
 					binding.refreshLayout.isRefreshing = false
-					MessageHelper.showErrorToast(context)
+					MessageHelper.showSnackBar(binding.root, getString(R.string.conversation_list_update_error))
 				}
 				States.NONE -> binding.refreshLayout.isRefreshing = false
 			}

@@ -84,6 +84,7 @@
     <string name="loading_random_image">Загрузка случайного изображения</string>
     <string name="delete_image_warning_message">Хотите удалить это изображение?</string>
     <string name="delete_offer_warning_message">Хотите удалить это предложение?</string>
+    <string name="message_conversation_accept">Conversation request accepted</string>
 
     <plurals name="for_men">
         <item quantity="one">%d мужчины</item>

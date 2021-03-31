@@ -93,7 +93,7 @@ class MessengerActivity : BaseActivity() {
 		}
 
 		binding.acceptRequestButton.setOnClickListener {
-			viewModel.accept()
+			viewModel.accept(getString(R.string.message_conversation_accept))
 		}
 
 		viewModel.conversation.observe(this, Observer { conversation ->

@@ -184,7 +184,16 @@ class OfferActivity : BaseActivity() {
 		} else {
 			binding?.forTextViewData?.text = forText
 		}
-		binding?.avatar?.setOnClickListener { ProfileActivity.start(this, offer.userID) }
+		binding?.avatar?.setOnClickListener {
+			viewModel?.let {
+				if (it.isLoggedOut()) {
+					LoginActivity.startForResult(this)
+				} else {
+					ProfileActivity.start(this, offer.userID)
+				}
+			}
+
+		}
 	}
 
 	private fun updateView(offer: Offer) {

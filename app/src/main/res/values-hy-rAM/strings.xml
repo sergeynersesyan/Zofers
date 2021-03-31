@@ -84,6 +84,7 @@
     <string name="loading_random_image">Բեռնվում է պատահական նկար</string>
     <string name="delete_image_warning_message">Ցանկանում եք ջնջե՞լ այս նկարը</string>
     <string name="delete_offer_warning_message">Ցանկանում եք ջնջե՞լ այս առաջարկը?</string>
+    <string name="message_conversation_accept">Conversation request accepted</string>
 
     <plurals name="for_men">
         <item quantity="one">%d տղամարդու համար</item>

@@ -17,10 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.zofers.zofers.AppViewModel
@@ -32,8 +29,13 @@ class LoginViewModel : AppViewModel() {
 
 	private val authListener = { task: Task<AuthResult> ->
 		if (task.isSuccessful) {
+			Log.d("login success", task.toString())
 			ensureWriteProfile()
 		} else {
+			Log.d("login error", task.exception.toString())
+			if ((task.exception as? FirebaseAuthUserCollisionException)?.errorCode == "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL") {
+				errorMessage = "This email alrady registered"
+			}
 			state.value = States.ERROR
 		}
 	}
@@ -42,6 +44,7 @@ class LoginViewModel : AppViewModel() {
 	private lateinit var googleSignInClient: GoogleSignInClient
 
 	val messageEvent = MutableLiveData<String>()
+	var errorMessage = ""
 
 	companion object {
 		private const val RC_GOOGLE_SIGN_IN = 1000
@@ -159,6 +162,9 @@ class LoginViewModel : AppViewModel() {
 		val profile = Profile().apply {
 			id = auth.currentUser!!.uid
 			name = auth.currentUser?.displayName
+			auth.currentUser?.photoUrl?.let {
+				avatarURL = it.toString()
+			}
 		}
 		val db = FirebaseFirestore.getInstance()
 		db.collection("profile")

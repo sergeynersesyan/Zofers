@@ -100,7 +100,11 @@ class OfferViewModel : AppViewModel() {
 
 	private fun onCancelled() {
 		changeInterestedUser(false)
-		changeConnection(false)
+//		changeConnection(false) // do not remove because they may have conversation, or applied for other offer
+		currentUser?.let { profile ->
+			showMessageEvent.value = true
+			firebaseService.deleteConversationIfOneMessage(profile.id, offer.value?.userID.orEmpty())
+		}
 	}
 
 	private fun deleteOfferDocument() {

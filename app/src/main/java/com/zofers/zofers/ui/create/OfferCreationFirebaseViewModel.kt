@@ -50,18 +50,22 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 		keyWords.addAll(offer.description.toLowerCase(Locale.ROOT).split(regex))
 		offer.keyWords = keyWords
 
-		if (imageBytes != null) {
-			uploadImage(context, imageBytes, "images/offers/" + getRandomString(15)) { uri ->
-				offer.imageURL = uri.toString()
+		when {
+			imageBytes != null -> {
+				uploadImage(context, imageBytes, "images/offers/" + getRandomString(15)) { uri ->
+					offer.imageURL = uri.toString()
+					writeOffer(callback)
+				}
+			}
+			imageUri != null -> {
+				uploadImage(context, imageUri, "images/offers/" + getRandomString(15)) { uri ->
+					offer.imageURL = uri.toString()
+					writeOffer(callback)
+				}
+			}
+			else -> {
 				writeOffer(callback)
 			}
-		} else if (imageUri != null) {
-			uploadImage(context, imageUri, "images/offers/" + imageUri.lastPathSegment!!) { uri ->
-				offer.imageURL = uri.toString()
-				writeOffer(callback)
-			}
-		} else {
-			writeOffer(callback)
 		}
 
 	}

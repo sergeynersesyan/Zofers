@@ -377,10 +377,9 @@ class MessengerAdapter(
 	}
 
 	internal inner class ServiceMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		var text: TextView
+		var text: TextView = itemView.findViewById(R.id.message_text)
 
 		init {
-			text = itemView.findViewById(R.id.message_text)
 			text.movementMethod = LinkMovementMethod.getInstance()
 		}
 

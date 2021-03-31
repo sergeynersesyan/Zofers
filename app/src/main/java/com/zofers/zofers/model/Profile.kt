@@ -18,7 +18,7 @@ class Profile {
 //	var offers: List<String>? = null
 //	var interestedOffers = mutableListOf<String>()
 	var favoriteOffers = mutableListOf<String>()
-	var connections = mutableListOf<String>()
+	var connections = mutableListOf<String>() // followings
 	var deviceToken: String? = null
 
 }

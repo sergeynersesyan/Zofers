@@ -11,6 +11,7 @@ class Conversation {
 	var participantIDs: List<String>? = null
 	var participants: List<Participant>? = null
 	var lastMessage: Message? = null
+	//todo can be removed if not used by IOS
 	var status: Int? = 0 // requested - 0, approved - 1, rejected - 2
 
 	//_____________________________________________________________________

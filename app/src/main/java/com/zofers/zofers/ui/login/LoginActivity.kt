@@ -112,7 +112,10 @@ open class LoginActivity : BaseActivity(), OnClickListener {
 				States.NONE -> showProgress(false)
 				States.LOADING -> showProgress(true)
 				States.ERROR -> {
-					if (isRegisterMode) {
+					if (viewModel.errorMessage.isNotEmpty()) {
+						MessageHelper.showSnackBar(binding.root, viewModel.errorMessage, Snackbar.LENGTH_LONG)
+						viewModel.errorMessage = ""
+					} else if (isRegisterMode) {
 						binding.emailInputLayout.error = getString(R.string.error_busy_email)
 						binding.email.requestFocus()
 					} else {
