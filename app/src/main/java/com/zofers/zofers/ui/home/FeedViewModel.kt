@@ -110,8 +110,12 @@ class FeedViewModel : AppViewModel() {
 							} else {
 								true
 							}
+							val notReportedOffers = currentUser?.let {user ->
+								offers?.filter { !user.reportedOfferIDs.contains(it.id) }
+							} ?: offers
+
 							filteredLastVisibleItem = querySnapshot.documents.lastOrNull()
-							offersList.value = offers
+							offersList.value = notReportedOffers?.toMutableList()
 						}
 
 					} else {
@@ -160,11 +164,14 @@ class FeedViewModel : AppViewModel() {
 								true
 							}
 
+							val notReportedOffers = currentUser?.let {user ->
+								newOffers.filter { !user.reportedOfferIDs.contains(it.id) }
+							} ?: newOffers
 							offersList.value = if (currentCountryLastVisibleItem == null) {
-								newOffers
+								notReportedOffers.toMutableList()
 							} else {
 								val items = offersList.value ?: arrayListOf()
-								items.addAll(newOffers)
+								items.addAll(notReportedOffers)
 								items
 							}
 							currentCountryLastVisibleItem = querySnapshot.documents.lastOrNull()
@@ -201,9 +208,12 @@ class FeedViewModel : AppViewModel() {
 								true
 							}
 							otherCountriesLastVisibleItem = querySnapshot.documents.lastOrNull()
+							val notReportedOffers = currentUser?.let {user ->
+								newOffers.filter { !user.reportedOfferIDs.contains(it.id) }
+							} ?: newOffers
 
 							val offers = offersList.value ?: arrayListOf()
-							offers.addAll(newOffers.filter { offersList.value?.contains(it) != true })
+							offers.addAll(notReportedOffers.filter { offersList.value?.contains(it) != true })
 							offersList.value = offers
 						}
 					} else {

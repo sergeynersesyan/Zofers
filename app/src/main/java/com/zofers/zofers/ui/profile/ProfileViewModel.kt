@@ -23,6 +23,7 @@ class ProfileViewModel : AppViewModel() {
 	val isConnected
 		get() = profile.value?.connections?.contains(currentUser?.id) == true
 	var isOffersLoaded = false
+	val showBlockedMessageEvent = MutableLiveData<Boolean>(false)
 
 	fun logout() {
 		currentUser = null
@@ -97,7 +98,8 @@ class ProfileViewModel : AppViewModel() {
 						user.avatarURL = url.toString()
 						currentUser = user
 						profile.value = user
-						firebaseService.updateAvatarInConversations(url, currentUser!!.id)
+						firebaseService.updateAvatarInConversations(url.toString(), currentUser!!.id)
+						firebaseService.updateAvatarInOffers(url.toString(), currentUser!!.id)
 						States.NONE
 					} else {
 						States.ERROR
@@ -157,6 +159,34 @@ class ProfileViewModel : AppViewModel() {
 
 	fun destroy() {
 		EventBus.getDefault().unregister(this)
+	}
+
+	fun blockUser() {
+		profile.value?.let {
+			currentUser?.let { curUser ->
+
+				val editFieldsMap = mutableMapOf<String, Any>()
+
+				val blockedUserIDs = currentUser?.blockedUserIDs ?: mutableListOf()
+				blockedUserIDs.add(it.id)
+				editFieldsMap["blockedUserIDs"] = blockedUserIDs
+				val connections = curUser.connections
+				if (connections.contains(it.id)) {
+					connections.remove(it.id)
+					editFieldsMap["connections"] = connections
+				}
+
+				firebaseService.updateDocument(Profile.DOC_NAME, curUser.id, editFieldsMap) { task ->
+					if (task.isSuccessful) {
+						curUser.blockedUserIDs = blockedUserIDs
+						curUser.connections = connections
+						currentUser = curUser
+						showBlockedMessageEvent.value = true
+					}
+				}
+			}
+
+		}
 	}
 
 }

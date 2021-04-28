@@ -19,8 +19,9 @@ class Profile {
 //	var interestedOffers = mutableListOf<String>()
 	var favoriteOffers = mutableListOf<String>()
 	var connections = mutableListOf<String>() // followings
+	var blockedUserIDs = mutableListOf<String>()
+	var reportedOfferIDs = mutableListOf<String>()
 	var deviceToken: String? = null
-
 }
 
 

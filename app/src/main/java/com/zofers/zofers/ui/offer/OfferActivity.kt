@@ -27,7 +27,6 @@ import com.zofers.zofers.staff.States
 import com.zofers.zofers.staff.disable
 import com.zofers.zofers.ui.create.CreateOfferActivity
 import com.zofers.zofers.ui.login.LoginActivity
-import com.zofers.zofers.ui.login.LoginPopupActivity
 import com.zofers.zofers.ui.profile.ProfileActivity
 import com.zofers.zofers.view.AppBarStateChangeListener
 import com.zofers.zofers.view.LoadingDialog
@@ -75,6 +74,8 @@ class OfferActivity : BaseActivity() {
 			val editItem = menu.findItem(R.id.action_edit)
 			editMenuDrawable = editItem.icon
 			editItem.isVisible = true
+		} else {
+			menu.findItem(R.id.action_report).isVisible = true
 		}
 		updateMenuItemColors(AppBarStateChangeListener.State.EXPANDED)
 		return super.onCreateOptionsMenu(menu)
@@ -93,6 +94,9 @@ class OfferActivity : BaseActivity() {
 					intent.putExtra(CreateOfferActivity.KEY_OFFER, it)
 					startActivity(intent)
 				}
+			}
+			R.id.action_report -> {
+				viewModel?.report()
 			}
 
 		}
@@ -137,10 +141,17 @@ class OfferActivity : BaseActivity() {
 						.show()
 			}
 		})
-		viewModel?.showMessageEvent?.observe(this, Observer { show ->
+		viewModel?.showCanceledMessageEvent?.observe(this, Observer { show ->
 			if (show) {
 				binding?.let {
 					MessageHelper.showSnackBar(it.root, getString(R.string.request_canceled))
+				}
+			}
+		})
+		viewModel?.showReportedMessageEvent?.observe(this, Observer { show ->
+			if (show) {
+				binding?.let {
+					MessageHelper.showSnackBar(it.root, getString(R.string.successfully_reported))
 				}
 			}
 		})
@@ -226,12 +237,14 @@ class OfferActivity : BaseActivity() {
 				deleteMenuDrawable?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
 				editMenuDrawable?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
 				binding?.toolbar?.navigationIcon?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
+				binding?.toolbar?.overflowIcon?.setColorFilter(white, PorterDuff.Mode.SRC_ATOP)
 			}
 			AppBarStateChangeListener.State.COLLAPSED -> {
 				favoriteMenuDrawable?.clearColorFilter()
 				deleteMenuDrawable?.clearColorFilter()
 				editMenuDrawable?.clearColorFilter()
 				binding?.toolbar?.navigationIcon?.setColorFilter(resources.getColor(R.color.gray), PorterDuff.Mode.SRC_ATOP)
+				binding?.toolbar?.overflowIcon?.setColorFilter(resources.getColor(R.color.gray), PorterDuff.Mode.SRC_ATOP)
 			}
 		}
 	}

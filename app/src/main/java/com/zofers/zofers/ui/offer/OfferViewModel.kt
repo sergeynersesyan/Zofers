@@ -16,7 +16,8 @@ class OfferViewModel : AppViewModel() {
 	val offer = MutableLiveData<Offer>()
 	val user = MutableLiveData<Profile>()
 	val showDialogEvent = MutableLiveData<Boolean>(false)
-	val showMessageEvent = MutableLiveData<Boolean>(false)
+	val showCanceledMessageEvent = MutableLiveData<Boolean>(false)
+	val showReportedMessageEvent = MutableLiveData<Boolean>(false)
 	val startLoginActivityEvent = MutableLiveData<Boolean>(false)
 	val updateViewEvent = MutableLiveData<Boolean>(false)
 
@@ -55,6 +56,28 @@ class OfferViewModel : AppViewModel() {
 				deleteOfferDocument()
 			}
 		} ?: deleteOfferDocument()
+	}
+
+	fun report() {
+		if (isLoggedOut()) {
+			startLoginActivityEvent.value = true
+			return
+		}
+
+		offer.value?.let {
+			val reportedOfferIDs = currentUser?.reportedOfferIDs ?: mutableListOf()
+			reportedOfferIDs.add(it.id.orEmpty())
+			currentUser?.let { user ->
+				firebaseService.updateDocument(Profile.DOC_NAME, user.id, "reportedOfferIDs", reportedOfferIDs) { task ->
+					if (task.isSuccessful) {
+						user.reportedOfferIDs = reportedOfferIDs
+						currentUser = user
+						EventBus.getDefault().post(OfferDeleteEvent(offer.value))
+						showReportedMessageEvent.value = true
+					}
+				}
+			}
+		}
 	}
 
 	fun isCurrentUserOffer(): Boolean {
@@ -102,7 +125,7 @@ class OfferViewModel : AppViewModel() {
 		changeInterestedUser(false)
 //		changeConnection(false) // do not remove because they may have conversation, or applied for other offer
 		currentUser?.let { profile ->
-			showMessageEvent.value = true
+			showCanceledMessageEvent.value = true
 			firebaseService.deleteConversationIfOneMessage(profile.id, offer.value?.userID.orEmpty())
 		}
 	}
@@ -158,7 +181,7 @@ class OfferViewModel : AppViewModel() {
 					}
 				}
 			} else {
-				showMessageEvent.value = true
+				showCanceledMessageEvent.value = true
 				firebaseService.deleteConversationIfOneMessage(profile.id, offer.userID)
 			}
 

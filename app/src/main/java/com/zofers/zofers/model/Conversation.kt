@@ -5,6 +5,7 @@ import java.util.*
 class Conversation {
 
 	var id: String? = null
+	var creatorID: String? = null
 	var name: String? = null
 	var creationDate: Date? = null
 	var lastActionDate: Date? = null

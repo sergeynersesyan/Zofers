@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ui.offer.OfferActivity">
+    <item
+            android:id="@+id/action_block"
+            android:title="@string/action_block"
+            app:showAsAction="never" />
+
+</menu>

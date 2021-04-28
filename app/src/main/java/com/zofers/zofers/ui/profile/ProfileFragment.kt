@@ -3,6 +3,7 @@ package com.zofers.zofers.ui.profile
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
@@ -14,7 +15,6 @@ import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.facebook.login.LoginManager
 import com.zofers.zofers.BaseActivity
-import com.zofers.zofers.BaseFragment
 import com.zofers.zofers.BottomNavigationFragment
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
@@ -71,6 +71,9 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 		super.onCreateOptionsMenu(menu, inflater)
 		if (profileViewModel.isCurrentUser) {
 			inflater.inflate(R.menu.menu_profile, menu)
+		} else {
+//			todo next release
+//			inflater.inflate(R.menu.menu_profile_other, menu)
 		}
 	}
 
@@ -94,6 +97,23 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 			}
 			R.id.edit_password -> {
 				context?.let { EditPasswordActivity.start(it) }
+			}
+			R.id.terms -> {
+				val browserIntent = Intent(
+						Intent.ACTION_VIEW,
+						Uri.parse("https://docs.google.com/document/d/1UfiVSIOWcY6CODecS4ewgGKpFbVn_Mm_Gt201-7nsYE/edit?usp=sharing")
+				)
+				startActivity(browserIntent)
+			}
+			R.id.privacy -> {
+				val browserIntent = Intent(
+						Intent.ACTION_VIEW,
+						Uri.parse("https://docs.google.com/document/d/18lIFPfh_UZJz4jhhT6PpLuYh8OlHxAMGXO75hwVOFe8/edit?usp=sharing")
+				)
+				startActivity(browserIntent)
+			}
+			R.id.action_block -> {
+				profileViewModel.blockUser()
 			}
 		}
 		return super.onOptionsItemSelected(item)
@@ -193,7 +213,7 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 		setupPrivateSection()
 	}
 
-	private fun setupPrivateSection () {
+	private fun setupPrivateSection() {
 		val privateVisibility = if (
 				profileViewModel.isOffersLoaded
 				&& (profileViewModel.isCurrentUser || profileViewModel.isConnected)
@@ -229,6 +249,11 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 		})
 		profileViewModel.profile.observe(viewLifecycleOwner, Observer {
 			updateProfileDependingView(it)
+		})
+		profileViewModel.showBlockedMessageEvent.observe(viewLifecycleOwner, Observer { show ->
+			if (show) {
+				MessageHelper.showSnackBar(binding.root, getString(R.string.successfully_blocked))
+			}
 		})
 	}
 

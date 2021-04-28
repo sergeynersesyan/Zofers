@@ -74,6 +74,7 @@ class FirebaseService {
 
 								val conversation = Conversation().apply {
 									id = convId
+									creatorID = fromId
 									creationDate = now
 									lastActionDate = creationDate
 									lastMessage = message
@@ -225,7 +226,7 @@ class FirebaseService {
 		}
 	}
 
-	fun updateAvatarInConversations(uri: Uri, userID: String) {
+	fun updateAvatarInConversations(uri: String, userID: String) {
 		val db = FirebaseFirestore.getInstance()
 		db
 				.collection(Conversation.DOC_NAME)
@@ -237,7 +238,7 @@ class FirebaseService {
 							db.runBatch { batch ->
 								for (conv in task.result!!) {
 									val conversation = conv.toObject(Conversation::class.java)
-									conversation.getParticipant(userID)?.avatarURL = uri.toString()
+									conversation.getParticipant(userID)?.avatarURL = uri
 									batch.update(conv.reference, "participants", conversation.participants)
 								}
 							}.addOnCompleteListener {
@@ -248,6 +249,24 @@ class FirebaseService {
 				}
 
 
+	}
+
+	fun updateAvatarInOffers(newAvatarUrl: String, userID: String) {
+		val db = FirebaseFirestore.getInstance()
+		db.collection(Offer.DOC_NAME)
+				.whereEqualTo("owner.id", userID)
+				.get()
+				.addOnCompleteListener { task ->
+					if (task.isSuccessful) {
+						if (task.result != null && task.result?.isEmpty == false) {
+							db.runBatch { batch ->
+								for (offer in task.result!!) {
+									batch.update(offer.reference, "owner.avatarURL", newAvatarUrl)
+								}
+							}.addOnCompleteListener {}
+						}
+					}
+				}
 	}
 
 	fun updateNameInConversations(newUserName: String, userID: String) {
