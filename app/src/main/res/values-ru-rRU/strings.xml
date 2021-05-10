@@ -90,6 +90,8 @@
     <string name="action_block">Заблокировать</string>
     <string name="successfully_reported">Принят. Вы больше не увидите это предложение</string>
     <string name="successfully_blocked">Пользователь заблокирован</string>
+    <string name="you_don_t_have_any_offers_yet">У вас пока нет предложений</string>
+    <string name="no_offers">Нет предложений</string>
 
     <plurals name="for_men">
         <item quantity="one">%d мужчины</item>

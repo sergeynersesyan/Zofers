@@ -8,13 +8,11 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
@@ -74,7 +72,7 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 		})
 
 		binding.swipeRefresh.setOnRefreshListener {
-			viewModel.loadFeed()
+			viewModel.refresh()
 		}
 		binding.fab.setOnClickListener(this)
 

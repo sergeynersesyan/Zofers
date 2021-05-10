@@ -168,7 +168,8 @@
 	<string name="terms_an_conditions">Terms an Conditions</string>
 	<string name="successfully_reported">Report accepted. You will no longer see this offer</string>
 	<string name="successfully_blocked">User blocked</string>
-
+	<string name="you_don_t_have_any_offers_yet">You don\'t have any offers yet</string>
+	<string name="no_offers">No offers</string>
 
 
 </resources>

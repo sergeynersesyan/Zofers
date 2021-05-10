@@ -240,6 +240,7 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 				?: profileViewModel.currentUser?.id.orEmpty())
 		profileViewModel.offersList.observe(viewLifecycleOwner, Observer { offers ->
 			binding.emptyOffersContainer.visibility = if (offers.isNullOrEmpty() && profileViewModel.isCurrentUser) View.VISIBLE else View.GONE
+			binding.emptyOffersTextOther.visibility = if (offers.isNullOrEmpty() && !profileViewModel.isCurrentUser) View.VISIBLE else View.GONE
 			offersAdapter.setItems(offers)
 			setupPrivateSection()
 		})

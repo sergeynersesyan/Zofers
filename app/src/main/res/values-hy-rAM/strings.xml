@@ -90,6 +90,8 @@
     <string name="action_block">Արգելափակել</string>
     <string name="successfully_reported">Բողոքն ընդունված է, դուք այլևս սա չեք տեսնի</string>
     <string name="successfully_blocked">Օգտատերն արգելափակված է</string>
+    <string name="you_don_t_have_any_offers_yet">Դուք դեռ չունեք որևէ առաջարկ</string>
+    <string name="no_offers">Առաջարկներ չկան</string>
 
     <plurals name="for_men">
         <item quantity="one">%d տղամարդու համար</item>

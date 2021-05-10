@@ -1,7 +1,6 @@
 package com.zofers.zofers.ui.home
 
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -53,7 +52,7 @@ class FeedViewModel : AppViewModel() {
 	private fun loadFiltered() {
 		state.value = States.LOADING
 		getFilteredOffers(
-				query = lastQuery ?: ""
+				queryText = lastQuery ?: ""
 		)
 	}
 
@@ -70,6 +69,10 @@ class FeedViewModel : AppViewModel() {
 
 	}
 
+	fun refresh() {
+		search(lastQuery)
+	}
+
 	fun loadMore() {
 		if (lastQuery == null) {
 			getAllOffers()
@@ -79,45 +82,49 @@ class FeedViewModel : AppViewModel() {
 	}
 
 	@Subscribe
-	fun onOfferDelete (offerDeleteEvent: OfferDeleteEvent) {
+	fun onOfferDelete(offerDeleteEvent: OfferDeleteEvent) {
 		val offers = offersList.value
 		offers?.remove(offerDeleteEvent.offer)
 		offersList.value = offers
 	}
 
-	private fun getFilteredOffers(query: String) {
+	private fun getFilteredOffers(queryText: String) {
 		if (filteredReachedToEnd) return
 		state.value = States.LOADING
-		FirebaseFirestore.getInstance().collection("offer")
-				.whereArrayContains("keyWords", query.toLowerCase(Locale.getDefault()))
+		var query = FirebaseFirestore.getInstance().collection("offer")
+				.whereArrayContains("keyWords", queryText.toLowerCase(Locale.getDefault()))
 //				.orderBy("viewCount")
 				.limit(LIMIT + 1L)
 //				.whereEqualTo("name", query)
-				.get()
+
+		filteredLastVisibleItem?.let {
+			query = query.startAt(it)
+		}
+		query.get()
 				.addOnCompleteListener { task ->
 					if (task.isSuccessful) {
 						state.value = States.NONE
 						task.result?.let { querySnapshot ->
-							val offers =
-									if (filteredLastVisibleItem == null) {
-										querySnapshot.toOfferList()
-									} else {
-										val items = offersList.value
-										items?.addAll(querySnapshot.toOfferList())
-										items
-									}
-							filteredReachedToEnd = if (offers?.size ?: 0 > LIMIT) {
-								offers?.removeAt(LIMIT)
+							val newOffers = querySnapshot.toOfferList()
+							filteredReachedToEnd = if (newOffers.size > LIMIT) {
+								newOffers.removeAt(LIMIT)
 								false
 							} else {
 								true
 							}
-							val notReportedOffers = currentUser?.let {user ->
-								offers?.filter { !user.reportedOfferIDs.contains(it.id) }
-							} ?: offers
+							val notReportedOffers = currentUser?.let { user ->
+								newOffers.filter { !user.reportedOfferIDs.contains(it.id) }
+							} ?: newOffers
+
+							offersList.value = if (filteredLastVisibleItem == null) {
+								notReportedOffers.toMutableList()
+							} else {
+								val items = offersList.value
+								items?.addAll(notReportedOffers)
+								items
+							}
 
 							filteredLastVisibleItem = querySnapshot.documents.lastOrNull()
-							offersList.value = notReportedOffers?.toMutableList()
 						}
 
 					} else {
@@ -166,7 +173,7 @@ class FeedViewModel : AppViewModel() {
 								true
 							}
 
-							val notReportedOffers = currentUser?.let {user ->
+							val notReportedOffers = currentUser?.let { user ->
 								newOffers.filter { !user.reportedOfferIDs.contains(it.id) }
 							} ?: newOffers
 							offersList.value = if (currentCountryLastVisibleItem == null) {
@@ -210,7 +217,7 @@ class FeedViewModel : AppViewModel() {
 								true
 							}
 							otherCountriesLastVisibleItem = querySnapshot.documents.lastOrNull()
-							val notReportedOffers = currentUser?.let {user ->
+							val notReportedOffers = currentUser?.let { user ->
 								newOffers.filter { !user.reportedOfferIDs.contains(it.id) }
 							} ?: newOffers
 
