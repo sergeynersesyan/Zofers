@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceId
 import com.zofers.zofers.firebase.FirebaseService
 import com.zofers.zofers.service.android.FirebaseMessagingService
+import com.zofers.zofers.staff.AnalyticsEventLogger
 import com.zofers.zofers.staff.PreferenceService
 import com.zofers.zofers.staff.UserManager
 
@@ -22,6 +23,7 @@ class App : Application() {
 		initFCM()
 		preferenceService = PreferenceService(applicationContext)
 		userManager = UserManager(preferenceService)
+		AnalyticsEventLogger.init(this, userManager)
 		instance = this
 	}
 

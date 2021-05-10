@@ -10,6 +10,7 @@ import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Owner
 import com.zofers.zofers.service.ServiceCallback
+import com.zofers.zofers.staff.AnalyticsEventLogger
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -67,7 +68,7 @@ class OfferCreationFirebaseViewModel : AppViewModel() {
 				writeOffer(callback)
 			}
 		}
-
+		AnalyticsEventLogger.logCreateOfferEvent(offerName = offer.name)
 	}
 
 	private fun writeOffer(callback: ServiceCallback<Offer>) {

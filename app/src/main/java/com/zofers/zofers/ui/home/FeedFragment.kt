@@ -20,6 +20,7 @@ import com.zofers.zofers.R
 import com.zofers.zofers.adapter.OffersAdapter
 import com.zofers.zofers.databinding.FragmentFeedBinding
 import com.zofers.zofers.model.Offer
+import com.zofers.zofers.staff.AnalyticsEventLogger
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.create.CreateOfferActivity
@@ -61,6 +62,10 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 				val intent = Intent(context, OfferActivity::class.java)
 				intent.putExtra(OfferActivity.EXTRA_OFFER, offer)
 				startActivity(intent)
+				AnalyticsEventLogger.logOpenOfferEvent(
+						offer = offer,
+						page = "feed"
+				)
 			}
 
 			override fun loadMore() {
@@ -145,6 +150,7 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 	override fun onClick(v: View) {
 		when (v.id) {
 			R.id.fab -> {
+				AnalyticsEventLogger.logCreateOfferButtonClickEvent(page = "feed")
 				if (viewModel.isLoggedOut()) {
 					activity?.let {
 						LoginActivity.start(it)
@@ -165,7 +171,7 @@ class FeedFragment : Fragment(), SearchView.OnQueryTextListener, View.OnClickLis
 		}
 	}
 
-	fun scrollToTop(){
+	fun scrollToTop() {
 		binding.offersRecyclerView.scrollToPosition(0)
 	}
 

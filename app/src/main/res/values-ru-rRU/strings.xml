@@ -33,8 +33,7 @@
     <string name="cost_mode_part_my">Гость оплачивает часть стоимости</string>
     <string name="cost_mode_full_my">Гость платит</string>
     <string name="create_offer_city">Город</string>
-    <string name="action_search">Искать город</string>
-    <string name="action_profile">Искать город</string>
+    <string name="action_search">Ищите по имени или городу </string>
     <string name="filters">фильтры</string>
     <string name="interested">Заинтересован</string>
     <string name="pending_approval">Запрос отправлен</string>
@@ -94,16 +93,22 @@
 
     <plurals name="for_men">
         <item quantity="one">%d мужчины</item>
+        <item quantity="few">%d мужчин</item>
+        <item quantity="many">%d мужчин</item>
         <item quantity="other">%d мужчин</item>
     </plurals>
 
     <plurals name="for_woman">
         <item quantity="one">%d женщины</item>
+        <item quantity="few">%d женщин</item>
+        <item quantity="many">%d женщин</item>
         <item quantity="other">%d женщин</item>
     </plurals>
 
     <plurals name="for_person">
         <item quantity="one">%d человека</item>
+        <item quantity="few">%d человек</item>
+        <item quantity="many">%d человек</item>
         <item quantity="other">%d человек</item>
     </plurals>
 

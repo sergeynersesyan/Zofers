@@ -9,6 +9,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.event.OfferDeleteEvent
 import com.zofers.zofers.model.Offer
+import com.zofers.zofers.staff.AnalyticsEventLogger
 import com.zofers.zofers.staff.States
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -64,6 +65,7 @@ class FeedViewModel : AppViewModel() {
 			loadFeed()
 		} else {
 			loadFiltered()
+			AnalyticsEventLogger.logSearchEvent(query)
 		}
 
 	}
@@ -143,7 +145,7 @@ class FeedViewModel : AppViewModel() {
 								countryCode?.toUpperCase(Locale.ROOT)
 						)
 				)
-				.orderBy("creationDate")
+				.orderBy("creationDate", Query.Direction.DESCENDING)
 				.limit(LIMIT + 1L)
 		currentCountryLastVisibleItem?.let {
 			query = query.startAt(it)

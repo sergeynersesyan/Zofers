@@ -32,8 +32,7 @@
     <string name="cost_mode_part_my">Հյուրը վճարելու է ծախսի մի մասը</string>
     <string name="cost_mode_full_my">Վճարելու է հյուրը</string>
     <string name="create_offer_city">Քաղաք</string>
-    <string name="action_search">Փնտրեք քաղաքը</string>
-    <string name="action_profile">Փնտրեք քաղաքը</string>
+    <string name="action_search">Փնտրեք ըստ անունի կամ քաղաքի</string>
     <string name="filters">Ֆիլտրեր</string>
     <string name="interested">Հետաքրքրված եմ</string>
     <string name="pending_approval">Հայտը ուղարկված է</string>

@@ -9,6 +9,7 @@ import com.zofers.zofers.model.Conversation
 import com.zofers.zofers.model.Message
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
+import com.zofers.zofers.staff.AnalyticsEventLogger
 import com.zofers.zofers.staff.States
 
 class MessengerViewModel : AppViewModel() {
@@ -46,6 +47,7 @@ class MessengerViewModel : AppViewModel() {
 //				state.value = States.ERROR
 //			}
 //		}
+		AnalyticsEventLogger.logConversationAcceptDeleteEvent(false)
 		firebaseService.updateDocument(Conversation.DOC_NAME, conversationID, "participantIDs", listOf(opponent?.id)) {
 			if (it.isSuccessful) {
 				state.value = States.FINISH
@@ -165,6 +167,7 @@ class MessengerViewModel : AppViewModel() {
 	}
 
 	fun accept(message: String) {
+		AnalyticsEventLogger.logConversationAcceptDeleteEvent(true)
 		currentUser?.let { profile ->
 			opponent?.id?.let { participantID ->
 				profile.connections.add(participantID)

@@ -7,6 +7,7 @@ import com.zofers.zofers.AppViewModel
 import com.zofers.zofers.event.OfferDeleteEvent
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
+import com.zofers.zofers.staff.AnalyticsEventLogger
 import com.zofers.zofers.staff.States
 import org.greenrobot.eventbus.EventBus
 
@@ -56,6 +57,7 @@ class OfferViewModel : AppViewModel() {
 				deleteOfferDocument()
 			}
 		} ?: deleteOfferDocument()
+		AnalyticsEventLogger.logDeleteOfferEvent(offer.value?.name.orEmpty())
 	}
 
 	fun report() {
@@ -95,6 +97,13 @@ class OfferViewModel : AppViewModel() {
 	}
 
 	fun onInterestedClicked() {
+		offer.value?.let { ofo ->
+			AnalyticsEventLogger.logInterestedButtonClickEvent(
+					offerName = ofo.name,
+					isInterested = getOfferState() == OfferState.DEFAULT
+			)
+		}
+
 		if (isLoggedOut()) {
 			startLoginActivityEvent.value = true
 			return

@@ -21,6 +21,7 @@ import com.zofers.zofers.adapter.OffersAdapter
 import com.zofers.zofers.databinding.FragmentProfileBinding
 import com.zofers.zofers.model.Offer
 import com.zofers.zofers.model.Profile
+import com.zofers.zofers.staff.AnalyticsEventLogger
 import com.zofers.zofers.staff.MessageHelper
 import com.zofers.zofers.staff.States
 import com.zofers.zofers.ui.BackClickHandler
@@ -128,6 +129,10 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 					val intent = Intent(context, OfferActivity::class.java)
 					intent.putExtra(OfferActivity.EXTRA_OFFER, offer)
 					startActivity(intent)
+					AnalyticsEventLogger.logOpenOfferEvent(
+							offer = offer,
+							page = "profile"
+					)
 				}
 
 				override fun loadMore() {
@@ -170,6 +175,7 @@ class ProfileFragment : BottomNavigationFragment(), BackClickHandler {
 		}
 		binding.galleryRecyclerView.adapter = galleryAdapter
 		binding.createButton.setOnClickListener {
+			AnalyticsEventLogger.logCreateOfferButtonClickEvent(page = "profile")
 			startActivity(Intent(activity, CreateOfferActivity::class.java))
 		}
 	}
